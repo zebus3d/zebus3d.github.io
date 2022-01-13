@@ -81,3 +81,22 @@ img {
 a {
     text-decoration: none;
 }
+ /* unvisited link */
+a:link {
+  color: #7186a8;
+}
+
+/* visited link */
+a:visited {
+  color: #7186a8;
+}
+
+/* mouse over link */
+a:hover {
+  color: #7186a8;
+}
+
+/* selected link */
+a:active {
+  color: #7186a8;
+}
