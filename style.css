@@ -1,6 +1,7 @@
 body{
-  background-color: #191b1e;
   color: #7186a8;
+  background-image: linear-gradient(#3e4553, #1d2528);
+}
 }
 
 #Logo {
