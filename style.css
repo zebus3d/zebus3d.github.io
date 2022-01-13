@@ -1,5 +1,6 @@
 html {
     height: 100%;
+    background-color: #1d2528;
 }
 body{
     color: #7186a8;
@@ -98,4 +99,8 @@ a:hover {
 /* selected link */
 a:active {
   color: #7186a8;
+}
+
+.font-effect-3d-float{
+    color: white !important;
 }
