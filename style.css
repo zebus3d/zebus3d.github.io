@@ -71,7 +71,7 @@ img {
     padding-bottom: 16px;
     padding-top: 16px;
     background-color: #69808e;
-    box-shadow: 5px 10px #000;
+    box-shadow: 5px 10px 5px #000;
 }
 
 a {
