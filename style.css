@@ -149,7 +149,7 @@ button > .font-effect-3d-float-bold{
   border: none;
   text-align: left;
   outline: none;
-  transition: 0.8s;
+  transition: 0.3s;
   margin-top: 20px;
 }
 .accordion:hover{
