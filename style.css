@@ -175,9 +175,9 @@ button > .font-effect-3d-float-bold{
     font-weight: bolder;
 }
 
-#columna .text_shadow_normal:hover{
+/* #columna .text_shadow_normal:hover{
   margin-top: -1px;
-}
+} */
 
 .zoom:hover {
   box-shadow: 5px 7px 5px #1114228f;
