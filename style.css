@@ -1,14 +1,15 @@
-html {
-    height: 100%;
-    background-color: #1d2528;
+html, body {
+    height:100%;
 }
 body{
-    color: #fff;
-    height: 100%;
-    margin: 0;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-image: linear-gradient(#3e4553, #1d2528);
+  background-color: #1d2528;
+  margin: 0;
+  color: #fff;
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-image: linear-gradient(#3e4553, #1d2528);
+  min-height: 100%;
 }
 
 a {
@@ -100,8 +101,7 @@ img {
   -moz-box-align: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 12px;
-  margin-bottom: 32px;
+  margin-top: 16px;
   width: 100%;
   display: flex;
   padding-bottom: 16px;
@@ -148,7 +148,7 @@ button > .font-effect-3d-float-bold{
   text-align: left;
   outline: none;
   transition: 0.4s;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .active, .accordion:hover {
@@ -156,12 +156,10 @@ button > .font-effect-3d-float-bold{
 }
 
 .panel {
-  padding: 0 15%;
+  padding: 0 8%;
   display: none;
   overflow: hidden;
   border-radius: 8px 8px 8px 8px;
-  margin-top: 18px;
-  /* height: 340px; */
 }
 
 #columna .text_shadow_normal{
@@ -180,7 +178,7 @@ button > .font-effect-3d-float-bold{
   color: #262525;
   text-shadow: 3px 3px 3px #03092b;
   font-size: 1.2em;
-  margin-bottom: -3px;
+  margin-bottom: -4px;
   font-weight: bolder;
 }
 
