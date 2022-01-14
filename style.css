@@ -89,6 +89,7 @@ img {
     margin-top: 30px;
     font-size: 2em;
     font-family: 'Skranji', cursive;
+    text-shadow: 3px 5px 5px #05162ddb;
 }
 
 #cabecera #subtitle{
