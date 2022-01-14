@@ -18,38 +18,59 @@
                   </div>
 
                   <div id="title">
-                     <span class="font-effect-3d-float" style="font-size:50px; font-family:Luckiest Guy;">zebus 3D</span><br>
+                     <span class="font-effect-3d-float">zebus 3D</span><br>
+                  </div>
+                  <div id="subtitle">
+                     <span class="font-effect-3d-float text_shadow_normal">Technical Artist</span>
                   </div>
 
                </div>
 
-               <a href="https://zebus3d.artstation.com/" target="_blank">
-                  <div class="items" onmouseover="this.style.background='#8fb3ca';" onmouseout="this.style.background='#69808e';">
-                     <span class="font-effect-3d-float" style="font-size:20px; font-family:Luckiest Guy;">Artstation</span>
-                  </div>
-               </a>
 
-               <a href="https://www.linkedin.com/in/jorge-hern%C3%A1ndez-mel%C3%A9ndez/" target="_blank">
-                  <div class="items" onmouseover="this.style.background='#8fb3ca';" onmouseout="this.style.background='#69808e';">
-                     <span class="font-effect-3d-float" style="font-size:20px; font-family:Luckiest Guy;">Linked in</span>
-                  </div>
-               </a>
-
-               <a href="https://vimeo.com/zebus3d" target="_blank">
-                  <div class="items" onmouseover="this.style.background='#8fb3ca';" onmouseout="this.style.background='#69808e';">
-                     <span class="font-effect-3d-float" style="font-size:20px; font-family:Luckiest Guy;">Vimeo</span>
-                  </div>
-               </a>
-
-               <a href="https://www.youtube.com/c/zebus3d" target="_blank">
-                  <div class="items" onmouseover="this.style.background='#8fb3ca';" onmouseout="this.style.background='#69808e';">
-                     <span class="font-effect-3d-float" style="font-size:20px; font-family:Luckiest Guy;">YouTube</span>
-                  </div>
-               </a>
+               <button class="accordion items_button_acordion"><span class="font-effect-3d-float text_shadow_normal">Personal</span></button>
+               <div class="panel">
+                 <a href="https://zebus3d.artstation.com/" target="_blank">
+                    <div class="items" onmouseover="this.style.background='#8fb3ca';" onmouseout="this.style.background='#69808e';">
+                       <span class="font-effect-3d-float text_shadow_normal">Artstation</span>
+                    </div>
+                 </a>
+                 <a href="https://www.linkedin.com/in/jorge-hern%C3%A1ndez-mel%C3%A9ndez/" target="_blank">
+                    <div class="items" onmouseover="this.style.background='#8fb3ca';" onmouseout="this.style.background='#69808e';">
+                       <span class="font-effect-3d-float text_shadow_normal">LinkedIn</span>
+                    </div>
+                 </a>
+                 <a href="https://vimeo.com/zebus3d" target="_blank">
+                    <div class="items" onmouseover="this.style.background='#8fb3ca';" onmouseout="this.style.background='#69808e';">
+                       <span class="font-effect-3d-float text_shadow_normal">Vimeo</span>
+                    </div>
+                 </a>
+                 <a href="https://www.youtube.com/c/zebus3d" target="_blank">
+                    <div class="items" onmouseover="this.style.background='#8fb3ca';" onmouseout="this.style.background='#69808e';">
+                       <span class="font-effect-3d-float text_shadow_normal">YouTube</span>
+                    </div>
+                 </a>
+               </div>
 
             </div>
+
       </div>
+
+      <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+          acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+              panel.style.display = "none";
+            } else {
+              panel.style.display = "block";
+            }
+          });
+        }
+      </script>
+
    </body>
 </html>
-
-
