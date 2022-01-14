@@ -18,7 +18,6 @@ document.addEventListener('click', function(e) {
             cabecera_activa.style.borderRadius = '8px 8px 0px 0px';
             cabecera_activa.style.boxShadow = 'none';
             // cabecera_activa.children[j].style.fontWeight = 'bolder';
-
           }
         } else {
           resto_de_cabeceras.nextElementSibling.style.display = "none";
