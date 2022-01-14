@@ -151,16 +151,21 @@ button > .font-effect-3d-float-bold{
   transition: 0.4s;
   margin-top: 20px;
 }
+.accordion:hover{
+  color: #000;
+  font-weight: bolder;
+}
 
 .active, .accordion:hover {
   background-color: #5dc4ec;
 }
 
 .panel {
-  padding: 0 8%;
+  padding: 1% 8%;
   display: none;
   overflow: hidden;
-  border-radius: 8px 8px 8px 8px;
+  /* border-radius: 8px 8px 8px 8px; */
+  background-image: linear-gradient(#41c9ff1a, #0000);
 }
 
 #columna .text_shadow_normal{
