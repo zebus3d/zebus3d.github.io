@@ -4,7 +4,7 @@ var acc = document.getElementsByClassName("accordion");
 document.addEventListener('click', function(e) {
     e = e || window.event;
     var target = e.target || e.srcElement, text = target.textContent || target.innerText;
-    console.log(target);
+    // console.log(target);
 
     if (target.classList.contains("items_button_acordion")){
       cabecera_activa = target;
