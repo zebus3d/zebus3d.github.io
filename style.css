@@ -181,6 +181,7 @@ button > .font-effect-3d-float-bold{
   /* transform: scale(1.1, 1); */
   transform: scale(1.05);
   background-color: #5dc4ec;
+  margin-top: -3px;
 }
 .zoom:hover span {
   color: #262525;
