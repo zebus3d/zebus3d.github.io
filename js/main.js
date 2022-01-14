@@ -45,6 +45,7 @@ document.addEventListener('click', function(e) {
           for (j = 0; j < cabecera.children.length; j++) {
             cabecera.children[j].style.color = '#fff';
             cabecera.children[j].style.textShadow = 'none';
+            cabecera.children[i].style.fontWeight = 'bolder';
             cabecera.style.borderRadius = '8px';
             cabecera.style.boxShadow = '5px 7px 5px #1114228f';
           }
