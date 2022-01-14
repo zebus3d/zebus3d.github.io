@@ -161,7 +161,7 @@ button > .font-effect-3d-float-bold{
   overflow: hidden;
   border-radius: 8px 8px 8px 8px;
   margin-top: 18px;
-  height: 340px;
+  /* height: 340px; */
 }
 
 #columna .text_shadow_normal{
