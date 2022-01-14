@@ -185,13 +185,13 @@ button > .font-effect-3d-float-bold{
 }
 
 .transformed {
-  -webkit-transition: transform 0.5s ease-in-out;
+  -webkit-transition: transform 0.7s ease-out;
   -webkit-transform: rotate3d(0, 1, 0, -180deg); /* Chrome, Safari, Opera */
   transform: rotate3d(0, 1, 0, -180deg); /* Standard syntax */
 }
 
 .transformed:hover {
-  -webkit-transition: transform 0.5s ease-in-out;
+  -webkit-transition: transform 0.7s ease-in;
   -webkit-transform: rotate3d(0, 1, 0, 180deg); /* Chrome, Safari, Opera */
   transform: rotate3d(0, 1, 0, 180deg); /* Standard syntax */
 }
