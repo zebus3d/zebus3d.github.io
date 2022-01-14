@@ -1,93 +1,122 @@
 <!DOCTYPE html>
 <html>
-   <head>
-    <title>zebus3d</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Skranji:wght@700&display=swap" rel="stylesheet">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
-    <link rel="manifest" href="favicon_io/site.webmanifest">
+<head>
+  <title>zebus3d</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Skranji:wght@700&display=swap" rel="stylesheet">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-   </head>
-   <body>
-      <div id="container">
-            <div id="columna">
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+  <link rel="manifest" href="favicon_io/site.webmanifest">
 
-               <div id="cabecera">
+</head>
 
-                  <div class="image-cropper transformed">
-                    <img src="imgs/skull.png" alt="Avatar" id="Logo">
-                  </div>
+<body>
+  <div id="container">
+    <div id="columna" class="columna">
 
-                  <div id="title">
-                     <span class="font-effect-3d-float">zebus 3D</span><br>
-                  </div>
-                  <div id="subtitle">
-                     <span class="font-effect-3d-float text_shadow_normal">Technical Artist</span>
-                  </div>
-
-               </div>
-
-
-               <button class="accordion items_button_acordion"><span class="font-effect-3d-float text_shadow_normal">Portfolio</span></button>
-               <div class="panel">
-                 <a href="https://zebus3d.artstation.com/" target="_blank">
-                    <div class="items zoom">
-                       <span class="font-effect-3d-float text_shadow_normal">Artstation</span>
-                    </div>
-                 </a>
-               </div>
-
-
-               <button class="accordion items_button_acordion"><span class="font-effect-3d-float text_shadow_normal">Social Networks</span></button>
-               <div class="panel">
-                 <a href="https://www.linkedin.com/in/jorge-hern%C3%A1ndez-mel%C3%A9ndez/" target="_blank">
-                    <div class="items zoom">
-                       <span class="font-effect-3d-float text_shadow_normal">LinkedIn</span>
-                    </div>
-                 </a>
-                 <a href="https://vimeo.com/zebus3d" target="_blank">
-                    <div class="items zoom">
-                       <span class="font-effect-3d-float text_shadow_normal">Vimeo</span>
-                    </div>
-                 </a>
-                 <a href="https://www.youtube.com/c/zebus3d" target="_blank">
-                    <div class="items zoom">
-                       <span class="font-effect-3d-float text_shadow_normal">YouTube</span>
-                    </div>
-                 </a>
-               </div>
-
-               <button class="accordion items_button_acordion"><span class="font-effect-3d-float text_shadow_normal">RBDLab</span></button>
-               <div class="panel">
-                 <a href="https://rbdlabstudio.com/" target="_blank">
-                    <div class="items zoom">
-                       <span class="font-effect-3d-float text_shadow_normal">RBDLab Studio</span>
-                    </div>
-                 </a>
-                 <a href="https://www.youtube.com/channel/UC6OdKRmOwxsdEaU9AVgkffA" target="_blank">
-                    <div class="items zoom">
-                       <span class="font-effect-3d-float text_shadow_normal">RBDLab Youtube</span>
-                    </div>
-                 </a>
-                 <a href="https://www.instagram.com/rbdlabstudio/" target="_blank">
-                    <div class="items zoom">
-                       <span class="font-effect-3d-float text_shadow_normal">RBDLab Instagram</span>
-                    </div>
-                 </a>
-               </div>
-
-
-
-            </div>
+      <div id="cabecera">
+        <div class="image-cropper transformed">
+          <img src="imgs/skull.png" alt="Avatar" id="Logo">
+        </div>
+        <div id="title">
+          <span class="font-effect-3d-float">zebus 3D</span><br>
+        </div>
+        <div id="subtitle">
+          <span class="font-effect-3d-float text_shadow_normal">Technical Artist</span>
+        </div>
       </div>
 
-     <script src="js/main.js"></script>
 
-   </body>
+      <button class="accordion items_button_acordion">
+        <span class="item category-span font-effect-3d-float text_shadow_normal">
+          <div class="item category-icons">
+            <img src='imgs/add.png' class='maximizar'>
+            <img src='imgs/minus.png' class='minimizar'>
+          </div>
+          <div class="item category-text">Portfolio</div>
+          <div class="item category-void"></div>
+        </span>
+      </button>
+      <div class="panel">
+        <a href="https://zebus3d.artstation.com/" target="_blank">
+          <div class="item links zoom">
+            <span class="font-effect-3d-float text_shadow_normal">Artstation</span>
+          </div>
+        </a>
+      </div>
+
+
+      <button class="accordion items_button_acordion">
+        <span class="category-span font-effect-3d-float text_shadow_normal">
+          <div class="item category-icons">
+            <img src='imgs/add.png' class='maximizar'>
+            <img src='imgs/minus.png' class='minimizar'>
+          </div>
+          <div class="item category-text">Social Networks</div>
+          <div class="item category-void"></div>
+        </span>
+      </button>
+      <div class="panel">
+        <a href="https://www.linkedin.com/in/jorge-hern%C3%A1ndez-mel%C3%A9ndez/" target="_blank">
+          <div class="item links zoom">
+            <span class="font-effect-3d-float text_shadow_normal">LinkedIn</span>
+          </div>
+        </a>
+        <a href="https://vimeo.com/zebus3d" target="_blank">
+          <div class="item links zoom">
+            <span class="font-effect-3d-float text_shadow_normal">Vimeo</span>
+          </div>
+        </a>
+        <a href="https://www.youtube.com/c/zebus3d" target="_blank">
+          <div class="item links zoom">
+            <span class="font-effect-3d-float text_shadow_normal">YouTube</span>
+          </div>
+        </a>
+      </div>
+
+
+      <button class="accordion items_button_acordion">
+        <span class="category-span font-effect-3d-float text_shadow_normal">
+          <div class="item category-icons">
+            <img src='imgs/add.png' class='maximizar'>
+            <img src='imgs/minus.png' class='minimizar'>
+          </div>
+          <div class="item category-text">RBDLab</div>
+          <div class="item category-void"></div>
+        </span>
+      </button>
+      <div class="panel">
+        <a href="https://rbdlabstudio.com/" target="_blank">
+          <div class="item links zoom">
+            <span class="font-effect-3d-float text_shadow_normal">RBDLab Studio</span>
+          </div>
+        </a>
+        <a href="https://www.youtube.com/channel/UC6OdKRmOwxsdEaU9AVgkffA" target="_blank">
+          <div class="item links zoom">
+            <span class="font-effect-3d-float text_shadow_normal">RBDLab Youtube</span>
+          </div>
+        </a>
+        <a href="https://www.instagram.com/rbdlabstudio/" target="_blank">
+          <div class="item links zoom">
+            <span class="font-effect-3d-float text_shadow_normal">RBDLab Instagram</span>
+          </div>
+        </a>
+      </div>
+
+
+
+    </div>
+  </div>
+
+  <script src="js/jquery-3.6.0.min.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+
 </html>
