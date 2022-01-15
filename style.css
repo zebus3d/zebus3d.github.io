@@ -156,6 +156,7 @@ button > .font-effect-3d-float-bold{
 
 .active, .accordion:hover {
   background-color: #5dc4ec;
+  color: #fff;
 }
 
 .panel {
