@@ -1,8 +1,9 @@
 html, body {
-    height:100%;
-    overflow: auto;
+  height: 100%;
+  overflow: auto;
 }
-body{
+
+body {
   background-color: #1d2528;
   margin: 0;
   color: #fff;
@@ -14,12 +15,13 @@ body{
 }
 
 a {
-    color: #fff;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
 }
- /* unvisited link */
+
+/* unvisited link */
 a:link {
   color: #fff;
 }
@@ -40,16 +42,16 @@ a:active {
 }
 
 #Logo {
-    width: 100px;
-    height: 100%;
-    display: inline;
-    margin: 0 auto;
-    width: auto;
+  width: 100px;
+  height: 100%;
+  display: inline;
+  margin: 0 auto;
+  width: auto;
 }
 
 #container {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 #columna {
@@ -86,13 +88,13 @@ a:active {
 
 #title {
   color: #fff;
-    margin-top: 30px;
-    font-size: 2em;
-    font-family: 'Skranji', cursive;
-    text-shadow: 3px 5px 5px #05162ddb;
+  margin-top: 30px;
+  font-size: 2em;
+  font-family: 'Skranji', cursive;
+  text-shadow: 3px 5px 5px #05162ddb;
 }
 
-#cabecera #subtitle{
+#cabecera #subtitle {
   color: #afecff;
   font-size: 1.2em;
   font-family: 'Nunito', sans-serif;
@@ -112,7 +114,7 @@ a:active {
   border-radius: 4px;
 }
 
-.items_button_acordion{
+.items_button_acordion {
   -moz-box-align: center;
   align-items: center;
   flex-direction: column;
@@ -128,13 +130,14 @@ a:active {
   background-color: #4d5153;
 }
 
-button > .font-effect-3d-float{
+button>.font-effect-3d-float {
   color: white;
   font-family: Karla;
 }
-button > .font-effect-3d-float-bold{
+
+button>.font-effect-3d-float-bold {
   color: white;
-  font-size:20px;
+  font-size: 20px;
   font-family: Karla;
   font-weight: bolder;
 }
@@ -150,18 +153,19 @@ button > .font-effect-3d-float-bold{
   margin-top: 20px;
   padding: 8px;
 }
-.accordion:hover{
+
+.accordion:hover {
   color: #000;
   font-weight: bolder;
 }
 
 .active, .accordion:hover {
-  background-color: #5dc4ec;
+  background-color: #3086a8;
   color: #fff;
 }
 
 .panel {
-  background-image: linear-gradient(#41c9ff1a, #0000);
+  background-image: linear-gradient(#63d0fb4f, #0000);
   display: none;
   flex-direction: column;
   justify-content: start;
@@ -184,6 +188,7 @@ div#columna.columna div.panel a div.item.links.zoom span.item.font-effect-3d-flo
   transform: scale(1.05);
   background-color: #5dc4ec;
 }
+
 .zoom:hover span {
   color: #262525;
   text-shadow: 3px 3px 3px #03092b;
@@ -211,21 +216,22 @@ div#columna.columna div.panel a div.item.links.zoom span.item.font-effect-3d-flo
   flex-direction: row;
 }
 
-div.item.category-text{
+div.item.category-text {
   justify-content: center;
   flex: 100;
   font-weight: bolder;
 }
 
-div#columna.columna button.accordion.items_button_acordion{
+div#columna.columna button.accordion.items_button_acordion {
   justify-content: center;
   flex: 100;
 }
 
-.category-icons{
+.category-icons {
   flex: 1;
   justify-content: left;
 }
+
 .category-span {
   display: flex;
   flex-flow: row;
@@ -240,11 +246,12 @@ div#columna.columna button.accordion.items_button_acordion{
   display: none;
   width: 26px;
 }
+
 .mostrar_mas {
   width: 26px;
 }
 
-.img-miniatura{
+.img-miniatura {
   flex: unset;
   width: 26px;
 }
