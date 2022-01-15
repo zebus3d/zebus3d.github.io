@@ -11,6 +11,8 @@ $(document).ready(function() {
         $('button > .font-effect-3d-float').css('color', '#373737');
         $('button > .font-effect-3d-float').css('text-shadow', 'none');
         $('button > .font-effect-3d-float').css('font-weight', 'bolder');
+        $(this).find('.maximizar').css("display", "block");
+        $(this).find('.minimizar').css("display", "none");
         $(this).css('border-radius', '8px');
         $(this).css('box-shadow', '5px 7px 5px #1114228f');
         $(this).removeClass("active");
@@ -59,6 +61,8 @@ $(document).ready(function() {
   $(document).click(function(event) {
     if (!$(event.target).closest('.accordion').length) {
       $('.active').each(function(i) {
+        $(this).find('.maximizar').css("display", "block");
+        $(this).find('.minimizar').css("display", "none");
         $('button > .font-effect-3d-float').css('color', '#373737');
         $('button > .font-effect-3d-float').css('text-shadow', 'none');
         $(this).css('border-radius', '8px');
