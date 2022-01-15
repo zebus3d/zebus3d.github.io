@@ -224,6 +224,7 @@ div#columna.columna div.panel a div.item.links.zoom span.item.font-effect-3d-flo
 div.item.category-text{
   justify-content: center;
   flex: 100;
+  font-weight: bolder;
 }
 
 div#columna.columna button.accordion.items_button_acordion{
