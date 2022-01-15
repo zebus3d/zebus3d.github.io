@@ -102,13 +102,14 @@ a:active {
 .links {
   margin-top: 16px;
   display: flex;
-  background-color: #7099b3;
+  background-color: #609ab1;
   box-shadow: 5px 7px 5px #1114228f;
   font-size: 1.1em;
   justify-content: center;
   padding: 10px;
   max-width: 600px;
   width: 80%;
+  border-radius: 4px;
 }
 
 .items_button_acordion{

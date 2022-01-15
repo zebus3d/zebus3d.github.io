@@ -4,7 +4,7 @@ $(document).ready(function() {
   var con_box_shadow = 'rgba(17, 20, 34, 0.56) 5px 7px 5px 0px';
   var sin_box_shadow = 'rgba(0, 0, 0, 0) 0px 0px 0px 0px';
 
-  function abrir_acordeon(){
+  function abrir_acordeon() {
     $('button > .font-effect-3d-float').css('color', '#373737');
     $(this).find('.mostrar_mas').css("display", "none");
     $(this).find('.mostrar_menos').css("display", "block");
@@ -21,7 +21,7 @@ $(document).ready(function() {
     }
   }
 
-  function cerrar_acordeon(){
+  function cerrar_acordeon() {
     $(this).find('.mostrar_mas').css("display", "block");
     $(this).find('.mostrar_menos').css("display", "none");
     $('button > .font-effect-3d-float').css('color', '#373737');
