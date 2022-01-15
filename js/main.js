@@ -4,6 +4,23 @@ $(document).ready(function() {
   var con_box_shadow = 'rgba(17, 20, 34, 0.56) 5px 7px 5px 0px';
   var sin_box_shadow = 'rgba(0, 0, 0, 0) 0px 0px 0px 0px';
 
+  function abrir_acordeon(){
+    $('button > .font-effect-3d-float').css('color', '#373737');
+    $(this).find('.mostrar_mas').css("display", "none");
+    $(this).find('.mostrar_menos').css("display", "block");
+    $(this).css('border-radius', '8px 8px 0px 0px');
+    $(this).css('box-shadow', 'none');
+    $(this.children).each(function(i) {
+      $(this).css('color', '#fff');
+      $(this).css('text-shadow', '3px 4px 6px #011828');
+      $(this).css('font-weight', 'bolder');
+    });
+    var panel = $(this).next();
+    if (panel.css('display') != 'flex') {
+      panel.css('display', "flex");
+    }
+  }
+
   function cerrar_acordeon(){
     console.log('cerrar_acordeon');
     $(this).find('.mostrar_mas').css("display", "block");
@@ -34,26 +51,12 @@ $(document).ready(function() {
       });
 
       $(this).toggleClass("active");
-      var panel = $(this).next();
-
       if ($(this).css('box-shadow') == con_box_shadow) {
-        $('button > .font-effect-3d-float').css('color', '#373737');
-        $(this).find('.mostrar_mas').css("display", "none");
-        $(this).find('.mostrar_menos').css("display", "block");
-        $(this).css('border-radius', '8px 8px 0px 0px');
-        $(this).css('box-shadow', 'none');
-        $(this.children).each(function(i) {
-          $(this).css('color', '#fff');
-          $(this).css('text-shadow', '3px 4px 6px #011828');
-          $(this).css('font-weight', 'bolder');
-        });
-        if (panel.css('display') != 'flex') {
-          panel.css('display', "flex");
-        }
+        abrir_acordeon.call(this);
       } else {
         cerrar_acordeon.call(this);
+        $('button > .font-effect-3d-float').css('color', '#fff');
       }
-
     });
   });
 
