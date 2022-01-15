@@ -148,7 +148,7 @@ button > .font-effect-3d-float-bold{
   outline: none;
   transition: 0.3s;
   margin-top: 20px;
-  padding: 6px;
+  padding: 8px;
 }
 .accordion:hover{
   color: #000;
