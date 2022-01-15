@@ -235,11 +235,11 @@ div#columna.columna button.accordion.items_button_acordion{
   width: 100%;
 }
 
-.minimizar {
+.mostrar_menos {
   display: none;
   width: 26px;
 }
-.maximizar {
+.mostrar_mas {
   width: 26px;
 }
 

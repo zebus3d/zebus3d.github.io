@@ -11,8 +11,8 @@ $(document).ready(function() {
         $('button > .font-effect-3d-float').css('color', '#373737');
         $('button > .font-effect-3d-float').css('text-shadow', 'none');
         $('button > .font-effect-3d-float').css('font-weight', 'bolder');
-        $(this).find('.maximizar').css("display", "block");
-        $(this).find('.minimizar').css("display", "none");
+        $(this).find('.mostrar_mas').css("display", "block");
+        $(this).find('.mostrar_menos').css("display", "none");
         $(this).css('border-radius', '8px');
         $(this).css('box-shadow', '5px 7px 5px #1114228f');
         $(this).removeClass("active");
@@ -25,8 +25,8 @@ $(document).ready(function() {
       $(this).toggleClass("active");
       if ($(this).css('box-shadow') != 'none') {
         $('button > .font-effect-3d-float').css('color', '#373737');
-        $(this).find('.maximizar').css("display", "none");
-        $(this).find('.minimizar').css("display", "block");
+        $(this).find('.mostrar_mas').css("display", "none");
+        $(this).find('.mostrar_menos').css("display", "block");
         $(this).css('border-radius', '8px 8px 0px 0px');
         $(this).css('box-shadow', 'none');
         $(this.children).each(function(i) {
@@ -35,8 +35,12 @@ $(document).ready(function() {
           $(this).css('font-weight', 'bolder');
         });
       } else {
-        $(this).find('.maximizar').css("display", "block");
-        $(this).find('.minimizar').css("display", "none");
+        if ($(this).css('background-color') == 'rgb(93, 196, 236)'){
+          console.log('hola');
+          console.log($(this).css('background-color'));
+        }
+        $(this).find('.mostrar_mas').css("display", "block");
+        $(this).find('.mostrar_menos').css("display", "none");
         $(this).css('border-radius', '8px');
         $(this).css('box-shadow', '5px 7px 5px #1114228f');
         $(this.children).each(function(i) {
@@ -61,9 +65,10 @@ $(document).ready(function() {
   $(document).click(function(event) {
     if (!$(event.target).closest('.accordion').length) {
       $('.active').each(function(i) {
-        $(this).find('.maximizar').css("display", "block");
-        $(this).find('.minimizar').css("display", "none");
-        $('button > .font-effect-3d-float').css('color', '#373737');
+        $(this).find('.mostrar_mas').css("display", "block");
+        $(this).find('.mostrar_menos').css("display", "none");
+        // $('button > .font-effect-3d-float').css('color', '#373737');
+        $('button > .font-effect-3d-float').css('color', '#fff');
         $('button > .font-effect-3d-float').css('text-shadow', 'none');
         $(this).css('border-radius', '8px');
         $(this).css('box-shadow', '5px 7px 5px #1114228f');
