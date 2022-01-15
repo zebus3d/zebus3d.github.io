@@ -76,6 +76,50 @@ a:active {
   margin-bottom: 250px;
 }
 
+/* CULETA RESPONSIVE */
+/* Extra small devices (phones, 600px and down) */
+/* media only screen and (max-width: 600px) {...} */
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+/* media only screen and (min-width: 600px) {...} */
+
+/* Medium devices (landscape tablets, 768px and up) */
+/* media only screen and (min-width: 768px) {...} */
+
+/* Large devices (laptops/desktops, 992px and up) */
+/* media only screen and (min-width: 992px) {...} */
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+/* media only screen and (min-width: 1200px) {...}  */
+
+@media only screen and (max-width: 600px) {
+    #columna {
+      width: 96%;
+      max-width: 100%;
+      padding: 20px 0xp 20px;
+      padding: 0px 10px 0px 8px;
+    }
+    button.accordion {
+      padding: 0px;
+    }
+    #columna #links-containter {
+      padding-right: 6px;
+    }
+    button .category-span{
+      padding: 15px;
+      width: 100%;
+      max-width: 85%;
+    }
+    #links-containter .panel {
+      align-self: start;
+      padding-bottom: 10px;
+    }
+    a .links {
+      padding: 15px;
+    }
+
+}
+
 #cabecera {
   -moz-box-align: center;
   align-items: center;
@@ -196,6 +240,7 @@ button>.font-effect-3d-float-bold {
   /* margin-bottom: 20px; */
   padding-top: 10px;
   padding-bottom: 40px;
+  min-width: 300px;
 }
 
 div#columna.columna div.panel a div.item.links.zoom span.item.font-effect-3d-float.text_link {
@@ -274,6 +319,7 @@ div.item.category-text {
   flex: 100;
   font-weight: bolder;
   font-family: 'Nunito', sans-serif;
+  align-items: center;
 }
 
 div#columna.columna button.accordion.items_button_acordion {
