@@ -1,29 +1,42 @@
 $(document).ready(function() {
   console.log("ready!");
 
-  $('.accordion').each(function(i) {
-    $('button > .font-effect-3d-float').css("color", "white");
+  var con_box_shadow = 'rgba(17, 20, 34, 0.56) 5px 7px 5px 0px';
+  var sin_box_shadow = 'rgba(0, 0, 0, 0) 0px 0px 0px 0px';
+
+  function cerrar_acordeon(){
+    console.log('cerrar_acordeon');
+    $(this).find('.mostrar_mas').css("display", "block");
+    $(this).find('.mostrar_menos').css("display", "none");
+    $('button > .font-effect-3d-float').css('color', '#373737');
     $('button > .font-effect-3d-float').css('text-shadow', 'none');
     $('button > .font-effect-3d-float').css('font-weight', 'bolder');
+    $(this).css('border-radius', '8px');
+    $(this).css('box-shadow', '5px 7px 5px #1114228f');
+    $(this).removeClass("active");
+    var panel = $(this).next();
+    if (panel.css('display') === 'flex') {
+      panel.css('display', "none");
+    }
+  }
+
+
+  $('.accordion').each(function(i) {
+
+    $('button > .font-effect-3d-float').css("color", "#fff");
+    $('button > .font-effect-3d-float').css('text-shadow', 'none');
+    $('button > .font-effect-3d-float').css('font-weight', 'bolder');
+
     this.addEventListener("click", function() {
 
       $('.active').each(function(i) {
-        $('button > .font-effect-3d-float').css('color', '#373737');
-        $('button > .font-effect-3d-float').css('text-shadow', 'none');
-        $('button > .font-effect-3d-float').css('font-weight', 'bolder');
-        $(this).find('.mostrar_mas').css("display", "block");
-        $(this).find('.mostrar_menos').css("display", "none");
-        $(this).css('border-radius', '8px');
-        $(this).css('box-shadow', '5px 7px 5px #1114228f');
-        $(this).removeClass("active");
-        var panel = $(this).next();
-        if (panel.css('display') === 'flex') {
-          panel.css('display', "none");
-        }
+        cerrar_acordeon.call(this);
       });
 
       $(this).toggleClass("active");
-      if ($(this).css('box-shadow') != 'none') {
+      var panel = $(this).next();
+
+      if ($(this).css('box-shadow') == con_box_shadow) {
         $('button > .font-effect-3d-float').css('color', '#373737');
         $(this).find('.mostrar_mas').css("display", "none");
         $(this).find('.mostrar_menos').css("display", "block");
@@ -34,29 +47,12 @@ $(document).ready(function() {
           $(this).css('text-shadow', '3px 4px 6px #011828');
           $(this).css('font-weight', 'bolder');
         });
-      } else {
-        if ($(this).css('background-color') == 'rgb(93, 196, 236)'){
-          console.log('hola');
-          console.log($(this).css('background-color'));
+        if (panel.css('display') != 'flex') {
+          panel.css('display', "flex");
         }
-        $(this).find('.mostrar_mas').css("display", "block");
-        $(this).find('.mostrar_menos').css("display", "none");
-        $(this).css('border-radius', '8px');
-        $(this).css('box-shadow', '5px 7px 5px #1114228f');
-        $(this.children).each(function(i) {
-          $(this).css('color', '#373737');
-          $(this).css('text-shadow', 'none');
-          $(this).css('font-weight', 'bolder');
-        });
-      }
-
-      var panel = $(this).next();
-      if (panel.css('display') === 'flex') {
-        panel.css('display', "none");
       } else {
-        panel.css('display', "flex");
+        cerrar_acordeon.call(this);
       }
-
 
     });
   });
@@ -65,18 +61,8 @@ $(document).ready(function() {
   $(document).click(function(event) {
     if (!$(event.target).closest('.accordion').length) {
       $('.active').each(function(i) {
-        $(this).find('.mostrar_mas').css("display", "block");
-        $(this).find('.mostrar_menos').css("display", "none");
-        // $('button > .font-effect-3d-float').css('color', '#373737');
+        cerrar_acordeon.call(this);
         $('button > .font-effect-3d-float').css('color', '#fff');
-        $('button > .font-effect-3d-float').css('text-shadow', 'none');
-        $(this).css('border-radius', '8px');
-        $(this).css('box-shadow', '5px 7px 5px #1114228f');
-        $(this).removeClass("active");
-        var panel = $(this).next();
-        if (panel.css('display') === 'flex') {
-          panel.css('display', "none");
-        }
       });
     }
   })
