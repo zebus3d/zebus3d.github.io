@@ -60,7 +60,7 @@ a:active {
   max-width: 720px;
   margin: 0px auto;
   max-height: 720px;
-  padding: 30px 20px 80px;
+  padding: 30px 20px 180px;
   display: flex;
   flex-direction: column;
 }
