@@ -75,6 +75,7 @@ a:active {
   display: flex;
   height: auto;
   margin-bottom: 20px;
+  min-width: 300px;
 }
 
 .image-cropper {
@@ -99,6 +100,13 @@ a:active {
   font-size: 1.2em;
   font-family: 'Nunito', sans-serif;
   font-weight: bold;
+}
+
+#links-containter{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-right: 20px;
 }
 
 .links {
@@ -152,6 +160,7 @@ button>.font-effect-3d-float-bold {
   transition: 0.3s;
   margin-top: 20px;
   padding: 8px;
+  min-width: 300px;
 }
 
 .accordion:hover {
