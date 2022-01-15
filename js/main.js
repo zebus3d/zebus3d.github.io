@@ -22,7 +22,6 @@ $(document).ready(function() {
   }
 
   function cerrar_acordeon(){
-    console.log('cerrar_acordeon');
     $(this).find('.mostrar_mas').css("display", "block");
     $(this).find('.mostrar_menos').css("display", "none");
     $('button > .font-effect-3d-float').css('color', '#373737');
