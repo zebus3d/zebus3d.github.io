@@ -10,6 +10,7 @@ $(document).ready(function() {
     $(this).find('.mostrar_menos').css("display", "block");
     $(this).css('border-radius', '8px 8px 0px 0px');
     $(this).css('box-shadow', 'none');
+    $(this).css('border-bottom', 'solid 1px #5fcef1');
     $(this.children).each(function(i) {
       $(this).css('color', '#fff');
       $(this).css('text-shadow', '3px 4px 6px #011828');
@@ -29,6 +30,7 @@ $(document).ready(function() {
     $('button > .font-effect-3d-float').css('font-weight', 'bolder');
     $(this).css('border-radius', '8px');
     $(this).css('box-shadow', '5px 7px 5px #1114228f');
+        $(this).css('border-bottom', 'none');
     $(this).removeClass("active");
     var panel = $(this).next();
     if (panel.css('display') === 'flex') {
