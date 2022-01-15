@@ -63,6 +63,7 @@ a:active {
   /* padding: 30px 20px 180px; */
   display: flex;
   flex-direction: column;
+  margin-bottom: 250px;
 }
 
 #cabecera {
