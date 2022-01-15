@@ -122,6 +122,9 @@ a:active {
       padding: 20px 0xp 20px;
       padding: 0px 10px 0px 8px;
     }
+    #columna #cabecera{
+      margin-top: 10%;
+    }
     button.accordion {
       padding: 0px;
     }
