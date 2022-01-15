@@ -84,7 +84,6 @@ a:active {
   overflow: hidden;
   border-radius: 50%;
   border: 2px solid #fff;
-  box-shadow: 5px 7px 5px #0000006e;
 }
 
 #title {
@@ -202,16 +201,45 @@ div#columna.columna div.panel a div.item.links.zoom span.item.font-effect-3d-flo
   font-weight: bolder;
 }
 
+@-webkit-keyframes blur_over {
+  0% {
+    -webkit-filter: blur(0px);
+    -webkit-transform: rotate3d(0, 1, 0, 0deg);
+    box-shadow: 5px 7px 5px #0000006e;
+  }
+
+  30% {
+    -webkit-transform: rotate3d(0, 1, 0, 30deg);
+  }
+
+  50% {
+    box-shadow: -5px 7px 5px #0000006e;
+  }
+
+  80% {
+    -webkit-filter: blur(2px);
+  }
+
+  100% {
+    -webkit-filter: blur(0px);
+    -webkit-transform: rotate3d(0, 1, 0, 360deg);
+    box-shadow: 5px 7px 5px #0000006e;
+  }
+}
+
 .transformed {
-  -webkit-transition: transform 0.5s ease-out;
+  box-shadow: 5px 7px 5px #0000006e;
+  /* -webkit-transition: transform 0.3s ease-out;
   -webkit-transform: rotate3d(0, 1, 0, 0deg);
-  transform: rotate3d(0, 1, 0, 0deg);
+  transform: rotate3d(0, 1, 0, 0deg); */
 }
 
 .transformed:hover {
-  -webkit-transition: transform 0.5s ease-in;
+  /* -webkit-transition: transform 0.3s ease-in;
   -webkit-transform: rotate3d(0, 1, 0, 180deg);
-  transform: rotate3d(0, 1, 0, 180deg);
+  transform: rotate3d(0, 1, 0, 180deg); */
+  -webkit-animation: blur_over 0.8s;
+  /* box-shadow: -5px 7px 5px #0000006e; */
 }
 
 .item {
