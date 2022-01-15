@@ -148,7 +148,6 @@ button > .font-effect-3d-float-bold{
   transition: 0.3s;
   margin-top: 20px;
   padding: 14px;
-  /* padding: 0; */
 }
 .accordion:hover{
   color: #000;
@@ -160,10 +159,6 @@ button > .font-effect-3d-float-bold{
 }
 
 .panel {
-  /* padding: 1% 8%;
-  display: none;
-  overflow: hidden; */
-  /* border-radius: 8px 8px 8px 8px; */
   background-image: linear-gradient(#41c9ff1a, #0000);
   display: none;
   flex-direction: column;
@@ -171,25 +166,19 @@ button > .font-effect-3d-float-bold{
   align-self: center;
   flex: 1;
   width: 100%;
+  margin-bottom: 40px;
 }
 
 div#columna.columna div.panel a div.item.links.zoom span.item.font-effect-3d-float.text_link {
-  /* font-weight: bold; */
   text-shadow: none;
   font-weight: bolder;
   flex-direction: row;
   justify-content: center;
 }
 
-
-/* #columna .text_link:hover{
-  margin-top: -1px;
-} */
-
 .zoom:hover {
   box-shadow: 5px 7px 5px #1114228f;
   -webkit-transition: transform 0.3s ease-in-out;
-  /* transform: scale(1.1, 1); */
   transform: scale(1.05);
   background-color: #5dc4ec;
 }
@@ -203,16 +192,15 @@ div#columna.columna div.panel a div.item.links.zoom span.item.font-effect-3d-flo
 
 .transformed {
   -webkit-transition: transform 0.5s ease-out;
-  -webkit-transform: rotate3d(0, 1, 0, 0deg); /* Chrome, Safari, Opera */
-  transform: rotate3d(0, 1, 0, 0deg); /* Standard syntax */
+  -webkit-transform: rotate3d(0, 1, 0, 0deg);
+  transform: rotate3d(0, 1, 0, 0deg);
 }
 
 .transformed:hover {
   -webkit-transition: transform 0.5s ease-in;
-  -webkit-transform: rotate3d(0, 1, 0, 180deg); /* Chrome, Safari, Opera */
-  transform: rotate3d(0, 1, 0, 180deg); /* Standard syntax */
+  -webkit-transform: rotate3d(0, 1, 0, 180deg);
+  transform: rotate3d(0, 1, 0, 180deg);
 }
-
 
 .item {
   flex: 1;
@@ -232,7 +220,6 @@ div#columna.columna button.accordion.items_button_acordion{
   flex: 100;
 }
 
-
 .category-icons{
   flex: 1;
   justify-content: left;
@@ -246,10 +233,6 @@ div#columna.columna button.accordion.items_button_acordion{
   align-items: stretch;
   width: 100%;
 }
-/* .category-text {
-  flex-direction: row;
-  justify-content: center;
-} */
 
 .minimizar {
   display: none;
