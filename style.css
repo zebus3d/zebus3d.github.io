@@ -165,7 +165,8 @@ button>.font-effect-3d-float-bold {
 }
 
 .panel {
-  background-image: linear-gradient(#63d0fb4f, #0000);
+  /* background-image: linear-gradient(#63d0fb4f, #0000,  #0000); */
+  background-image: linear-gradient(#45dafc82, #52cfe34a, #837fff1c, #0000);
   display: none;
   flex-direction: column;
   justify-content: start;
@@ -174,7 +175,7 @@ button>.font-effect-3d-float-bold {
   width: 100%;
   margin-bottom: 20px;
   padding-top: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 40px;
 }
 
 div#columna.columna div.panel a div.item.links.zoom span.item.font-effect-3d-float.text_link {
