@@ -35,10 +35,10 @@ $( document ).ready(function() {
         }
 
         var panel = $(this).next();
-        if ( panel.css('display') === 'block') {
+        if ( panel.css('display') === 'flex') {
           panel.css('display', "none");
         } else {
-          panel.css('display', "block");
+          panel.css('display', "flex");
         }
 
 
