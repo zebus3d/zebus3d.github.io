@@ -381,3 +381,8 @@ div#columna.columna button.accordion.items_button_acordion {
   flex: unset;
   width: 26px;
 }
+
+.reverse {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+}
