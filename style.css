@@ -350,7 +350,7 @@ div#columna.columna div.panel a div.item.links.zoom span.item.font-effect-3d-flo
   align-self: center;
   display: flex;
   flex-direction: row;
-  min-height: 30px;
+  min-height: 29px;
 }
 
 div.item.category-text {
