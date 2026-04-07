@@ -764,7 +764,7 @@
             <h3>Método por perfil — Control manual</h3>
 
             <div class="card">
-                <div class="card-title">Ver generaciones del perfil de sistema</div>
+                <div class="card-title">Ver generaciones del perfil de sistema<span class="tooltip">Muestra todas las generaciones del perfil del sistema con fecha, número y si es la actual. Útil para saber qué vas a borrar antes de ejecutar nada.</span></div>
                 <div class="code-block">
                     <div class="code-header">
                         <div class="dots">
@@ -780,7 +780,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Eliminar todas excepto las últimas 5</div>
+                <div class="card-title">Eliminar todas excepto las últimas 5<span class="tooltip">Mantiene las 5 generaciones más recientes y borra el resto. Útil si quieres un rollback seguro a las últimas versiones sin acumular generaciones viejas.<span class="tip-example">Ej: si tienes 20 generaciones, borra 15 y deja 60-64</span></span></div>
                 <div class="code-block">
                     <div class="code-header">
                         <div class="dots">
@@ -796,7 +796,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Eliminar las de más de 30 días solo en el sistema</div>
+                <div class="card-title">Eliminar las de más de 30 días solo en el sistema<span class="tooltip">Borra generaciones del perfil system con más de 30 días. Más conservador que `+5`, respeta las recientes. Ideal si haces rebuilds frecuentes y quieres mantener un historial de un mes.</span></div>
                 <div class="code-block">
                     <div class="code-header">
                         <div class="dots">
@@ -966,7 +966,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Todo en uno — Borrar generaciones antiguas + GC</div>
+                <div class="card-title">Todo en uno — Borrar generaciones antiguas + GC<span class="tooltip">Combina --delete-older-than y garbage collection en un solo comando. Borra generaciones viejas de todos los perfiles y elimina los archivos reales. Es el más práctico para uso frecuente.<span class="tip-example">Ej: sudo nix-collect-garbage -d (borra todo lo que no tiene referencia)</span></span></div>
                 <div class="code-block">
                     <div class="code-header">
                         <div class="dots">
@@ -1080,7 +1080,7 @@
             <h3>Usando Canales (Standard)</h3>
 
             <div class="card">
-                <div class="card-title">Actualizar canales y aplicar configuración</div>
+                <div class="card-title">Actualizar canales y aplicar configuración<span class="tooltip">Descarga la última versión del canal de NixOS y aplica los cambios. Es el método en dos pasos, útil si quieres revisar qué ha cambiado antes de aplicar.<span class="tip-example">Ej: después de modificar configuration.nix, ejecuta estos dos comandos</span></span></div>
                 <div class="code-block">
                     <div class="code-header">
                         <div class="dots">
@@ -1097,7 +1097,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Actualizar y aplicar en un solo paso</div>
+                <div class="card-title">Actualizar y aplicar en un solo paso<span class="tooltip">Combina la actualización del canal y la reconstrucción en un solo comando. Más rápido, pero no te permite revisar los cambios antes de aplicarlos.<span class="tip-example">Ej: sudo nixos-rebuild switch --upgrade (actualiza y aplica todo)</span></span></div>
                 <div class="code-block">
                     <div class="code-header">
                         <div class="dots">
@@ -1115,7 +1115,7 @@
             <h3>Usando Flakes</h3>
 
             <div class="card">
-                <div class="card-title">1. Actualizar flake.lock</div>
+                <div class="card-title">1. Actualizar flake.lock<span class="tooltip">Actualiza todas las dependencias del flake a sus últimas versiones y regenera el archivo flake.lock. Es el equivalente a hacer nix-channel --update pero con flakes.<span class="tip-example">Ej: nix flake update (actualiza todo a las últimas versiones)</span></span></div>
                 <div class="code-block">
                     <div class="code-header">
                         <div class="dots">
@@ -1131,7 +1131,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">2. Aplicar configuración</div>
+                <div class="card-title">2. Aplicar configuración<span class="tooltip">Construye y activa la nueva configuración del sistema usando el flake. El `.#` indica que use la configuración del directorio actual con el nombre del host por defecto.<span class="tip-example">Ej: sudo nixos-rebuild switch --flake .#mi-pc</span></span></div>
                 <div class="code-block">
                     <div class="code-header">
                         <div class="dots">
