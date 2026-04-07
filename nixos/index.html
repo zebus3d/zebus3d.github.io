@@ -36,49 +36,55 @@
 
         .container {
             max-width: 900px; margin: 0 auto;
-            padding: 40px 20px 80px; position: relative; z-index: 1;
+            padding: 10px 20px 80px; position: relative; z-index: 1;
         }
 
         header {
-            text-align: center; margin-bottom: 40px;
-            padding: 50px 0 30px;
-            border-bottom: 1px solid rgba(99, 102, 241, 0.15);
+            text-align: center; margin-bottom: 0;
+            padding: 10px 0 10px;
         }
 
         h1 {
-            font-size: 2.2rem; font-weight: 700;
+            font-size: 2rem; font-weight: 700;
             background: linear-gradient(135deg, #c4b5fd, #818cf8, #6366f1);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text; margin-bottom: 8px;
+            background-clip: text; margin-bottom: 4px;
         }
 
-        header p { color: #94a3b8; font-size: 1rem; }
+        header p { color: #94a3b8; font-size: 0.9rem; }
 
         html { scroll-behavior: smooth; }
 
-        /* Tab navigation */
-        .tab-bar {
+        /* Sticky nav container */
+        .sticky-nav {
             position: sticky; top: 0; z-index: 100;
             background: rgba(10, 10, 15, 0.85);
             backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(99, 102, 241, 0.12);
-            padding: 10px 0; margin-bottom: 30px;
+            padding: 5px 0 10px;
+            margin-top: 0;
+        }
+
+        /* Tab navigation */
+        .tab-bar {
+            background: transparent;
+            border: none; padding: 10px 0 0; margin-bottom: 0;
         }
 
         .tab-inner {
-            max-width: 900px; margin: 0 auto; padding: 0 20px;
+            max-width: 560px; margin: 0 auto; padding: 8px 20px 10px;
             display: flex; flex-wrap: wrap; gap: 6px;
             justify-content: center;
         }
 
         .tab-btn {
-            flex-shrink: 0; display: flex; align-items: center; gap: 5px;
-            padding: 7px 14px;
+            flex: 1 1 calc(20% - 6px); min-width: 80px; max-width: 100px;
+            display: flex; align-items: center; justify-content: center; gap: 5px;
+            padding: 6px 8px;
             background: rgba(99, 102, 241, 0.08);
             border: 1px solid rgba(99, 102, 241, 0.15);
             border-radius: 8px;
             color: #64748b; font-family: 'Inter', sans-serif;
-            font-size: 0.78rem; font-weight: 500;
+            font-size: 0.72rem; font-weight: 500;
             cursor: pointer; transition: all 0.2s ease;
         }
         .tab-btn:hover {
@@ -508,7 +514,7 @@
 
         /* Search */
         .search-bar {
-            max-width: 900px; margin: 0 auto 20px; padding: 0 20px;
+            max-width: 500px; margin: 12px auto 8px; padding: 0 20px;
             position: relative;
         }
         .search-input {
@@ -609,26 +615,28 @@
             <p>Guía personal de mantenimiento, limpieza y uso diario</p>
         </header>
 
-        <nav class="tab-bar">
-            <div class="tab-inner">
-                <button class="tab-btn active" data-page="gc"><span class="tab-icon">🧹</span> GC</button>
-                <button class="tab-btn" data-page="generaciones"><span class="tab-icon">🗑️</span> Generaciones</button>
-                <button class="tab-btn" data-page="bootloader"><span class="tab-icon">🔧</span> Bootloader</button>
-                <button class="tab-btn" data-page="flakes"><span class="tab-icon">❄️</span> Flakes</button>
-                <button class="tab-btn" data-page="hibrida"><span class="tab-icon">🔀</span> Config Híbrida</button>
-                <button class="tab-btn" data-page="actualizar"><span class="tab-icon">🔄</span> Actualizar</button>
-                <button class="tab-btn" data-page="paquetes"><span class="tab-icon">📦</span> Paquetes</button>
-                <button class="tab-btn" data-page="automatizacion"><span class="tab-icon">⚙️</span> Automatizar</button>
-                <button class="tab-btn" data-page="extras"><span class="tab-icon">🧩</span> Extras</button>
-                <button class="tab-btn" data-page="hardware"><span class="tab-icon">🖥️</span> Hardware</button>
+        <div class="sticky-nav">
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" id="searchInput" placeholder="Buscar comandos, conceptos, paquetes..." autocomplete="off">
+                <span class="search-hint">Ctrl+K</span>
+                <div class="search-results" id="searchResults"></div>
             </div>
-        </nav>
 
-        <div class="search-bar">
-            <span class="search-icon">🔍</span>
-            <input type="text" class="search-input" id="searchInput" placeholder="Buscar comandos, conceptos, paquetes..." autocomplete="off">
-            <span class="search-hint">Ctrl+K</span>
-            <div class="search-results" id="searchResults"></div>
+            <nav class="tab-bar">
+                <div class="tab-inner">
+                    <button class="tab-btn active" data-page="gc"><span class="tab-icon">🧹</span> GC</button>
+                    <button class="tab-btn" data-page="generaciones"><span class="tab-icon">🗑️</span> Generaciones</button>
+                    <button class="tab-btn" data-page="bootloader"><span class="tab-icon">🔧</span> Bootloader</button>
+                    <button class="tab-btn" data-page="flakes"><span class="tab-icon">❄️</span> Flakes</button>
+                    <button class="tab-btn" data-page="hibrida"><span class="tab-icon">🔀</span> Config Híbrida</button>
+                    <button class="tab-btn" data-page="actualizar"><span class="tab-icon">🔄</span> Actualizar</button>
+                    <button class="tab-btn" data-page="paquetes"><span class="tab-icon">📦</span> Paquetes</button>
+                    <button class="tab-btn" data-page="automatizacion"><span class="tab-icon">⚙️</span> Automatizar</button>
+                    <button class="tab-btn" data-page="extras"><span class="tab-icon">🧩</span> Extras</button>
+                    <button class="tab-btn" data-page="hardware"><span class="tab-icon">🖥️</span> Hardware</button>
+                </div>
+            </nav>
         </div>
 
         <!-- PAGE 1: GC -->
@@ -1334,30 +1342,60 @@
                 <p><strong>¿Cuándo usar nix-ld?</strong> Cuando descargás un binario precompilado de su web oficial (Blender, OBS, Spotify, Discord, Steam) y no hay una versión en nixpkgs o necesitás la última versión.</p>
             </div>
 
-            <h3>Wrappers con nix-shell (alternativa a nix-ld)</h3>
+            <h3>Blender descargado (binario precompilado)</h3>
 
             <div class="intro-box">
-                <p><strong>Wrappers</strong> son "envoltorios" que ejecutan un binario con las librerías de Nix. Es más flexible que nix-ld porque podés tener wrappers distintos por aplicación.</p>
+                <p><strong>Blender descargado de la web</strong> requiere configuración extra para Vulkan y OpenGL en NixOS. Se usa un wrapper bash + un archivo .desktop para el launcher.</p>
             </div>
 
             <div class="card">
-                <div class="card-title">Crear un wrapper con mkWrapper<span class="tooltip">Envuelve un binario para que use las librerías de Nix. Útil para apps que necesitás aislar.</span></div>
+                <div class="card-title">Launcher script<span class="tooltip">Script que configura las variables de entorno necesarias para GPU Nvidia y ejecuta Blender.</span></div>
+                <div class="card-desc" style="color: #94a3b8; font-size: 0.82rem; margin-bottom: 10px;">Guardar en: <span class="inline-code">~/.scripts/blender_launcher.sh</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
-                    <pre><code><span class="kw">let</span>
-  <span class="kw">blender</span> <span class="punct">=</span> <span class="kw">pkgs</span><span class="punct">.</span><span class="arg">blender</span><span class="punct">.</span><span class="kw">overrideAttrs</span> <span class="punct">(</span><span class="kw">oldAttrs</span><span class="punct">:</span> <span class="punct">{</span>
-    <span class="kw">buildInputs</span> <span class="punct">=</span> <span class="punct">[</span> <span class="kw">oldAttrs</span><span class="punct">.</span><span class="kw">buildInputs</span> <span class="punct">]</span> <span class="punct">++</span> <span class="punct">[</span>
-      <span class="kw">pkgs</span><span class="punct">.</span><span class="arg">cudaPackages.cuda_cudart</span>
-    <span class="punct">];</span>
-  <span class="punct">});</span>
-<span class="kw">in</span> <span class="kw">pkgs</span><span class="punct">.</span><span class="arg">writeShellScriptBin</span> <span class="str">"blender"</span> <span class="str">''
-    exec ${blender}/bin/blender "$@"
-  ''</span></code></pre>
+                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <pre><code><span class="kw">#!/usr/bin/env bash</span>
+<span class="comment"># Blender launcher script for NixOS</span>
+<span class="comment"># Usage: blender_launcher.sh /path/to/blender [arguments...]</span>
+
+<span class="kw">BLENDER_PATH</span>=<span class="str">"$1"</span>
+<span class="kw">shift</span>
+
+<span class="kw">if</span> <span class="punct">[[</span> <span class="arg">-z</span> <span class="str">"$BLENDER_PATH"</span> <span class="punct">]];</span> <span class="kw">then</span>
+    <span class="cmd">echo</span> <span class="str">"Error: No blender path provided"</span>
+    <span class="cmd">exit</span> <span class="num">1</span>
+<span class="kw">fi</span>
+
+<span class="kw">BLENDER_DIR</span>=<span class="str">"$(dirname "$BLENDER_PATH")"</span>
+
+<span class="comment"># Extract version from directory name (e.g., blender-5.1.0-linux-x64 -> 5.1)</span>
+<span class="kw">VERSION</span>=<span class="cmd">$(basename "$BLENDER_DIR" | sed -n 's/blender-\([0-9]*\.[0-9]*\).*/\1/p')</span>
+
+<span class="kw">export</span> <span class="arg">BLENDER_SYSTEM_RESOURCES</span>=<span class="str">"${BLENDER_DIR}/${VERSION}"</span>
+<span class="kw">export</span> <span class="arg">VK_ICD_FILENAMES</span>=/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json
+<span class="kw">export</span> <span class="arg">LD_LIBRARY_PATH</span>=/run/opengl-driver/lib:<span class="arg">$LD_LIBRARY_PATH</span>
+
+<span class="cmd">exec</span> <span class="str">"$BLENDER_PATH"</span> <span class="str">"$@"</span></code></pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Archivo .desktop<span class="tooltip">Archivo para que Plasma/KDE reconozca Blender como aplicación.</span></div>
+                <div class="card-desc" style="color: #94a3b8; font-size: 0.82rem; margin-bottom: 10px;">Guardar en: <span class="inline-code">~/.local/share/applications/blender-X.X.X.desktop</span></div>
+                <div class="code-block">
+                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>desktop</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <pre><code><span class="kw">[Desktop Entry]</span>
+<span class="arg">Name</span>=<span class="str">Blender 5.1.0</span>
+<span class="arg">Exec</span>=<span class="str">/home/zebus3d/.scripts/blender_launcher.sh /home/zebus3d/Downloads/Blenders/blender-5.1.0-linux-x64/blender %f</span>
+<span class="arg">Icon</span>=<span class="str">/home/zebus3d/.icons/custom/blender.svg</span>
+<span class="arg">Terminal</span>=<span class="kw">false</span>
+<span class="arg">Type</span>=<span class="kw">Application</span>
+<span class="arg">PrefersNonDefaultGPU</span>=<span class="kw">true</span>
+<span class="arg">Categories</span>=<span class="str">Graphics;3DGraphics;</span></code></pre>
                 </div>
             </div>
 
             <div class="info-box">
-                <p><strong>¿nix-ld vs mkWrapper?</strong> <code>nix-ld</code> es global (todos los binarios lo usan). <code>mkWrapper</code> es por-app. Para apps que descargás de internet y querés que funcione "solo", usá <code>nix-ld</code>. Para personalización fina, usá wrappers.</p>
+                <p><strong>¿Por qué no nix-ld?</strong> Blender descargado de la web ya trae sus propias librerías. El wrapper solo configura las variables de GPU (Vulkan/OpenGL) que NixOS necesita para detectar la Nvidia correctamente.</p>
             </div>
 
             <h3>Steam y juegos con Proton</h3>
