@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apuntes NixOS - Mantenimiento</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0f;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-orb {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(150px);
+            opacity: 0.07;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-orb.purple {
+            background: #8b5cf6;
+            top: -200px;
+            right: -100px;
+        }
+
+        .glow-orb.blue {
+            background: #3b82f6;
+            bottom: -200px;
+            left: -100px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 50px 0 40px;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.15);
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            color: #a78bfa;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 6px 16px;
+            border-radius: 999px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #c4b5fd, #818cf8, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.05rem;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            margin-bottom: 24px;
+            padding-left: 16px;
+            border-left: 3px solid #6366f1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2 .icon {
+            font-size: 1.3rem;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #a78bfa;
+            margin: 28px 0 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.85rem;
+        }
+
+        .card {
+            background: rgba(15, 15, 25, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: rgba(99, 102, 241, 0.25);
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.05);
+        }
+
+        .card-title {
+            font-weight: 600;
+            color: #c4b5fd;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .card-desc {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+
+        .code-block {
+            position: relative;
+            background: #0d1117;
+            border: 1px solid rgba(99, 102, 241, 0.12);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+
+        .code-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            background: rgba(99, 102, 241, 0.06);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .code-header .dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .code-header .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .code-header .dot.red { background: #ff5f57; }
+        .code-header .dot.yellow { background: #febc2e; }
+        .code-header .dot.green { background: #28c840; }
+
+        .copy-btn {
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            color: #a78bfa;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: rgba(99, 102, 241, 0.25);
+            color: #c4b5fd;
+        }
+
+        .copy-btn.copied {
+            background: rgba(34, 197, 94, 0.15);
+            border-color: rgba(34, 197, 94, 0.3);
+            color: #4ade80;
+        }
+
+        pre {
+            padding: 18px 20px;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.8;
+        }
+
+        pre::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        pre::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        pre::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 3px;
+        }
+
+        /* Syntax highlighting */
+        .cmd { color: #7dd3fc; }
+        .flag { color: #fbbf24; }
+        .arg { color: #34d399; }
+        .comment { color: #4a5568; font-style: italic; }
+        .path { color: #f9a8d4; }
+        .kw { color: #c084fc; }
+        .str { color: #86efac; }
+        .punct { color: #64748b; }
+        .num { color: #fb923c; }
+
+        .info-box {
+            background: rgba(59, 130, 246, 0.06);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-left: 3px solid #3b82f6;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 16px 0;
+        }
+
+        .info-box p {
+            color: #93c5fd;
+            font-size: 0.9rem;
+        }
+
+        .warning-box {
+            background: rgba(251, 191, 36, 0.06);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            border-left: 3px solid #fbbf24;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 16px 0;
+        }
+
+        .warning-box p {
+            color: #fde68a;
+            font-size: 0.9rem;
+        }
+
+        .risk-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.9rem;
+        }
+
+        .risk-table th {
+            text-align: left;
+            padding: 12px 16px;
+            background: rgba(99, 102, 241, 0.08);
+            color: #a78bfa;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.15);
+        }
+
+        .risk-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            color: #cbd5e1;
+        }
+
+        .risk-table tr:hover td {
+            background: rgba(99, 102, 241, 0.03);
+        }
+
+        .risk-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .risk-badge.safe {
+            background: rgba(34, 197, 94, 0.12);
+            color: #4ade80;
+            border: 1px solid rgba(34, 197, 94, 0.25);
+        }
+
+        .risk-badge.moderate {
+            background: rgba(251, 191, 36, 0.12);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.25);
+        }
+
+        .risk-badge.aggressive {
+            background: rgba(251, 146, 60, 0.12);
+            color: #fb923c;
+            border: 1px solid rgba(251, 146, 60, 0.25);
+        }
+
+        .risk-badge.very-aggressive {
+            background: rgba(239, 68, 68, 0.12);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.25);
+        }
+
+        .steps {
+            counter-reset: step;
+            list-style: none;
+            padding: 0;
+        }
+
+        .steps li {
+            counter-increment: step;
+            padding: 14px 0 14px 50px;
+            position: relative;
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            border-left: 1px solid rgba(99, 102, 241, 0.1);
+            margin-left: 20px;
+        }
+
+        .steps li:last-child {
+            border-left-color: transparent;
+        }
+
+        .steps li::before {
+            content: counter(step);
+            position: absolute;
+            left: -14px;
+            top: 14px;
+            width: 28px;
+            height: 28px;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #a78bfa;
+        }
+
+        .steps li .step-desc {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+
+        ul.plain-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul.plain-list li {
+            padding: 8px 0 8px 24px;
+            position: relative;
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+
+        ul.plain-list li::before {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 18px;
+            width: 6px;
+            height: 6px;
+            background: #6366f1;
+            border-radius: 50%;
+        }
+
+        .inline-code {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            color: #7dd3fc;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid rgba(99, 102, 241, 0.1);
+            color: #475569;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 640px) {
+            h1 { font-size: 1.8rem; }
+            .container { padding: 20px 16px 60px; }
+            .card { padding: 18px; }
+            pre { font-size: 0.78rem; padding: 14px 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="glow-orb purple"></div>
+    <div class="glow-orb blue"></div>
+
+    <div class="container">
+        <header>
+            <div class="badge">NixOS</div>
+            <h1>Mantenimiento de NixOS</h1>
+            <p>Apuntes actualizados y verificados sobre gestión de generaciones y limpieza del sistema</p>
+        </header>
+
+        <!-- Sección 1: Eliminar generaciones antiguas -->
+        <div class="section">
+            <h2><span class="icon">🗑️</span> 1. Eliminar generaciones antiguas</h2>
+
+            <h3>Método recomendado — Todo en uno</h3>
+
+            <div class="card">
+                <div class="card-title">Borrar generaciones de más de 30 días + Garbage Collection</div>
+                <div class="card-desc">Elimina generaciones antiguas de todo el equipo y ejecuta el recolector de basura automáticamente.</div>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span>bash</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span> <span class="flag">--delete-older-than</span> <span class="arg">30d</span></code></pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Limpieza profunda — Todas las antiguas de todos los usuarios</div>
+                <div class="card-desc">Borra TODAS las generaciones antiguas de todos los perfiles (sistema + usuario + root). Es el más efectivo para ganar espacio rápidamente.</div>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span>bash</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span> <span class="flag">-d</span></code></pre>
+                </div>
+            </div>
+
+            <h3>Método por perfil — Control manual</h3>
+
+            <div class="card">
+                <div class="card-title">Ver generaciones del perfil de sistema</div>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span>bash</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-env</span> <span class="flag">-p</span> <span class="path">/nix/var/nix/profiles/system</span> <span class="flag">--list-generations</span></code></pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Eliminar todas excepto las últimas 5</div>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span>bash</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-env</span> <span class="flag">-p</span> <span class="path">/nix/var/nix/profiles/system</span> <span class="flag">--delete-generations</span> <span class="arg">+5</span></code></pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Eliminar las de más de 30 días solo en el sistema</div>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span>bash</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-env</span> <span class="flag">-p</span> <span class="path">/nix/var/nix/profiles/system</span> <span class="flag">--delete-generations</span> <span class="arg">30d</span></code></pre>
+                </div>
+            </div>
+
+            <h3>Seguridad al eliminar generaciones</h3>
+
+            <div class="info-box">
+                <p>La generación actual <strong>NUNCA</strong> se elimina. NixOS la protege automáticamente.</p>
+            </div>
+
+            <ul class="plain-list">
+                <li>Los comandos de borrado solo quitan los <strong>índices</strong>. Los archivos reales del <span class="inline-code">/nix/store</span> solo desaparecen tras ejecutar el Garbage Collector.</li>
+                <li><strong>IMPORTANTE:</strong> <span class="inline-code">sudo nix-collect-garbage -d</span> borra las generaciones de <strong>TODOS</strong> los perfiles (sistema + tu usuario + root). Es el más efectivo para ganar espacio rápidamente.</li>
+            </ul>
+
+            <h3>Orden de riesgo</h3>
+
+            <table class="risk-table">
+                <thead>
+                    <tr>
+                        <th>Nivel</th>
+                        <th>Comando</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="risk-badge safe">SEGURO</span></td>
+                        <td><span class="inline-code">--delete-generations 30d</span></td>
+                        <td>Conserva el último mes</td>
+                    </tr>
+                    <tr>
+                        <td><span class="risk-badge moderate">MODERADO</span></td>
+                        <td><span class="inline-code">--delete-generations +5</span></td>
+                        <td>Conserva las 5 últimas</td>
+                    </tr>
+                    <tr>
+                        <td><span class="risk-badge aggressive">AGRESIVO</span></td>
+                        <td><span class="inline-code">--delete-generations old</span></td>
+                        <td>Solo deja la actual</td>
+                    </tr>
+                    <tr>
+                        <td><span class="risk-badge very-aggressive">MUY AGRESIVO</span></td>
+                        <td><span class="inline-code">nix-collect-garbage -d</span></td>
+                        <td>Todo en uno, sin red de seguridad</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Flujo recomendado para limpiar con seguridad</h3>
+
+            <ol class="steps">
+                <li>
+                    Listar primero para ver qué hay
+                    <div class="code-block">
+                        <div class="code-header">
+                            <div class="dots">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <span>bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                        </div>
+                        <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-env</span> <span class="flag">-p</span> <span class="path">/nix/var/nix/profiles/system</span> <span class="flag">--list-generations</span></code></pre>
+                    </div>
+                </li>
+                <li>
+                    Eliminar solo lo antiguo (30d es bastante conservador)
+                    <div class="code-block">
+                        <div class="code-header">
+                            <div class="dots">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <span>bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                        </div>
+                        <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-env</span> <span class="flag">-p</span> <span class="path">/nix/var/nix/profiles/system</span> <span class="flag">--delete-generations</span> <span class="arg">30d</span></code></pre>
+                    </div>
+                </li>
+                <li>
+                    Ejecutar el Garbage Collector
+                    <div class="code-block">
+                        <div class="code-header">
+                            <div class="dots">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <span>bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                        </div>
+                        <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span></code></pre>
+                    </div>
+                </li>
+                <li>
+                    Limpiar las entradas huérfanas del menú de systemd-boot
+                    <div class="code-block">
+                        <div class="code-header">
+                            <div class="dots">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <span>bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                        </div>
+                        <pre><code><span class="cmd">sudo</span> <span class="cmd">bootctl</span> <span class="arg">cleanup</span></code></pre>
+                    </div>
+                    <p class="step-desc">Elimina los <span class="inline-code">.conf</span> de <span class="inline-code">/boot/loader/entries/</span> cuya generación ya no existe</p>
+                </li>
+            </ol>
+        </div>
+
+        <!-- Sección: Liberar espacio -->
+        <div class="section">
+            <h2><span class="icon">💾</span> Liberar espacio</h2>
+
+            <div class="warning-box">
+                <p><strong>IMPORTANTE:</strong> No tener procesos de compilación o descarga activos al ejecutar estos comandos.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Borrar archivos no usados del /nix/store</div>
+                <div class="card-desc">El borrado de generaciones solo quita los "punteros". Este comando borra los archivos reales.</div>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span>bash</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span></code></pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Todo en uno — Borrar generaciones antiguas + GC</div>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span>bash</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span> <span class="flag">-d</span></code></pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Optimizar el store — Deduplicar archivos idénticos</div>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span>bash</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-store</span> <span class="flag">--optimise</span></code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección: Limpiar bootloader -->
+        <div class="section">
+            <h2><span class="icon">🔧</span> Limpiar entradas huérfanas del bootloader</h2>
+
+            <p style="color: #94a3b8; margin-bottom: 20px; font-size: 0.95rem;">
+                Eliminadas las generaciones, los archivos <span class="inline-code">.conf</span> en <span class="inline-code">/boot/loader/entries/</span> quedan huérfanos. Hay dos formas de limpiarlos:
+            </p>
+
+            <div class="card">
+                <div class="card-title">Opción A — Solo limpiar entradas huérfanas (más rápido)</div>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span>bash</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    <pre><code><span class="cmd">sudo</span> <span class="cmd">bootctl</span> <span class="arg">cleanup</span></code></pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Opción B — Regenerar el bootloader completo desde cero</div>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span>bash</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">boot</span></code></pre>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <p>Con <span class="inline-code">nixos-rebuild boot</span> no es necesario <span class="inline-code">bootctl clean</span>, hace todo junto. Usa <span class="inline-code">bootctl clean</span> si ya corriste <span class="inline-code">nix-collect-garbage</span> y solo quieres limpiar el menú.</p>
+            </div>
+        </div>
+
+        <!-- Sección 2: Actualizar el sistema -->
+        <div class="section">
+            <h2><span class="icon">🔄</span> 2. Actualizar el sistema</h2>
+
+            <h3>Usando Canales (Standard)</h3>
+
+            <div class="card">
+                <div class="card-title">Actualizar canales y aplicar configuración</div>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span>bash</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-channel</span> <span class="flag">--update</span>
+<span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span></code></pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Actualizar y aplicar en un solo paso</div>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span>bash</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--upgrade</span></code></pre>
+                </div>
+            </div>
+
+            <h3>Usando Flakes</h3>
+
+            <div class="card">
+                <div class="card-title">1. Actualizar flake.lock</div>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span>bash</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    <pre><code><span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">update</span></code></pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">2. Aplicar configuración</div>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span>bash</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">.</span></code></pre>
+                </div>
+                <p style="color: #64748b; font-size: 0.85rem; margin-top: 12px;">Si usas un nombre de host específico:</p>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span>bash</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">.#nombre-de-host</span></code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección 3: Automatización -->
+        <div class="section">
+            <h2><span class="icon">⚙️</span> 3. Automatización (configuration.nix)</h2>
+
+            <div class="card">
+                <div class="card-title">Limpieza automática periódica</div>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span>nix</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    <pre><code><span class="kw">nix.gc</span> <span class="punct">=</span> <span class="punct">{</span>
+    <span class="kw">automatic</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+    <span class="kw">dates</span> <span class="punct">=</span> <span class="str">"weekly"</span><span class="punct">;</span>
+    <span class="kw">options</span> <span class="punct">=</span> <span class="str">"--delete-older-than 30d"</span><span class="punct">;</span>
+<span class="punct">};</span></code></pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Optimización automática (ahorra mucho espacio)</div>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span>nix</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    <pre><code><span class="kw">nix.settings.auto-optimise-store</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span></code></pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Limitar generaciones en el menú de arranque (systemd-boot)</div>
+                <div class="code-block">
+                    <div class="code-header">
+                        <div class="dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span>nix</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                    </div>
+                    <pre><code><span class="kw">boot.loader.systemd-boot.configurationLimit</span> <span class="punct">=</span> <span class="num">10</span><span class="punct">;</span></code></pre>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Apuntes de NixOS — Mantenimiento y limpieza del sistema</p>
+        </footer>
+    </div>
+
+    <script>
+        function copyCode(btn) {
+            const code = btn.closest('.code-block').querySelector('code');
+            const text = code.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                btn.textContent = 'Copiado!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'Copiar';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
