@@ -216,6 +216,58 @@
             color: #c4b5fd;
             margin-bottom: 8px;
             font-size: 1rem;
+            position: relative;
+            cursor: help;
+        }
+
+        .card-title .tooltip {
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 0;
+            background: rgba(15, 15, 30, 0.95);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 0.78rem;
+            font-weight: 400;
+            color: #94a3b8;
+            line-height: 1.5;
+            width: max-content;
+            max-width: 320px;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            pointer-events: none;
+        }
+
+        .card-title .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 20px;
+            border: 6px solid transparent;
+            border-top-color: rgba(15, 15, 30, 0.95);
+        }
+
+        .card-title .tooltip .tip-example {
+            display: block;
+            margin-top: 6px;
+            padding: 4px 8px;
+            background: rgba(99, 102, 241, 0.08);
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: #a78bfa;
+        }
+
+        .card-title:hover .tooltip {
+            display: block;
+            animation: tip-fade 0.2s ease;
+        }
+
+        @keyframes tip-fade {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .card-desc {
@@ -654,7 +706,7 @@
     <div class="container">
         <header>
             <h1>Mantenimiento de NixOS</h1>
-            <p>Apuntes actualizados y verificados sobre gestión de generaciones y limpieza del sistema</p>
+            <p>Guía de usuario personal sobre gestión de generaciones y limpieza del sistema</p>
         </header>
 
         <nav class="nav-bar">
@@ -675,7 +727,7 @@
 
             <div class="card recommended">
                 <div class="recommended-badge"><span class="rec-icon">✓</span> Recomendado</div>
-                <div class="card-title">Borrar generaciones de más de 30 días + Garbage Collection</div>
+                <div class="card-title">Borrar generaciones de más de 30 días + Garbage Collection<span class="tooltip">Elimina generaciones con más de 30 días del perfil del sistema y ejecuta GC automáticamente. Es seguro y conservador. Ideal para uso semanal.<span class="tip-example">Ej: si hiciste rebuild hace 35 días, esa generación se borra</span></span></div>
                 <div class="card-desc">Elimina generaciones antiguas de todo el equipo y ejecuta el recolector de basura automáticamente.</div>
                 <div class="code-block">
                     <div class="code-header">
@@ -693,7 +745,7 @@
 
             <div class="card recommended">
                 <div class="recommended-badge"><span class="rec-icon">✓</span> Recomendado</div>
-                <div class="card-title">Limpieza profunda — Todas las antiguas de todos los usuarios</div>
+                <div class="card-title">Limpieza profunda — Todas las antiguas de todos los usuarios<span class="tooltip">Recorre todos los perfiles del sistema (usuario, root, system) y elimina todas las generaciones antiguas. Usa con precaución si necesitas rollback a versiones muy antiguas.<span class="tip-example">Ej: después de actualizar y confirmar que todo funciona bien</span></span></div>
                 <div class="card-desc">Borra TODAS las generaciones antiguas de todos los perfiles (sistema + usuario + root). Es el más efectivo para ganar espacio rápidamente.</div>
                 <div class="code-block">
                     <div class="code-header">
@@ -808,7 +860,23 @@
 
             <ol class="steps">
                 <li>
-                    Listar primero para ver qué hay
+                    Reconstruir el sistema PRIMERO (evita que se rompan iconos de Plasma)
+                    <div class="code-block">
+                        <div class="code-header">
+                            <div class="dots">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <span>bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+                        </div>
+                        <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span></code></pre>
+                    </div>
+                    <p class="step-desc">Actualiza las rutas del system profile para que los launchers de Plasma no pierdan sus referencias</p>
+                </li>
+                <li>
+                    Listar generaciones para ver qué hay
                     <div class="code-block">
                         <div class="code-header">
                             <div class="dots">
@@ -853,7 +921,7 @@
                     </div>
                 </li>
                 <li>
-                    Limpiar las entradas huérfanas del menú de systemd-boot
+                    Regenerar el bootloader desde cero
                     <div class="code-block">
                         <div class="code-header">
                             <div class="dots">
@@ -864,9 +932,9 @@
                             <span>bash</span>
                             <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
                         </div>
-                        <pre><code><span class="cmd">sudo</span> <span class="cmd">bootctl</span> <span class="arg">cleanup</span></code></pre>
+                        <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">boot</span></code></pre>
                     </div>
-                    <p class="step-desc">Elimina los <span class="inline-code">.conf</span> de <span class="inline-code">/boot/loader/entries/</span> cuya generación ya no existe</p>
+                    <p class="step-desc">Reconstruye el menú de arranque con solo las generaciones vigentes. Más seguro que <span class="inline-code">bootctl cleanup</span>, no deja entradas fantasma</p>
                 </li>
             </ol>
         </div>
@@ -881,7 +949,7 @@
 
             <div class="card recommended">
                 <div class="recommended-badge"><span class="rec-icon">✓</span> Recomendado</div>
-                <div class="card-title">Borrar archivos no usados del /nix/store</div>
+                <div class="card-title">Borrar archivos no usados del /nix/store<span class="tooltip">Elimina los archivos reales del store que ya no tienen referencias. Es el que realmente libera espacio en disco. Seguro, no borra nada en uso.<span class="tip-example">Ej: después de borrar generaciones, libera GB reales</span></span></div>
                 <div class="card-desc">El borrado de generaciones solo quita los "punteros". Este comando borra los archivos reales.</div>
                 <div class="code-block">
                     <div class="code-header">
@@ -915,7 +983,7 @@
 
             <div class="card recommended">
                 <div class="recommended-badge"><span class="rec-icon">✓</span> Recomendado</div>
-                <div class="card-title">Optimizar el store — Deduplicar archivos idénticos</div>
+                <div class="card-title">Optimizar el store — Deduplicar archivos idénticos<span class="tooltip">Si dos paquetes comparten archivos iguales, crea hardlinks para que ocupen una sola vez. No borra nada, solo optimiza. Ideal ejecutar tras cada GC.<span class="tip-example">Ej: si tienes 3 versiones de glibc, solo ocupa una</span></span></div>
                 <div class="code-block">
                     <div class="code-header">
                         <div class="dots">
@@ -958,7 +1026,7 @@
             </p>
 
             <div class="card">
-                <div class="card-title">Opción A — Solo limpiar entradas huérfanas (más rápido)</div>
+                <div class="card-title">Opción A — Solo limpiar entradas huérfanas (más rápido)<span class="tooltip">Elimina archivos .conf del bootloader cuya generación ya no existe. Rápido pero puede dejar entradas "fantasma" en la memoria EFI que se limpian solas al reiniciar.</span></div>
                 <div class="card-desc" style="color: #fbbf24;">⚡ Funciona bien, pero a veces deja entradas "fantasma" en la memoria EFI. Si ves entradas <code>reported/absent</code>, reinicia el equipo.</div>
                 <div class="code-block">
                     <div class="code-header">
@@ -976,7 +1044,7 @@
 
             <div class="card recommended">
                 <div class="recommended-badge"><span class="rec-icon">✓</span> Recomendado</div>
-                <div class="card-title">Opción B — Regenerar el bootloader completo desde cero</div>
+                <div class="card-title">Opción B — Regenerar el bootloader completo desde cero<span class="tooltip">Reconstruye todas las entradas del menú de arranque desde cero. Es más seguro que bootctl cleanup porque no depende de archivos huérfanos. No deja entradas fantasma en la EFI.<span class="tip-example">Ej: si tenías 5 generaciones válidas, el menú solo muestra esas 5</span></span></div>
                 <div class="card-desc">Reconstruye el menú de arranque desde cero con solo las generaciones vigentes. Es la forma más limpia y segura. No deja entradas fantasma.</div>
                 <div class="code-block">
                     <div class="code-header">
@@ -1097,7 +1165,7 @@
             <h2><span class="icon">⚙️</span> 3. Automatización (configuration.nix)</h2>
 
             <div class="card">
-                <div class="card-title">Limpieza automática periódica</div>
+                <div class="card-title">Limpieza automática periódica<span class="tooltip">Configura un timer de systemd que ejecuta nix-collect-garbage automáticamente. "weekly" = una vez por semana. "--delete-older-than 30d" = solo borra generaciones con más de 30 días.<span class="tip-example">Ej: cada domingo limpia generaciones viejas sin que hagas nada</span></span></div>
                 <div class="code-block">
                     <div class="code-header">
                         <div class="dots">
@@ -1117,7 +1185,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Optimización automática (ahorra mucho espacio)</div>
+                <div class="card-title">Optimización automática (ahorra mucho espacio)<span class="tooltip">Cada vez que se añade algo al store, Nix deduplica automáticamente los archivos idénticos mediante hardlinks. Sin intervención manual, sin riesgo.<span class="tip-example">Ej: si instalas Firefox y ya tenías una versión similar, solo ocupa la diferencia</span></span></div>
                 <div class="code-block">
                     <div class="code-header">
                         <div class="dots">
@@ -1133,7 +1201,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Limitar generaciones en el menú de arranque (systemd-boot)</div>
+                <div class="card-title">Limitar generaciones en el menú de arranque (systemd-boot)<span class="tooltip">Systemd-boot solo mostrará las N generaciones más recientes en el menú de arranque. No borra las generaciones, solo las oculta del menú. Evita un menú infinito.<span class="tip-example">Ej: con configurationLimit = 10, solo ves las 10 últimas al arrancar</span></span></div>
                 <div class="code-block">
                     <div class="code-header">
                         <div class="dots">
