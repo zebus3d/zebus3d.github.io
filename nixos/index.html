@@ -62,15 +62,14 @@
             background: rgba(10, 10, 15, 0.85);
             backdrop-filter: blur(16px);
             border-bottom: 1px solid rgba(99, 102, 241, 0.12);
-            padding: 12px 0; margin-bottom: 30px;
+            padding: 10px 0; margin-bottom: 30px;
         }
 
         .tab-inner {
             max-width: 900px; margin: 0 auto; padding: 0 20px;
-            display: flex; gap: 6px; overflow-x: auto;
-            scrollbar-width: none;
+            display: flex; flex-wrap: wrap; gap: 6px;
+            justify-content: center;
         }
-        .tab-inner::-webkit-scrollbar { display: none; }
 
         .tab-btn {
             flex-shrink: 0; display: flex; align-items: center; gap: 5px;
@@ -507,6 +506,84 @@
         }
         .page-dot:hover:not(.active) { background: rgba(99, 102, 241, 0.4); }
 
+        /* Search */
+        .search-bar {
+            max-width: 900px; margin: 0 auto 20px; padding: 0 20px;
+            position: relative;
+        }
+        .search-input {
+            width: 100%; padding: 10px 16px 10px 38px;
+            background: rgba(15, 15, 25, 0.7);
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            border-radius: 10px;
+            color: #e2e8f0; font-family: 'Inter', sans-serif;
+            font-size: 0.85rem; outline: none;
+            transition: all 0.2s;
+        }
+        .search-input::placeholder { color: #475569; }
+        .search-input:focus {
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 0 12px rgba(99, 102, 241, 0.1);
+        }
+        .search-icon {
+            position: absolute; left: 34px; top: 50%; transform: translateY(-50%);
+            color: #475569; font-size: 0.9rem; pointer-events: none;
+        }
+        .search-results {
+            position: absolute; top: calc(100% + 6px); left: 20px; right: 20px;
+            background: rgba(15, 15, 25, 0.97);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 10px; overflow: hidden;
+            max-height: 360px; overflow-y: auto;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+            z-index: 200; display: none;
+        }
+        .search-results.open { display: block; }
+        .search-result {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 16px; cursor: pointer;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.08);
+            transition: background 0.15s;
+        }
+        .search-result:last-child { border-bottom: none; }
+        .search-result:hover, .search-result.selected {
+            background: rgba(99, 102, 241, 0.12);
+        }
+        .search-result-icon { font-size: 1.1rem; flex-shrink: 0; }
+        .search-result-page {
+            font-size: 0.7rem; font-weight: 600; color: #6366f1;
+            text-transform: uppercase; letter-spacing: 0.04em;
+            flex-shrink: 0; min-width: 80px;
+        }
+        .search-result-text {
+            font-size: 0.82rem; color: #94a3b8;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        .search-result-text mark {
+            background: rgba(99, 102, 241, 0.3); color: #c4b5fd;
+            border-radius: 2px; padding: 0 2px;
+        }
+        .search-empty {
+            padding: 20px 16px; text-align: center;
+            color: #475569; font-size: 0.85rem;
+        }
+        .search-hint {
+            position: absolute; right: 32px; top: 50%; transform: translateY(-50%);
+            font-size: 0.65rem; color: #475569;
+            background: rgba(99, 102, 241, 0.08);
+            border: 1px solid rgba(99, 102, 241, 0.12);
+            padding: 2px 6px; border-radius: 4px;
+            pointer-events: none;
+        }
+
+        /* Search highlight on page */
+        .search-highlight {
+            background: rgba(251, 191, 36, 0.25);
+            border: 1px solid rgba(251, 191, 36, 0.4);
+            border-radius: 3px; padding: 0 2px;
+            transition: background 0.5s;
+        }
+
         footer {
             text-align: center; padding: 30px 0;
             border-top: 1px solid rgba(99, 102, 241, 0.1);
@@ -538,11 +615,21 @@
                 <button class="tab-btn" data-page="generaciones"><span class="tab-icon">🗑️</span> Generaciones</button>
                 <button class="tab-btn" data-page="bootloader"><span class="tab-icon">🔧</span> Bootloader</button>
                 <button class="tab-btn" data-page="flakes"><span class="tab-icon">❄️</span> Flakes</button>
+                <button class="tab-btn" data-page="hibrida"><span class="tab-icon">🔀</span> Config Híbrida</button>
                 <button class="tab-btn" data-page="actualizar"><span class="tab-icon">🔄</span> Actualizar</button>
                 <button class="tab-btn" data-page="paquetes"><span class="tab-icon">📦</span> Paquetes</button>
                 <button class="tab-btn" data-page="automatizacion"><span class="tab-icon">⚙️</span> Automatizar</button>
+                <button class="tab-btn" data-page="extras"><span class="tab-icon">🧩</span> Extras</button>
+                <button class="tab-btn" data-page="hardware"><span class="tab-icon">🖥️</span> Hardware</button>
             </div>
         </nav>
+
+        <div class="search-bar">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" id="searchInput" placeholder="Buscar comandos, conceptos, paquetes..." autocomplete="off">
+            <span class="search-hint">Ctrl+K</span>
+            <div class="search-results" id="searchResults"></div>
+        </div>
 
         <!-- PAGE 1: GC -->
         <div class="page active" id="gc">
@@ -769,11 +856,72 @@
             <div class="page-nav">
                 <button class="page-nav-btn" data-prev="bootloader"><span class="arrow">←</span> Anterior</button>
                 <div class="page-dots"></div>
+                <button class="page-nav-btn" data-next="hibrida">Siguiente <span class="arrow">→</span></button>
+            </div>
+        </div>
+
+        <!-- PAGE 5: Config Híbrida -->
+        <div class="page" id="hibrida">
+            <h2><span class="icon">🔀</span> Configuración Híbrida</h2>
+
+            <div class="intro-box">
+                <p><strong>¿Qué es una config híbrida?</strong> Es un punto medio entre canales y flakes. Usas <strong>canales</strong> para el sistema base pero importas <strong>paquetes inestables</strong> con <span class="inline-code">fetchTarball</span> sin necesidad de flakes. Es lo que usa tu config actual.</p>
+            </div>
+
+            <div class="info-box">
+                <p><strong>¿Por qué?</strong> Algunos paquetes (Neovim, Brave, Git, etc.) se actualizan más rápido en <code>unstable</code>. Con este método tienes un sistema estable pero apps siempre al día.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Importar nixpkgs-unstable<span class="tooltip">Descarga el canal unstable directamente desde GitHub/NixOS channels.<span class="tip-example">Ej: let unstable = import (fetchTarball "...") {};</span></span></div>
+                <div class="code-block">
+                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <pre><code><span class="kw">let</span>
+  <span class="kw">unstable</span> <span class="punct">=</span> <span class="kw">import</span> <span class="punct">(</span><span class="kw">fetchTarball</span> <span class="str">"https://nixos.org/channels/nixpkgs-unstable/nixexprs.tar.xz"</span><span class="punct">)</span> <span class="punct">{</span>
+      <span class="kw">config.allowUnfree</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+  <span class="punct">};</span>
+<span class="kw">in</span></code></pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Usar paquetes unstable en user packages<span class="tooltip">Mezcla pkgs (estable) con unstable.inestable según necesidad.</span></div>
+                <div class="code-block">
+                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <pre><code><span class="kw">users.users.zebus3d</span> <span class="punct">=</span> <span class="punct">{</span>
+    <span class="kw">packages</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
+        <span class="arg">kdePackages.kate</span>          <span class="comment"># ← estable</span>
+        <span class="kw">unstable</span><span class="punct">.</span><span class="arg">neovim</span>           <span class="comment"># ← inestable</span>
+        <span class="kw">unstable</span><span class="punct">.</span><span class="arg">brave</span>            <span class="comment"># ← inestable</span>
+        <span class="kw">unstable</span><span class="punct">.</span><span class="arg">git</span>              <span class="comment"># ← inestable</span>
+        <span class="arg">direnv</span>                     <span class="comment"># ← estable</span>
+    <span class="punct">];</span>
+<span class="punct">};</span></code></pre>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <p><strong>fetchTarball vs flakes:</strong> <span class="warn-tip">fetchTarball descarga cada vez<span class="warn-tooltip">Cada <code>nixos-rebuild</code> verifica si hay nueva versión. Más lento pero siempre actual. Flakes usa <code>flake.lock</code> para versiones fijas.</span></span> — no congela versiones. Si quieres reproducibilidad total, migra a <strong>flakes</strong>.</p>
+            </div>
+
+            <h3>Comparación de enfoques</h3>
+            <table class="risk-table">
+                <thead><tr><th>Enfoque</th><th>Reproducible</th><th>Velocidad</th><th>Complejidad</th></tr></thead>
+                <tbody>
+                    <tr><td>Canales puros</td><td><span class="risk-badge moderate">Parcial</span></td><td><span class="risk-badge safe">Rápido</span></td><td><span class="risk-badge safe">Baja</span></td></tr>
+                    <tr><td>Híbrido (fetchTarball)</td><td><span class="risk-badge aggressive">No</span></td><td><span class="risk-badge moderate">Medio</span></td><td><span class="risk-badge safe">Baja</span></td></tr>
+                    <tr><td>Flakes</td><td><span class="risk-badge safe">Sí</span></td><td><span class="risk-badge safe">Rápido</span></td><td><span class="risk-badge moderate">Media</span></td></tr>
+                </tbody>
+            </table>
+
+            <div class="page-nav">
+                <button class="page-nav-btn" data-prev="flakes"><span class="arrow">←</span> Anterior</button>
+                <div class="page-dots"></div>
                 <button class="page-nav-btn" data-next="actualizar">Siguiente <span class="arrow">→</span></button>
             </div>
         </div>
 
-        <!-- PAGE 5: Actualizar -->
+        <!-- PAGE 6: Actualizar -->
         <div class="page" id="actualizar">
             <h2><span class="icon">🔄</span> Actualizar el sistema</h2>
 
@@ -824,14 +972,32 @@
                 </div>
             </div>
 
+            <h3>Config Híbrida (fetchTarball)</h3>
+
+            <div class="info-box">
+                <p>Si usás el enfoque híbrido como tu config actual, <strong>no necesitás actualizar nada manualmente</strong>. <code>fetchTarball</code> descarga la última versión de nixpkgs-unstable en cada <code>nixos-rebuild</code>.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Reconstruir con config híbrida<span class="tooltip">El fetchTarball se actualiza solo al hacer rebuild. No hay paso extra.</span></div>
+                <div class="code-block">
+                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span></code></pre>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <p><strong>FetchTarball vs flakes:</strong> <span class="warn-tip">fetchTarball siempre descarga lo último<span class="warn-tooltip">Cada rebuild verifica si hay nueva versión de nixpkgs-unstable. Más lento pero siempre actual. Flakes usa flake.lock para versiones fijas y es más rápido.</span></span> — cada rebuild descarga. Si querés velocidad, migrá a <strong>flakes</strong>.</p>
+            </div>
+
             <div class="page-nav">
-                <button class="page-nav-btn" data-prev="flakes"><span class="arrow">←</span> Anterior</button>
+                <button class="page-nav-btn" data-prev="hibrida"><span class="arrow">←</span> Anterior</button>
                 <div class="page-dots"></div>
                 <button class="page-nav-btn" data-next="paquetes">Siguiente <span class="arrow">→</span></button>
             </div>
         </div>
 
-        <!-- PAGE 6: Paquetes (nueva) -->
+        <!-- PAGE 7: Paquetes (nueva) -->
         <div class="page" id="paquetes">
             <h2><span class="icon">📦</span> Instalar y buscar paquetes</h2>
 
@@ -915,7 +1081,7 @@
             </div>
         </div>
 
-        <!-- PAGE 7: Automatización -->
+        <!-- PAGE 8: Automatización -->
         <div class="page" id="automatizacion">
             <h2><span class="icon">⚙️</span> Automatización</h2>
 
@@ -954,6 +1120,308 @@
             <div class="page-nav">
                 <button class="page-nav-btn" data-prev="paquetes"><span class="arrow">←</span> Anterior</button>
                 <div class="page-dots"></div>
+                <button class="page-nav-btn" data-next="extras">Siguiente <span class="arrow">→</span></button>
+            </div>
+        </div>
+
+        <!-- PAGE 9: Extras -->
+        <div class="page" id="extras">
+            <h2><span class="icon">🧩</span> Extras</h2>
+
+            <div class="intro-box">
+                <p><strong>Herramientas adicionales</strong> para desarrolladores y usuarios avanzados: nix-shell para entornos aislados, nix-ld y wrappers para binarios externos, y más.</p>
+            </div>
+
+            <h3>nix-shell — Entornos aislados</h3>
+
+            <div class="intro-box">
+                <p><strong>¿Qué es nix-shell?</strong> Crea un entorno temporal con las dependencias que necessités. Es como un <strong>virtualenv de Python</strong> pero para cualquier lenguaje o herramienta. Dentro del shell tenés acceso a esos paquetes; afuera, no existen.</p>
+                <p>Es ideal para: no ensuciar el sistema con dependencias de un proyecto, probar herramientas rápido, o tener versiones distintas de un mismo paquete según el proyecto.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Shell interactivo con paquetes<span class="tooltip">Abre un nuevo shell donde python3, pip y sus dependencias están disponibles. Al salir (exit), todo desaparece.<span class="tip_example">Ej: nix-shell -p python3 nodejs</span></span></div>
+                <div class="card-desc">Entra a un shell con las herramientas que necessités:</div>
+                <div class="code-block">
+                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <pre><code><span class="cmd">nix-shell</span> <span class="flag">-p</span> <span class="arg">python3</span> <span class="arg">nodejs</span> <span class="arg">gcc</span></code></pre>
+                </div>
+                <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Dentro del shell podés usar <code>python3</code>, <code>node</code>, <code>gcc</code>. Al escribir <code>exit</code>, desaparecen.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Ejecutar un comando y salir<span class="tooltip">Ejecuta algo una sola vez sin entrar al shell interactivo.</span></div>
+                <div class="code-block">
+                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <pre><code><span class="cmd">nix-shell</span> <span class="flag">-p</span> <span class="arg">python3</span> <span class="flag">--run</span> <span class="str">"python --version"</span></code></pre>
+                </div>
+            </div>
+
+            <div class="card recommended">
+                <div class="recommended-badge">✓ Recomendado</div>
+                <div class="card-title">shell.nix — Entorno reproducible<span class="tooltip">Creá un archivo shell.nix en tu proyecto. Cualquiera que ejecute "nix-shell" obtiene el mismo entorno.<span class="tip_example">Ej: { pkgs ? import <nixpkgs> {} }: pkgs.mkShell { buildInputs = [ pkgs.python3 pkgs.pip ]; }</span></span></div>
+                <div class="card-desc">Creá un <span class="inline-code">shell.nix</span> en tu proyecto para definir el entorno:</div>
+                <div class="code-block">
+                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <pre><code><span class="punct">{</span> <span class="kw">pkgs</span> <span class="punct">?</span> <span class="kw">import</span> <span class="str">&lt;nixpkgs&gt;</span> <span class="punct">{} }</span><span class="punct">:</span>
+
+<span class="kw">pkgs.mkShell</span> <span class="punct">{</span>
+    <span class="kw">buildInputs</span> <span class="punct">=</span> <span class="punct">[</span>
+        <span class="kw">pkgs</span><span class="punct">.</span><span class="arg">python3</span>
+        <span class="kw">pkgs</span><span class="punct">.</span><span class="arg">pip</span>
+        <span class="kw">pkgs</span><span class="punct">.</span><span class="arg">nodejs</span>
+    <span class="punct">];</span>
+<span class="punct">}</span></code></pre>
+                </div>
+                <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Luego simplemente ejecutá <span class="inline-code">nix-shell</span> en esa carpeta.</p>
+            </div>
+
+            <div class="info-box">
+                <p><strong>nix-shell vs venv/pip/venv de Node:</strong> nix-shell maneja <strong>cualquier dependencia</strong> (compiladores, librerías C, herramientas del sistema), no solo paquetes del lenguaje. Es un entorno completo del sistema, no solo de paquetes.</p>
+            </div>
+
+            <h3>nix-ld — Binarios externos</h3>
+
+            <div class="intro-box">
+                <p><strong>¿Qué es nix-ld?</strong> Permite ejecutar binarios que no fueron compilados para NixOS (como Blender descargado de la web). Proporciona las librerías del sistema que estos programas esperan encontrar en <span class="inline-code">/lib</span> o <span class="inline-code">/usr/lib</span>.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Configurar nix-ld<span class="tooltip">Habilita nix-ld con las librerías que necesite tu app. Blender necesita librerías gráficas y CUDA.</span></div>
+                <div class="code-block">
+                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <pre><code><span class="kw">programs.nix-ld</span> <span class="punct">=</span> <span class="punct">{</span>
+    <span class="kw">enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+    <span class="kw">libraries</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
+        <span class="arg">libx11</span> <span class="arg">libxext</span> <span class="arg">libxrender</span>
+        <span class="arg">libglvnd</span> <span class="arg">fontconfig</span> <span class="arg">freetype</span>
+        <span class="arg">libjpeg_turbo</span> <span class="arg">libpng</span> <span class="arg">zlib</span>
+        <span class="arg">libxkbcommon</span> <span class="arg">wayland</span>
+        <span class="comment"># Para Blender con CUDA:</span>
+        <span class="kw">config.boot.kernelPackages.nvidia_x11</span>
+        <span class="kw">cudaPackages.cuda_cudart</span>
+    <span class="punct">];</span>
+<span class="punct">};</span></code></pre>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <p><strong>¿Cuándo usar nix-ld?</strong> Cuando descargás un binario precompilado de su web oficial (Blender, OBS, Spotify, Discord, Steam) y no hay una versión en nixpkgs o necesitás la última versión.</p>
+            </div>
+
+            <h3>Wrappers con mkWrapper</h3>
+
+            <div class="intro-box">
+                <p><strong>Wrappers</strong> son "envoltorios" que ejecutan un binario con las librerías de Nix. Es más flexible que nix-ld porque podés tener wrappers distintos por aplicación.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Crear un wrapper con writeShellScriptBin<span class="tooltip">Envuelve un binario para que use las librerías de Nix. Útil para apps que necesitás aislar.</span></div>
+                <div class="code-block">
+                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <pre><code><span class="kw">pkgs</span><span class="punct">.</span><span class="arg">writeShellScriptBin</span> <span class="str">"mi-app"</span> <span class="str">''
+    export LD_LIBRARY_PATH=${pkgs.libgl}/lib:$LD_LIBRARY_PATH
+    exec /ruta/a/binario "$@"
+  ''</span></code></pre>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <p><strong>¿nix-ld vs mkWrapper?</strong> <code>nix-ld</code> es global (todos los binarios lo usan). <code>mkWrapper</code> es por-app. Para apps que descargás de internet y querés que funcione "solo", usá <code>nix-ld</code>. Para personalización fina, usá wrappers.</p>
+            </div>
+
+            <h3>Steam y Proton</h3>
+
+            <div class="card">
+                <div class="card-title">steam-run para juegos de Windows<span class="tooltip">Steam en NixOS necesita steam-run para ejecutar Proton y juegos de Windows.</span></div>
+                <div class="code-block">
+                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <pre><code><span class="cmd">steam-run</span> <span class="arg">/ruta/al/juego.exe</span></code></pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Steam en el sistema<span class="tooltip">Añadir Steam directamente en configuration.nix con dependencias necesarias.</span></div>
+                <div class="code-block">
+                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <pre><code><span class="kw">programs.steam</span> <span class="punct">=</span> <span class="punct">{</span>
+    <span class="kw">enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+    <span class="kw">remotePlay</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+<span class="punct">};</span>
+<span class="kw">programs.nix-ld.libraries</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
+    <span class="arg">steam</span><span class="punct">.</span><span class="kw">out</span>
+<span class="punct">];</span></code></pre>
+                </div>
+            </div>
+
+            <div class="page-nav">
+                <button class="page-nav-btn" data-prev="automatizacion"><span class="arrow">←</span> Anterior</button>
+                <div class="page-dots"></div>
+                <button class="page-nav-btn" data-next="hardware">Siguiente <span class="arrow">→</span></button>
+            </div>
+        </div>
+
+        <!-- PAGE 10: Hardware -->
+        <div class="page" id="hardware">
+            <h2><span class="icon">🖥️</span> Hardware y Drivers</h2>
+
+            <div class="intro-box">
+                <p><strong>Configurar hardware en NixOS</strong> es 100% declarativo. Todo va en <span class="inline-code">configuration.nix</span>: drivers de GPU, virtualización, audio, fuentes, y apps que necesitan librerías del sistema.</p>
+            </div>
+
+            <h3>NVIDIA — GPU dual (Prime)</h3>
+
+            <div class="info-box">
+                <p><strong>hardware.opengl → hardware.graphics:</strong> Desde NixOS 24.05, <code>hardware.opengl</code> fue renombrado a <code>hardware.graphics</code>. Si tu config aún usa <code>opengl</code>, cámbialo.</p>
+            </div>
+
+            <div class="card recommended">
+                <div class="recommended-badge">✓ Recomendado</div>
+                <div class="card-title">Configuración NVIDIA con Prime<span class="tooltip">Para laptops con Intel + NVIDIA. Sync = ambas GPUs siempre activas (máx rendimiento). Offload = ahorro de batería.</span></div>
+                <div class="code-block">
+                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <pre><code><span class="comment"># OpenGL</span>
+<span class="kw">hardware.graphics</span> <span class="punct">=</span> <span class="punct">{</span>
+    <span class="kw">enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+    <span class="kw">enable32Bit</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+<span class="punct">};</span>
+
+<span class="comment"># NVIDIA driver</span>
+<span class="kw">services.xserver.videoDrivers</span> <span class="punct">=</span> <span class="punct">[</span> <span class="str">"nvidia"</span> <span class="punct">];</span>
+<span class="kw">hardware.nvidia</span> <span class="punct">=</span> <span class="punct">{</span>
+    <span class="kw">modesetting.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+    <span class="kw">open</span> <span class="punct">=</span> <span class="kw">false</span><span class="punct">;</span>
+    <span class="kw">package</span> <span class="punct">=</span> <span class="kw">config.boot.kernelPackages.nvidiaPackages.stable</span><span class="punct">;</span>
+    <span class="kw">prime</span> <span class="punct">=</span> <span class="punct">{</span>
+        <span class="kw">sync.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+        <span class="kw">intelBusId</span> <span class="punct">=</span> <span class="str">"PCI:5:0:0"</span><span class="punct">;</span>
+        <span class="kw">nvidiaBusId</span> <span class="punct">=</span> <span class="str">"PCI:1:0:0"</span><span class="punct">;</span>
+    <span class="punct">};</span>
+<span class="punct">};</span></code></pre>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <p><strong>Sync vs Offload:</strong> <span class="warn-tip">sync = rendimiento máximo<span class="warn-tooltip">Ambas GPUs siempre activas. Ideal para escritorio o si no te importa la batería.</span></span> — para laptops con batería, usá <code>offload.enable = true</code> y lanzá apps con <code>__NV_PRIME_RENDER_OFFLOAD=1</code>.</p>
+            </div>
+
+            <h3>nix-ld — Apps externas (Blender, Steam, etc.)</h3>
+
+            <div class="intro-box">
+                <p><strong>¿Qué es nix-ld?</strong> Permite ejecutar binarios que no fueron compilados para NixOS (como Blender descargado de la web). Proporciona las librerías del sistema que estos programas esperan encontrar en <span class="inline-code">/lib</span> o <span class="inline-code">/usr/lib</span>.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Configurar nix-ld<span class="tooltip">Habilita nix-ld con las librerías que necesite tu app. Blender necesita librerías gráficas y CUDA.</span></div>
+                <div class="code-block">
+                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <pre><code><span class="kw">programs.nix-ld</span> <span class="punct">=</span> <span class="punct">{</span>
+    <span class="kw">enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+    <span class="kw">libraries</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
+        <span class="arg">libx11</span> <span class="arg">libxext</span> <span class="arg">libxrender</span>
+        <span class="arg">libglvnd</span> <span class="arg">fontconfig</span> <span class="arg">freetype</span>
+        <span class="arg">libjpeg_turbo</span> <span class="arg">libpng</span> <span class="arg">zlib</span>
+        <span class="arg">libxkbcommon</span> <span class="arg">wayland</span>
+        <span class="comment"># Para Blender con CUDA:</span>
+        <span class="kw">config.boot.kernelPackages.nvidia_x11</span>
+        <span class="kw">cudaPackages.cuda_cudart</span>
+    <span class="punct">];</span>
+<span class="punct">};</span></code></pre>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <p><strong>¿Cuándo usar nix-ld?</strong> Cuando descargás un binario precompilado de su web oficial (Blender, OBS, Spotify, Discord, Steam) y no hay una versión en nixpkgs o necesitás la última versión.</p>
+            </div>
+
+            <h3>Wrappers con nix-shell (alternativa a nix-ld)</h3>
+
+            <div class="intro-box">
+                <p><strong>Wrappers</strong> son "envoltorios" que ejecutan un binario con las librerías de Nix. Es más flexible que nix-ld porque podés tener wrappers distintos por aplicación.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Crear un wrapper con mkWrapper<span class="tooltip">Envuelve un binario para que use las librerías de Nix. Útil para apps que necesitás aislar.</span></div>
+                <div class="code-block">
+                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <pre><code><span class="kw">let</span>
+  <span class="kw">blender</span> <span class="punct">=</span> <span class="kw">pkgs</span><span class="punct">.</span><span class="arg">blender</span><span class="punct">.</span><span class="kw">overrideAttrs</span> <span class="punct">(</span><span class="kw">oldAttrs</span><span class="punct">:</span> <span class="punct">{</span>
+    <span class="kw">buildInputs</span> <span class="punct">=</span> <span class="punct">[</span> <span class="kw">oldAttrs</span><span class="punct">.</span><span class="kw">buildInputs</span> <span class="punct">]</span> <span class="punct">++</span> <span class="punct">[</span>
+      <span class="kw">pkgs</span><span class="punct">.</span><span class="arg">cudaPackages.cuda_cudart</span>
+    <span class="punct">];</span>
+  <span class="punct">});</span>
+<span class="kw">in</span> <span class="kw">pkgs</span><span class="punct">.</span><span class="arg">writeShellScriptBin</span> <span class="str">"blender"</span> <span class="str">''
+    exec ${blender}/bin/blender "$@"
+  ''</span></code></pre>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <p><strong>¿nix-ld vs mkWrapper?</strong> <code>nix-ld</code> es global (todos los binarios lo usan). <code>mkWrapper</code> es por-app. Para apps que descargás de internet y querés que funcione "solo", usá <code>nix-ld</code>. Para personalización fina, usá wrappers.</p>
+            </div>
+
+            <h3>Steam y juegos con Proton</h3>
+
+            <div class="card">
+                <div class="card-title">Steam-run para juegos de Windows<span class="tooltip">Steam en NixOS necesita steam-run para ejecutar Proton y juegos de Windows.</span></div>
+                <div class="code-block">
+                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <pre><code><span class="cmd">steam-run</span> <span class="arg">/ruta/al/juego.exe</span></code></pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Steam en el sistema<span class="tooltip">Añadir Steam directamente en configuration.nix con dependencias necesarias.</span></div>
+                <div class="code-block">
+                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <pre><code><span class="kw">programs.steam</span> <span class="punct">=</span> <span class="punct">{</span>
+    <span class="kw">enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+    <span class="kw">remotePlay</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+<span class="punct">};</span>
+<span class="kw">programs.nix-ld.libraries</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
+    <span class="arg">steam</span><span class="punct">.</span><span class="kw">out</span>
+<span class="punct">];</span></code></pre>
+                </div>
+            </div>
+
+            <h3>Virtualización</h3>
+
+            <div class="card">
+                <div class="card-title">Libvirt + Virt-Manager<span class="tooltip">Máquinas virtuales con KVM/QEMU. Virt-Manager es la GUI para gestionarlas.</span></div>
+                <div class="code-block">
+                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <pre><code><span class="kw">virtualisation.libvirtd.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+<span class="kw">programs.virt-manager.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+
+<span class="comment"># Añadir usuario al grupo libvirtd:</span>
+<span class="kw">users.users.zebus3d.extraGroups</span> <span class="punct">=</span> <span class="punct">[</span> <span class="str">"libvirtd"</span> <span class="punct">];</span></code></pre>
+                </div>
+            </div>
+
+            <h3>Plasma 6</h3>
+
+            <div class="info-box">
+                <p><strong>services.desktopManager.plasma6:</strong> Desde NixOS 24.05, KDE Plasma 6 reemplazó a Plasma 5. Usá <code>services.desktopManager.plasma6.enable = true</code> en lugar de <code>plasma5</code>.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">KDE Plasma 6 + SDDM<span class="tooltip">El escritorio KDE Plasma 6 con su display manager SDDM.</span></div>
+                <div class="code-block">
+                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <pre><code><span class="kw">services.displayManager.sddm.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+<span class="kw">services.desktopManager.plasma6.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+
+<span class="comment"># Iconos de KDE (Kate, Filelight):</span>
+<span class="kw">users.users.zebus3d.packages</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
+    <span class="arg">kdePackages.kate</span>
+    <span class="arg">kdePackages.filelight</span>
+<span class="punct">];</span></code></pre>
+                </div>
+            </div>
+
+            <div class="page-nav">
+                <button class="page-nav-btn" data-prev="automatizacion"><span class="arrow">←</span> Anterior</button>
+                <div class="page-dots"></div>
                 <div class="page-nav-btn disabled">Siguiente <span class="arrow">→</span></div>
             </div>
         </div>
@@ -980,6 +1448,7 @@
             }
             const tab = document.querySelector(`.tab-btn[data-page="${id}"]`);
             if (tab) tab.classList.add('active');
+            updateDots();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -1039,6 +1508,186 @@
             if (e.key === 'ArrowRight' && idx < pageIds.length - 1) showPage(pageIds[idx + 1]);
             if (e.key === 'ArrowLeft' && idx > 0) showPage(pageIds[idx - 1]);
         });
+
+        // ===== SEARCH =====
+        const pageIcons = { gc: '🧹', generaciones: '🗑️', bootloader: '🔧', flakes: '❄️', hibrida: '🔀', actualizar: '🔄', paquetes: '📦', automatizacion: '⚙️', extras: '🧩', hardware: '🖥️' };
+        const pageLabels = { gc: 'GC', generaciones: 'Generaciones', bootloader: 'Bootloader', flakes: 'Flakes', hibrida: 'Config Híbrida', actualizar: 'Actualizar', paquetes: 'Paquetes', automatizacion: 'Automatizar', extras: 'Extras', hardware: 'Hardware' };
+
+        // Build search index from page content
+        const searchIndex = [];
+        pages.forEach(page => {
+            const id = page.id;
+            const textContent = page.textContent.toLowerCase();
+            // Also grab individual searchable blocks
+            const blocks = page.querySelectorAll('h2, h3, .card-title, .card-desc, .gc-title, .gc-desc, .gc-code, .gc-label, .intro-box p, .info-box p, .warning-box p, .critical-box p, code, pre');
+            blocks.forEach(block => {
+                const text = block.textContent.trim();
+                if (text.length > 3) {
+                    searchIndex.push({ pageId: id, text: text.toLowerCase(), original: text });
+                }
+            });
+        });
+
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        let selectedIndex = -1;
+
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.trim().toLowerCase();
+            selectedIndex = -1;
+            if (!query) { searchResults.classList.remove('open'); return; }
+
+            const words = query.split(/\s+/).filter(w => w.length > 0);
+            const matches = [];
+            const seen = new Set();
+
+            searchIndex.forEach(entry => {
+                const allMatch = words.every(w => entry.text.includes(w));
+                if (allMatch && !seen.has(entry.pageId + '|' + entry.text.substring(0, 60))) {
+                    seen.add(entry.pageId + '|' + entry.text.substring(0, 60));
+                    // Calculate relevance: count total word matches
+                    let score = 0;
+                    words.forEach(w => { const idx = entry.text.indexOf(w); if (idx !== -1) score += w.length; });
+                    matches.push({ ...entry, score });
+                }
+            });
+
+            matches.sort((a, b) => b.score - a.score);
+
+            if (matches.length === 0) {
+                searchResults.innerHTML = '<div class="search-empty">Sin resultados</div>';
+                searchResults.classList.add('open');
+                return;
+            }
+
+            searchResults.innerHTML = matches.slice(0, 12).map((m, i) => {
+                let display = escapeHtml(m.original);
+                words.forEach(w => {
+                    const regex = new RegExp(`(${escapeRegex(w)})`, 'gi');
+                    display = display.replace(regex, '<mark>$1</mark>');
+                });
+                return `<div class="search-result" data-page="${m.pageId}" data-index="${i}">
+                    <span class="search-result-icon">${pageIcons[m.pageId] || '📄'}</span>
+                    <span class="search-result-page">${pageLabels[m.pageId] || m.pageId}</span>
+                    <span class="search-result-text">${display}</span>
+                </div>`;
+            }).join('');
+
+            searchResults.classList.add('open');
+
+            searchResults.querySelectorAll('.search-result').forEach(el => {
+                el.addEventListener('click', () => {
+                    const pageId = el.dataset.page;
+                    clearHighlights();
+                    showPage(pageId);
+                    highlightText(searchInput.value.trim());
+                    searchResults.classList.remove('open');
+                    searchInput.blur();
+                });
+                el.addEventListener('mouseenter', () => {
+                    searchResults.querySelectorAll('.search-result').forEach(r => r.classList.remove('selected'));
+                    el.classList.add('selected');
+                    selectedIndex = parseInt(el.dataset.index);
+                });
+            });
+        });
+
+        searchInput.addEventListener('keydown', (e) => {
+            const items = searchResults.querySelectorAll('.search-result');
+            if (!items.length) return;
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
+                items.forEach(r => r.classList.remove('selected'));
+                items[selectedIndex]?.classList.add('selected');
+                items[selectedIndex]?.scrollIntoView({ block: 'nearest' });
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                selectedIndex = Math.max(selectedIndex - 1, 0);
+                items.forEach(r => r.classList.remove('selected'));
+                items[selectedIndex]?.classList.add('selected');
+                items[selectedIndex]?.scrollIntoView({ block: 'nearest' });
+            } else if (e.key === 'Enter' && selectedIndex >= 0) {
+                e.preventDefault();
+                const el = items[selectedIndex];
+                if (el) el.click();
+            } else if (e.key === 'Escape') {
+                searchResults.classList.remove('open');
+                searchInput.blur();
+            }
+        });
+
+        // Ctrl+K to focus search
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                searchInput.focus();
+                searchInput.select();
+            }
+        });
+
+        // Close search on outside click
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-bar')) {
+                searchResults.classList.remove('open');
+            }
+        });
+
+        // Highlight matching text on page
+        function highlightText(query) {
+            if (!query) return;
+            const page = document.querySelector('.page.active');
+            if (!page) return;
+            const words = query.split(/\s+/).filter(w => w.length > 1);
+            if (!words.length) return;
+
+            const walker = document.createTreeWalker(page, NodeFilter.SHOW_TEXT, {
+                acceptNode: (node) => {
+                    if (node.parentElement.closest('.search-results, .search-bar, script, style')) return NodeFilter.FILTER_REJECT;
+                    const text = node.textContent.toLowerCase();
+                    return words.some(w => text.includes(w)) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+                }
+            });
+
+            const nodes = [];
+            while (walker.nextNode()) nodes.push(walker.currentNode);
+
+            nodes.forEach(textNode => {
+                const text = textNode.textContent;
+                let html = escapeHtml(text);
+                words.forEach(w => {
+                    const regex = new RegExp(`(${escapeRegex(w)})`, 'gi');
+                    html = html.replace(regex, '<span class="search-highlight">$1</span>');
+                });
+                if (html !== escapeHtml(text)) {
+                    const span = document.createElement('span');
+                    span.innerHTML = html;
+                    textNode.parentNode.replaceChild(span, textNode);
+                }
+            });
+
+            // Scroll to first highlight
+            const first = page.querySelector('.search-highlight');
+            if (first) {
+                setTimeout(() => first.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
+            }
+        }
+
+        function clearHighlights() {
+            document.querySelectorAll('.search-highlight').forEach(el => {
+                const parent = el.parentNode;
+                parent.replaceChild(document.createTextNode(el.textContent), el);
+                parent.normalize();
+            });
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        function escapeRegex(str) {
+            return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
     </script>
 </body>
 </html>
