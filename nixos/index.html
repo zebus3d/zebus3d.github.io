@@ -340,6 +340,154 @@
             font-size: 0.9rem;
         }
 
+        .critical-box {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-left: 4px solid #ef4444;
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin: 20px 0;
+            animation: pulse-border 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-border {
+            0%, 100% { border-left-color: #ef4444; }
+            50% { border-left-color: #f87171; }
+        }
+
+        .critical-box .critical-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fca5a5;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+
+        .critical-box .critical-title .blink {
+            display: inline-block;
+            animation: blink 1.5s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .critical-box p {
+            color: #fca5a5;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .critical-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .critical-box code {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            color: #fca5a5;
+        }
+
+        .critical-box ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+
+        .critical-box ul li {
+            padding: 4px 0 4px 20px;
+            position: relative;
+            color: #fca5a5;
+            font-size: 0.88rem;
+        }
+
+        .critical-box ul li::before {
+            content: '!';
+            position: absolute;
+            left: 2px;
+            top: 4px;
+            width: 16px;
+            height: 16px;
+            background: rgba(239, 68, 68, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #fca5a5;
+        }
+
+        .safe-box {
+            background: rgba(34, 197, 94, 0.06);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-left: 3px solid #22c55e;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 16px 0;
+        }
+
+        .safe-box p {
+            color: #86efac;
+            font-size: 0.9rem;
+        }
+
+        .safe-box code {
+            background: rgba(34, 197, 94, 0.12);
+            border: 1px solid rgba(34, 197, 94, 0.25);
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            color: #86efac;
+        }
+
+        .card.recommended {
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            background: rgba(34, 197, 94, 0.04);
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.03);
+        }
+
+        .card.recommended:hover {
+            border-color: rgba(34, 197, 94, 0.45);
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.08);
+        }
+
+        .recommended-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #4ade80;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.25);
+            padding: 3px 10px;
+            border-radius: 999px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .recommended-badge .rec-icon {
+            font-size: 0.8rem;
+        }
+
+        .card .card-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .risk-table {
             width: 100%;
             border-collapse: collapse;
@@ -521,7 +669,8 @@
 
             <h3>Método recomendado — Todo en uno</h3>
 
-            <div class="card">
+            <div class="card recommended">
+                <div class="recommended-badge"><span class="rec-icon">✓</span> Recomendado</div>
                 <div class="card-title">Borrar generaciones de más de 30 días + Garbage Collection</div>
                 <div class="card-desc">Elimina generaciones antiguas de todo el equipo y ejecuta el recolector de basura automáticamente.</div>
                 <div class="code-block">
@@ -538,7 +687,8 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card recommended">
+                <div class="recommended-badge"><span class="rec-icon">✓</span> Recomendado</div>
                 <div class="card-title">Limpieza profunda — Todas las antiguas de todos los usuarios</div>
                 <div class="card-desc">Borra TODAS las generaciones antiguas de todos los perfiles (sistema + usuario + root). Es el más efectivo para ganar espacio rápidamente.</div>
                 <div class="code-block">
@@ -725,7 +875,8 @@
                 <p><strong>IMPORTANTE:</strong> No tener procesos de compilación o descarga activos al ejecutar estos comandos.</p>
             </div>
 
-            <div class="card">
+            <div class="card recommended">
+                <div class="recommended-badge"><span class="rec-icon">✓</span> Recomendado</div>
                 <div class="card-title">Borrar archivos no usados del /nix/store</div>
                 <div class="card-desc">El borrado de generaciones solo quita los "punteros". Este comando borra los archivos reales.</div>
                 <div class="code-block">
@@ -779,12 +930,31 @@
         <div class="section" id="bootloader">
             <h2><span class="icon">🔧</span> Limpiar entradas huérfanas del bootloader</h2>
 
+            <div class="critical-box">
+                <div class="critical-title">
+                    <span class="blink">⚠️</span> ADVERTENCIA CRÍTICA — Leer antes de limpiar <span class="blink">⚠️</span>
+                </div>
+                <p><strong>La combinación de <code>nix-collect-garbage</code> + <code>bootctl cleanup</code> puede romper los iconos anclados de Plasma Desktop.</strong></p>
+                <p>Los launchers de Plasma guardan rutas absolutas del Nix Store a los archivos <code>.desktop</code>. Al ejecutar <code>nix-collect-garbage</code>, esas rutas se eliminan y los iconos desaparecen de la barra de tareas.</p>
+                <ul>
+                    <li>Esto afecta a TODAS las apps ancladas (Discord, Telegram, KeePassXC, etc.)</li>
+                    <li>Los iconos del sistema (Kate, Plasma System Monitor) pueden sobrevivir si están en el system profile</li>
+                    <li>La solución requiere editar manualmente <code>~/.config/plasma-org.kde.plasma.desktop-appletsrc</code> y usar el formato <code>applications:nombre.desktop</code></li>
+                </ul>
+                <p><strong>Orden seguro de operaciones (SIEMPRE en este orden):</strong></p>
+                <p>1. <code>sudo nixos-rebuild switch</code> — Reconstruir el sistema primero<br>
+                   2. <code>sudo nix-collect-garbage -d</code> — Luego limpiar generaciones<br>
+                   3. <code>sudo bootctl cleanup</code> — Finalmente limpiar el bootloader</p>
+                <p><strong>NUNCA ejecutes <code>nix-collect-garbage</code> sin haber hecho <code>nixos-rebuild switch</code> antes.</strong> Si limpias el store antes de reconstruir, las rutas que Plasma tiene guardadas desaparecen.</p>
+            </div>
+
             <p style="color: #94a3b8; margin-bottom: 20px; font-size: 0.95rem;">
                 Eliminadas las generaciones, los archivos <span class="inline-code">.conf</span> en <span class="inline-code">/boot/loader/entries/</span> quedan huérfanos. Hay dos formas de limpiarlos:
             </p>
 
             <div class="card">
                 <div class="card-title">Opción A — Solo limpiar entradas huérfanas (más rápido)</div>
+                <div class="card-desc" style="color: #fbbf24;">⚡ Funciona bien, pero a veces deja entradas "fantasma" en la memoria EFI. Si ves entradas <code>reported/absent</code>, reinicia el equipo.</div>
                 <div class="code-block">
                     <div class="code-header">
                         <div class="dots">
@@ -799,8 +969,10 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card recommended">
+                <div class="recommended-badge"><span class="rec-icon">✓</span> Recomendado</div>
                 <div class="card-title">Opción B — Regenerar el bootloader completo desde cero</div>
+                <div class="card-desc">Reconstruye el menú de arranque desde cero con solo las generaciones vigentes. Es la forma más limpia y segura. No deja entradas fantasma.</div>
                 <div class="code-block">
                     <div class="code-header">
                         <div class="dots">
@@ -817,6 +989,14 @@
 
             <div class="info-box">
                 <p>Con <span class="inline-code">nixos-rebuild boot</span> no es necesario <span class="inline-code">bootctl clean</span>, hace todo junto. Usa <span class="inline-code">bootctl clean</span> si ya corriste <span class="inline-code">nix-collect-garbage</span> y solo quieres limpiar el menú.</p>
+            </div>
+
+            <div class="safe-box">
+                <p><strong>Recomendación segura:</strong> En lugar de usar <code>bootctl cleanup</code> manualmente, es más seguro usar <code>sudo nixos-rebuild boot</code> que regenera el bootloader desde cero con solo las generaciones vigentes. Evita cualquier efecto secundario con rutas huérfanas en el escritorio.</p>
+            </div>
+
+            <div class="info-box">
+                <p><strong>Notas sobre entradas fantasma (reported/absent):</strong> A veces <code>bootctl list</code> muestra entradas antiguas marcadas como <code>reported/absent</code>. Son variables EFI almacenadas en la memoria del firmware, <strong>no son archivos</strong>. Son inofensivas y se eliminan solas al <strong>reiniciar el equipo</strong>. No intentes borrarlas manualmente.</p>
             </div>
         </div>
 
