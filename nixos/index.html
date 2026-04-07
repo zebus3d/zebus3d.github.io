@@ -595,6 +595,36 @@
             color: #475569; font-size: 0.82rem;
         }
 
+        /* Scroll to top button - mobile only */
+        .scroll-top {
+            display: none;
+            position: fixed; bottom: 24px; right: 24px;
+            width: 48px; height: 48px;
+            background: rgba(15, 15, 25, 0.9);
+            border: 1px solid rgba(99, 102, 241, 0.5);
+            border-radius: 50%;
+            color: #a78bfa;
+            font-size: 1.4rem;
+            cursor: pointer;
+            z-index: 300;
+            transition: all 0.2s ease;
+        }
+        .scroll-top:hover {
+            background: rgba(30, 30, 50, 0.95);
+            border-color: rgba(99, 102, 241, 0.7);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .scroll-top { display: flex; align-items: center; justify-content: center; }
+        }
+
+        @media (max-width: 500px) and (orientation: landscape) {
+            .page-nav-btn { padding: 8px 12px; }
+            .page-nav-btn span:not(.arrow) { display: none; }
+            .page-nav-btn .arrow { margin: 0; }
+        }
+
         @media (max-width: 640px) {
             h1 { font-size: 1.6rem; }
             .container { padding: 16px 14px 50px; }
@@ -1466,6 +1496,8 @@
         <footer>
             <p>Apuntes de NixOS</p>
         </footer>
+
+        <button class="scroll-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</button>
     </div>
 
     <script>
