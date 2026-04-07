@@ -499,6 +499,17 @@
             color: #94a3b8; font-family: 'Inter', sans-serif;
             font-size: 0.82rem; font-weight: 500;
             cursor: pointer; transition: all 0.2s;
+            min-width: 48px; min-height: 48px; justify-content: center;
+        }
+        .page-nav-btn:hover {
+            background: rgba(99, 102, 241, 0.15);
+            border-color: rgba(99, 102, 241, 0.3); color: #c4b5fd;
+        }
+        .page-nav-btn.disabled { opacity: 0.25; pointer-events: none; }
+        .page-nav-btn .arrow { font-size: 2.5rem; font-weight: 900; line-height: 1; }
+        .page-nav-btn span:not(.arrow) { display: none; }
+            font-size: 0.82rem; font-weight: 500;
+            cursor: pointer; transition: all 0.2s;
         }
         .page-nav-btn:hover {
             background: rgba(99, 102, 241, 0.15);
@@ -695,7 +706,7 @@
             <div class="gc-grid">
                 <div class="gc-card recommended">
                     <div class="gc-label safe">RECOMENDADO</div>
-                    <div class="gc-title">GC conservador (30 días)<span class="tooltip">Borra generaciones con +30 días de TODOS los perfiles y ejecuta GC. Seguro para uso semanal.<span class="tip-example">Ej: rebuild de hace 35 días → se borra</span></span></div>
+                    <div class="gc-title">GC conservador (30 días)<span class="tooltip">Borra generaciones con +30 días de TODOS los perfiles y ejecuta GC. Seguro para uso semanal.<span class="tip-example">Ej: rebuild de hace 35 días ▶ se borra</span></span></div>
                     <div class="gc-desc">Generaciones viejas + espacio liberado en un paso.</div>
                     <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span> <span class="flag">--delete-older-than</span> <span class="arg">30d</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                 </div>
@@ -713,7 +724,7 @@
                 </div>
                 <div class="gc-card recommended">
                     <div class="gc-label safe">SEGURO</div>
-                    <div class="gc-title">Optimizar store<span class="tooltip">Deduplica archivos idénticos con hardlinks. No borra nada.<span class="tip-example">Ej: 3 versiones de glibc → ocupa una</span></span></div>
+                    <div class="gc-title">Optimizar store<span class="tooltip">Deduplica archivos idénticos con hardlinks. No borra nada.<span class="tip-example">Ej: 3 versiones de glibc ▶ ocupa una</span></span></div>
                     <div class="gc-desc">Deduplica archivos (no borra, solo optimiza).</div>
                     <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-store</span> <span class="flag">--optimise</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                 </div>
@@ -731,9 +742,9 @@
             </table>
 
             <div class="page-nav">
-                <div class="page-nav-btn disabled"><span class="arrow">←</span> Anterior</div>
+                <div class="page-nav-btn disabled"><span class="arrow">◀</span> </div>
                 <div class="page-dots"></div>
-                <button class="page-nav-btn" data-next="generaciones">Siguiente <span class="arrow">→</span></button>
+                <button class="page-nav-btn" data-next="generaciones"><span class="arrow">▶</span></button>
             </div>
         </div>
 
@@ -759,7 +770,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Eliminar excepto las últimas 5<span class="tooltip">Mantiene las 5 más recientes. Útil para rollback seguro.<span class="tip-example">Ej: 20 generaciones → borra 15</span></span></div>
+                <div class="card-title">Eliminar excepto las últimas 5<span class="tooltip">Mantiene las 5 más recientes. Útil para rollback seguro.<span class="tip-example">Ej: 20 generaciones ▶ borra 15</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-env</span> <span class="flag">-p</span> <span class="path">/nix/var/nix/profiles/system</span> <span class="flag">--delete-generations</span> <span class="arg">+5</span></code></pre>
@@ -789,9 +800,9 @@
             </div>
 
             <div class="page-nav">
-                <button class="page-nav-btn" data-prev="gc"><span class="arrow">←</span> Anterior</button>
+                <button class="page-nav-btn" data-prev="gc"><span class="arrow">◀</span> </button>
                 <div class="page-dots"></div>
-                <button class="page-nav-btn" data-next="bootloader">Siguiente <span class="arrow">→</span></button>
+                <button class="page-nav-btn" data-next="bootloader"><span class="arrow">▶</span></button>
             </div>
         </div>
 
@@ -827,7 +838,7 @@
 
             <div class="card recommended">
                 <div class="recommended-badge">✓ Recomendado</div>
-                <div class="card-title">Opción B — Regenerar bootloader<span class="tooltip">Reconstruye el menú de arranque desde cero. No deja entradas fantasma.<span class="tip-example">Ej: 5 generaciones válidas → el menú solo muestra esas 5</span></span></div>
+                <div class="card-title">Opción B — Regenerar bootloader<span class="tooltip">Reconstruye el menú de arranque desde cero. No deja entradas fantasma.<span class="tip-example">Ej: 5 generaciones válidas ▶ el menú solo muestra esas 5</span></span></div>
                 <div class="card-desc">Reconstruye el menú desde cero con solo las generaciones vigentes.</div>
                 <div class="code-block">
                     <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
@@ -840,9 +851,9 @@
             </div>
 
             <div class="page-nav">
-                <button class="page-nav-btn" data-prev="generaciones"><span class="arrow">←</span> Anterior</button>
+                <button class="page-nav-btn" data-prev="generaciones"><span class="arrow">◀</span> </button>
                 <div class="page-dots"></div>
-                <button class="page-nav-btn" data-next="flakes">Siguiente <span class="arrow">→</span></button>
+                <button class="page-nav-btn" data-next="flakes"><span class="arrow">▶</span></button>
             </div>
         </div>
 
@@ -865,7 +876,7 @@
                     <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">nix-channel</span> <span class="flag">--list</span></code></pre>
                 </div>
-                <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Si muestra <span class="inline-code">nixos https://nixos.org/channels/...</span> → <strong>Canales</strong>. Si no → <strong>Flakes</strong>.</p>
+                <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Si muestra <span class="inline-code">nixos https://nixos.org/channels/...</span> ▶ <strong>Canales</strong>. Si no ▶ <strong>Flakes</strong>.</p>
             </div>
 
             <div class="card">
@@ -898,9 +909,9 @@
             </div>
 
             <div class="page-nav">
-                <button class="page-nav-btn" data-prev="bootloader"><span class="arrow">←</span> Anterior</button>
+                <button class="page-nav-btn" data-prev="bootloader"><span class="arrow">◀</span> </button>
                 <div class="page-dots"></div>
-                <button class="page-nav-btn" data-next="hibrida">Siguiente <span class="arrow">→</span></button>
+                <button class="page-nav-btn" data-next="hibrida"><span class="arrow">▶</span></button>
             </div>
         </div>
 
@@ -934,11 +945,11 @@
                     <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">users.users.zebus3d</span> <span class="punct">=</span> <span class="punct">{</span>
     <span class="kw">packages</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
-        <span class="arg">kdePackages.kate</span>          <span class="comment"># ← estable</span>
-        <span class="kw">unstable</span><span class="punct">.</span><span class="arg">neovim</span>           <span class="comment"># ← inestable</span>
-        <span class="kw">unstable</span><span class="punct">.</span><span class="arg">brave</span>            <span class="comment"># ← inestable</span>
-        <span class="kw">unstable</span><span class="punct">.</span><span class="arg">git</span>              <span class="comment"># ← inestable</span>
-        <span class="arg">direnv</span>                     <span class="comment"># ← estable</span>
+        <span class="arg">kdePackages.kate</span>          <span class="comment"># ◀ estable</span>
+        <span class="kw">unstable</span><span class="punct">.</span><span class="arg">neovim</span>           <span class="comment"># ◀ inestable</span>
+        <span class="kw">unstable</span><span class="punct">.</span><span class="arg">brave</span>            <span class="comment"># ◀ inestable</span>
+        <span class="kw">unstable</span><span class="punct">.</span><span class="arg">git</span>              <span class="comment"># ◀ inestable</span>
+        <span class="arg">direnv</span>                     <span class="comment"># ◀ estable</span>
     <span class="punct">];</span>
 <span class="punct">};</span></code></pre>
                 </div>
@@ -959,9 +970,9 @@
             </table>
 
             <div class="page-nav">
-                <button class="page-nav-btn" data-prev="flakes"><span class="arrow">←</span> Anterior</button>
+                <button class="page-nav-btn" data-prev="flakes"><span class="arrow">◀</span> </button>
                 <div class="page-dots"></div>
-                <button class="page-nav-btn" data-next="actualizar">Siguiente <span class="arrow">→</span></button>
+                <button class="page-nav-btn" data-next="actualizar"><span class="arrow">▶</span></button>
             </div>
         </div>
 
@@ -971,7 +982,7 @@
 
             <div class="intro-box">
                 <p><strong>¿Qué significa actualizar en NixOS?</strong> A diferencia de otras distros donde "actualizar paquetes" es un comando separado, aquí actualizar significa: (1) descargar las últimas versiones del canal o flake, y (2) reconstruir todo el sistema con esas versiones. Kernel, apps, librerías — todo se actualiza de golpe.</p>
-                <p><strong>¿Cada cuánto?</strong> Cada <strong>1-2 semanas</strong> es lo ideal. Diario genera demasiadas generaciones. Esperar meses aumenta el riesgo de romper algo. Usuario casual → una vez al mes.</p>
+                <p><strong>¿Cada cuánto?</strong> Cada <strong>1-2 semanas</strong> es lo ideal. Diario genera demasiadas generaciones. Esperar meses aumenta el riesgo de romper algo. Usuario casual ▶ una vez al mes.</p>
             </div>
 
             <h3>Canales</h3>
@@ -1035,9 +1046,9 @@
             </div>
 
             <div class="page-nav">
-                <button class="page-nav-btn" data-prev="hibrida"><span class="arrow">←</span> Anterior</button>
+                <button class="page-nav-btn" data-prev="hibrida"><span class="arrow">◀</span> </button>
                 <div class="page-dots"></div>
-                <button class="page-nav-btn" data-next="paquetes">Siguiente <span class="arrow">→</span></button>
+                <button class="page-nav-btn" data-next="paquetes"><span class="arrow">▶</span></button>
             </div>
         </div>
 
@@ -1119,9 +1130,9 @@
             </div>
 
             <div class="page-nav">
-                <button class="page-nav-btn" data-prev="actualizar"><span class="arrow">←</span> Anterior</button>
+                <button class="page-nav-btn" data-prev="actualizar"><span class="arrow">◀</span> </button>
                 <div class="page-dots"></div>
-                <button class="page-nav-btn" data-next="automatizacion">Siguiente <span class="arrow">→</span></button>
+                <button class="page-nav-btn" data-next="automatizacion"><span class="arrow">▶</span></button>
             </div>
         </div>
 
@@ -1162,9 +1173,9 @@
             </div>
 
             <div class="page-nav">
-                <button class="page-nav-btn" data-prev="paquetes"><span class="arrow">←</span> Anterior</button>
+                <button class="page-nav-btn" data-prev="paquetes"><span class="arrow">◀</span> </button>
                 <div class="page-dots"></div>
-                <button class="page-nav-btn" data-next="extras">Siguiente <span class="arrow">→</span></button>
+                <button class="page-nav-btn" data-next="extras"><span class="arrow">▶</span></button>
             </div>
         </div>
 
@@ -1299,9 +1310,9 @@
             </div>
 
             <div class="page-nav">
-                <button class="page-nav-btn" data-prev="automatizacion"><span class="arrow">←</span> Anterior</button>
+                <button class="page-nav-btn" data-prev="automatizacion"><span class="arrow">◀</span> </button>
                 <div class="page-dots"></div>
-                <button class="page-nav-btn" data-next="hardware">Siguiente <span class="arrow">→</span></button>
+                <button class="page-nav-btn" data-next="hardware"><span class="arrow">▶</span></button>
             </div>
         </div>
 
@@ -1316,7 +1327,7 @@
             <h3>NVIDIA — GPU dual (Prime)</h3>
 
             <div class="info-box">
-                <p><strong>hardware.opengl → hardware.graphics:</strong> Desde NixOS 24.05, <code>hardware.opengl</code> fue renombrado a <code>hardware.graphics</code>. Si tu config aún usa <code>opengl</code>, cámbialo.</p>
+                <p><strong>hardware.opengl ▶ hardware.graphics:</strong> Desde NixOS 24.05, <code>hardware.opengl</code> fue renombrado a <code>hardware.graphics</code>. Si tu config aún usa <code>opengl</code>, cámbialo.</p>
             </div>
 
             <div class="card recommended">
@@ -1494,9 +1505,9 @@
             </div>
 
             <div class="page-nav">
-                <button class="page-nav-btn" data-prev="automatizacion"><span class="arrow">←</span> Anterior</button>
+                <button class="page-nav-btn" data-prev="automatizacion"><span class="arrow">◀</span> </button>
                 <div class="page-dots"></div>
-                <div class="page-nav-btn disabled">Siguiente <span class="arrow">→</span></div>
+                <div class="page-nav-btn disabled"><span class="arrow">▶</span></div>
             </div>
         </div>
 
