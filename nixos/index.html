@@ -1516,10 +1516,12 @@
         </div>
 
         <footer>
-            <p>Apuntes de NixOS · Visitas: <span id="visitas">?</span></p>
+            <p>Apuntes de NixOS · Visitas: <span id="visitas">-</span></p>
             <script>
-                var k = 'zebus3d-nixos-views';
-                fetch('https://api.countapi.xyz/hit/' + k + '?enabled=true').then(function(r){return r.json()}).then(function(d){document.getElementById('visitas').textContent = d.value}).catch(function(){document.getElementById('visitas').textContent = '0'});
+                fetch('https://api.counterapi.dev/v1/zebus3d-nixos/increment', {method: 'POST'})
+                    .then(function(r) { return r.json(); })
+                    .then(function(d) { document.getElementById('visitas').textContent = d.count; })
+                    .catch(function() { document.getElementById('visitas').textContent = '?'; });
             </script>
         </footer>
 
