@@ -505,16 +505,6 @@
             border-color: rgba(99, 102, 241, 0.3); color: #c4b5fd;
         }
         .page-nav-btn.disabled { opacity: 0.25; pointer-events: none; }
-        .page-nav-btn .arrow { font-size: 2.5rem; font-weight: 900; line-height: 1; }
-        .page-nav-btn span:not(.arrow) { display: none; }
-            font-size: 0.82rem; font-weight: 500;
-            cursor: pointer; transition: all 0.2s;
-        }
-        .page-nav-btn:hover {
-            background: rgba(99, 102, 241, 0.15);
-            border-color: rgba(99, 102, 241, 0.3); color: #c4b5fd;
-        }
-        .page-nav-btn.disabled { opacity: 0.25; pointer-events: none; }
         .page-nav-btn .arrow { font-size: 1rem; line-height: 1; }
         .page-dots { display: flex; gap: 5px; }
         .page-dot {
@@ -1399,9 +1389,7 @@
                 <div class="code-block">
                     <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">#!/usr/bin/env bash</span>
-<span class="comment"># Blender launcher script for NixOS</span>
-<span class="comment"># Usage: blender_launcher.sh /path/to/blender [arguments...]</span>
-
+<span class="comment"># Blender launcher script for NixOS (Reforzado)</span>
 <span class="kw">BLENDER_PATH</span>=<span class="str">"$1"</span>
 <span class="kw">shift</span>
 
@@ -1412,10 +1400,20 @@
 
 <span class="kw">BLENDER_DIR</span>=<span class="str">"$(dirname "$BLENDER_PATH")"</span>
 
-<span class="comment"># Extract version from directory name (e.g., blender-5.1.0-linux-x64 -> 5.1)</span>
-<span class="kw">VERSION</span>=<span class="cmd">$(basename "$BLENDER_DIR" | sed -n 's/blender-\([0-9]*\.[0-9]*\).*/\1/p')</span>
+<span class="comment"># Soporte para NixOS: Búsqueda dinámica de librerías críticas en el Store</span>
+<span class="cmd">_find_lib64()</span> <span class="punct">{</span>
+    <span class="kw">local</span> <span class="arg">libname</span>=<span class="str">"$1"</span> <span class="arg">pattern</span>=<span class="str">"$2"</span>
+    <span class="kw">for</span> <span class="arg">dir</span> <span class="kw">in</span> /nix/store/<span class="arg">$pattern</span>/lib; <span class="kw">do</span>
+        <span class="punct">[</span> <span class="arg">-f</span> <span class="str">"$dir/$libname"</span> <span class="punct">]</span> <span class="punct">&amp;&amp;</span> <span class="cmd">echo</span> <span class="str">"$dir"</span> <span class="punct">&amp;&amp;</span> <span class="kw">return</span>
+    <span class="kw">done</span>
+<span class="punct">}</span>
 
-<span class="kw">export</span> <span class="arg">BLENDER_SYSTEM_RESOURCES</span>=<span class="str">"${BLENDER_DIR}/${VERSION}"</span>
+<span class="comment"># Buscar glib y dbus (vitales para PySide6/Qt en NixOS)</span>
+<span class="kw">export</span> <span class="arg">LD_LIBRARY_PATH</span>=<span class="cmd">$(_find_lib64 "libglib-2.0.so.0" "*-glib-[0-9]*")</span>:<span class="arg">$LD_LIBRARY_PATH</span>
+<span class="kw">export</span> <span class="arg">LD_LIBRARY_PATH</span>=<span class="cmd">$(_find_lib64 "libdbus-1.so.3" "*-dbus-[0-9]*-lib")</span>:<span class="arg">$LD_LIBRARY_PATH</span>
+
+<span class="comment"># Soporte para nix-ld y Drivers</span>
+<span class="punct">[</span> <span class="arg">-n</span> <span class="str">"$NIX_LD_LIBRARY_PATH"</span> <span class="punct">]</span> <span class="punct">&amp;&amp;</span> <span class="kw">export</span> <span class="arg">LD_LIBRARY_PATH</span>=<span class="str">"$NIX_LD_LIBRARY_PATH:$LD_LIBRARY_PATH"</span>
 <span class="kw">export</span> <span class="arg">VK_ICD_FILENAMES</span>=/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json
 <span class="kw">export</span> <span class="arg">LD_LIBRARY_PATH</span>=/run/opengl-driver/lib:<span class="arg">$LD_LIBRARY_PATH</span>
 
@@ -1439,8 +1437,16 @@
                 </div>
             </div>
 
+            <div class="warning-box">
+                <p><strong>⚠️ Ojo con el Garbage Collector:</strong> Al ejecutar <span class="inline-code">nix-collect-garbage</span>, se borran librerías del store que programas que usan <strong>PySide6</strong> necesitan. Si obtienes errores como <span class="inline-code">libglib-2.0.so.0 not found</span>, es porque tu lanzador no está inyectando estas librerías desde el store.</p>
+            </div>
+
             <div class="info-box">
-                <p><strong>¿Por qué no nix-ld?</strong> Blender descargado de la web ya trae sus propias librerías. El wrapper solo configura las variables de GPU (Vulkan/OpenGL) que NixOS necesita para detectar la Nvidia correctamente.</p>
+                <p><strong>¿Por qué el lanzador reforzado?</strong> Aunque Blender traiga sus librerías, los procesos hijos (como un editor de scripts externo) heredan el entorno de Blender. El script reforzado asegura un "pasillo seguro" para estas librerías incluso tras limpiezas profundas del sistema.</p>
+            </div>
+
+            <div class="safe-box">
+                <p><strong>💡 Tip para Addons:</strong> Para evitar errores de segmentación (SIGSEGV), filtra el <span class="inline-code">.venv</span> de tu proyecto del <span class="inline-code">sys.path</span> antes de lanzar procesos que usen Qt. Esto evita que se carguen dos versiones distintas de la librería a la vez.</p>
             </div>
 
             <h3>Steam y juegos con Proton</h3>
