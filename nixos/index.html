@@ -1550,38 +1550,12 @@
             </div>
         </div>
 
-        <footer>
-            <p>Apuntes de NixOS</p>
-        </footer>
-
-        <button class="scroll-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</button>
-    </div>
-
-    <script>
-        const pages = document.querySelectorAll('.page');
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const pageIds = Array.from(pages).map(p => p.id);
-
-        function showPage(id) {
-            pages.forEach(p => p.classList.remove('active'));
-            tabBtns.forEach(b => b.classList.remove('active'));
-            const page = document.getElementById(id);
-            if (page) {
-                page.classList.add('active');
-                page.style.animation = 'none';
-                page.offsetHeight;
-                page.style.animation = '';
-            }
-            const tab = document.querySelector(`.tab-btn[data-page="${id}"]`);
-            if (tab) tab.classList.add('active');
-            updateDots();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        footer {
+            text-align: center; padding: 30px 0;
+            color: #475569; font-size: 0.82rem;
         }
 
-        // Tab clicks
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => showPage(btn.dataset.page));
-        });
+        /* Scroll to top button - mobile only */
 
         // Prev/Next buttons
         document.querySelectorAll('.page-nav-btn[data-prev]').forEach(btn => {
@@ -1815,5 +1789,7 @@
             return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         }
     </script>
+    <!-- Contador de visitas únicas (sin registro, fácil de quitar) -->
+    <script src="https://countapi.xyz/widget.js?template=4&hex=6366f1&suffix=+visitas+únicas"></script>
 </body>
 </html>
