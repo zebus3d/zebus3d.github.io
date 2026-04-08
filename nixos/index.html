@@ -1517,22 +1517,11 @@
 
         <footer>
             <p>Apuntes de NixOS · Visitas: <span id="visitCount">-</span></p>
-            <script>
-                (function() {
-                    var key = 'zebus3d-nixos';
-                    var existing = localStorage.getItem(key);
-                    if (existing) {
-                        document.getElementById('visitCount').textContent = existing;
-                    }
-                    fetch('https://api.countapi.xyz/get/' + key)
-                        .then(function(r) { return r.json(); })
-                        .then(function(d) {
-                            document.getElementById('visitCount').textContent = d.value;
-                            localStorage.setItem(key, d.value);
-                        })
-                        .catch(function() {});
-                })();
+            <script async defer>
+                var _c = _c || [];
+                _c.push(['init', 'zebus3d-nixos']);
             </script>
+            <script src="https://counter.r2u.xyz/count.js" async defer></script>
         </footer>
 
         <button class="scroll-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</button>
