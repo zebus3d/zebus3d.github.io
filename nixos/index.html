@@ -1516,7 +1516,12 @@
         </div>
 
         <footer>
-            <p>Apuntes de NixOS</p>
+            <p>Apuntes de NixOS · Visitas: <span id="visitCount">-</span></p>
+            <script>
+                fetch('https://api.countapi.xyz/hit/zebus3d-nixos')
+                    .then(r => r.json())
+                    .then(d => document.getElementById('visitCount').textContent = d.value);
+            </script>
         </footer>
 
         <button class="scroll-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</button>
@@ -1780,14 +1785,5 @@
             return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         }
     </script>
-    <!-- Contador de visitas -->
-    <div style="text-align:center; padding: 20px; color: #64748b; font-size: 0.8rem;">
-        Visitas: <span id="visitCount">-</span>
-        <script>
-            fetch('https://api.countapi.xyz/hit/zebus3d-nixos')
-                .then(r => r.json())
-                .then(d => document.getElementById('visitCount').textContent = d.value);
-        </script>
-    </div>
 </body>
 </html>
