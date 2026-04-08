@@ -1516,14 +1516,17 @@
         </div>
 
         <footer>
-            <p>Apuntes de NixOS · Visitas: <span id="visitas">-</span></p>
-            <script>
-                fetch('https://api.counterapi.dev/v1/zebus3d-nixos/increment', {method: 'POST'})
-                    .then(function(r) { return r.json(); })
-                    .then(function(d) { document.getElementById('visitas').textContent = d.count; })
-                    .catch(function() { document.getElementById('visitas').textContent = '?'; });
-            </script>
+            <p>Apuntes de NixOS</p>
         </footer>
+
+        <!-- Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-XXXXXXXXXX');
+        </script>
 
         <button class="scroll-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</button>
     </div>
