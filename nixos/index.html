@@ -1297,6 +1297,41 @@
                 </div>
             </div>
 
+            <h3>Desarrollo de addons Blender</h3>
+
+            <div class="intro-box">
+                <p><strong>El problema:</strong> Cuando editas un addon de Blender en Antigravity (fork de VSCode), todo aparece marcadas<span style="color: #fbbf24;"> en amarillo</span>. Pero cuando ejecutas el addon en Blender, funciona perfectamente.</p>
+                <p>¿Por qué? Antigravity no sabe cómo es la API de Blender. Necesitas un módulo especial (<code>fake-bpy-module</code>) que le dice al editor qué tipos existen. Pero ese módulo solo tiene "<strong>stubs</strong>" (descripciones de tipos, sin código real).</p>
+            </div>
+
+            <div class="recommended-badge">✓ Solución en 2 pasos</div>
+
+            <div class="card">
+                <div class="card-title">Paso 1 — Silenciar los errores<span class="tooltip">Antigravity usa un linter llamado Pyrefly. No puede entender fake-bpy-module y marca todo como error. Con esta opción le dices que no muestre errores de tipo.<span class="tip_example">Es como decir: "no me muestres errores de tipo"</span></span></div>
+                <div class="card-desc">En tu archivo de configuración de Antigravity:</div>
+                <div class="code-block">
+                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>json</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <pre><code><span class="str">"python.pyrefly.displayTypeErrors"</span><span class="punct">:</span> <span class="str">"force-off"</span><span class="punct">,</span></code></pre>
+                </div>
+                <div class="card-desc" style="margin-top: 10px;">Ubicación: <span class="inline-code">~/.config/Antigravity/User/settings.json</span></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Paso 2 — Darle la ruta de los stubs<span class="tooltip">Sin esto, cuando escribes <code>bpy.</code> no te sale ninguna sugerencia. Le decis dónde está instalado fake-bpy-module.<span class="tip_example">Es como decir: "busca las sugerencias aquí"</span></span></div>
+                <div class="card-desc">Para que funcione el autocomplete (sugerencias al escribir):</div>
+                <div class="code-block">
+                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>json</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <pre><code><span class="str">"python.analysis.extraPaths"</span><span class="punct">:</span> <span class="punct">[</span>
+    <span class="str">"/home/zebus3d/github/.venv/lib/python3.13/site-packages"</span>
+<span class="punct">]</span></code></pre>
+                </div>
+                <div class="card-desc" style="margin-top: 10px;">Este es el directorio donde tienes instalado fake-bpy-module.</div>
+            </div>
+
+            <div class="warning-box">
+                <p><strong>No instales numpy en el .venv:</strong> Blender ya trae su propio numpy. Instalar duplicados puede causar conflictos. Solo instala fake-bpy-module (stubs), no numpy.</p>
+            </div>
+
             <div class="page-nav">
                 <button class="page-nav-btn" data-prev="automatizacion"><span class="arrow">◀</span> </button>
                 <div class="page-dots"></div>
