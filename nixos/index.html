@@ -1516,13 +1516,7 @@
         </div>
 
         <footer>
-            <p>Apuntes de NixOS · Visitas: <span id="visitCount">cargando...</span></p>
-            <script>
-                fetch('https://api.countapi.xyz/hit/zebus3d-nixos')
-                    .then(r => r.json())
-                    .then(d => document.getElementById('visitCount').textContent = d.value)
-                    .catch(() => document.getElementById('visitCount').textContent = '?');
-            </script>
+            <p>Apuntes de NixOS · Visitas: <img src="https://www.freecounterstat.com/cgi-bin/count.cgi?df=ZEBUS3D_NIXOS&pad=0" alt="contador" style="vertical-align:middle;height:20px;"></p>
         </footer>
 
         <button class="scroll-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</button>
