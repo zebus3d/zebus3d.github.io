@@ -175,10 +175,10 @@
             bottom: calc(100% + 8px); left: 0;
             background: rgba(15, 15, 30, 0.95);
             border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 8px; padding: 10px 14px;
-            font-size: 0.76rem; font-weight: 400;
-            color: #94a3b8; line-height: 1.5;
-            width: max-content; max-width: 320px;
+            border-radius: 8px; padding: 12px 16px;
+            font-size: 0.82rem; font-weight: 400;
+            color: #94a3b8; line-height: 1.6;
+            width: max-content; max-width: 420px;
             z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
             pointer-events: none;
         }
@@ -186,11 +186,11 @@
             content: ''; position: absolute; top: 100%; left: 20px;
             border: 6px solid transparent; border-top-color: rgba(15, 15, 30, 0.95);
         }
-        .card-title .tooltip .tip-example {
-            display: block; margin-top: 6px; padding: 4px 8px;
+        .card-title .tooltip .tip_example {
+            display: block; margin-top: 8px; padding: 6px 10px;
             background: rgba(99, 102, 241, 0.08); border-radius: 4px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem; color: #a78bfa;
+            font-size: 0.76rem; color: #a78bfa;
         }
         .card-title:hover .tooltip { display: block; animation: tip-fade 0.2s ease; }
 
@@ -281,10 +281,10 @@
             bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
             background: rgba(15, 15, 30, 0.95);
             border: 1px solid rgba(251, 191, 36, 0.25);
-            border-radius: 8px; padding: 10px 14px;
-            font-size: 0.76rem; font-weight: 400;
-            color: #fde68a; line-height: 1.5;
-            width: max-content; max-width: 340px;
+            border-radius: 8px; padding: 12px 16px;
+            font-size: 0.82rem; font-weight: 400;
+            color: #fde68a; line-height: 1.6;
+            width: max-content; max-width: 420px;
             z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
             pointer-events: none;
         }
@@ -390,10 +390,10 @@
             bottom: calc(100% + 8px); left: 0;
             background: rgba(15, 15, 30, 0.95);
             border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 8px; padding: 10px 14px;
-            font-size: 0.76rem; font-weight: 400;
-            color: #94a3b8; line-height: 1.5;
-            width: max-content; max-width: 300px;
+            border-radius: 8px; padding: 12px 16px;
+            font-size: 0.82rem; font-weight: 400;
+            color: #94a3b8; line-height: 1.6;
+            width: max-content; max-width: 400px;
             z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
             pointer-events: none;
         }
@@ -401,11 +401,11 @@
             content: ''; position: absolute; top: 100%; left: 20px;
             border: 6px solid transparent; border-top-color: rgba(15, 15, 30, 0.95);
         }
-        .gc-card .gc-title .tooltip .tip-example {
-            display: block; margin-top: 6px; padding: 4px 8px;
+        .gc-card .gc-title .tooltip .tip_example {
+            display: block; margin-top: 8px; padding: 6px 10px;
             background: rgba(99, 102, 241, 0.08); border-radius: 4px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem; color: #a78bfa;
+            font-size: 0.76rem; color: #a78bfa;
         }
         .gc-card .gc-title:hover .tooltip { display: block; animation: tip-fade 0.2s ease; }
         .gc-card .gc-desc { color: #94a3b8; font-size: 0.82rem; margin-bottom: 10px; }
@@ -711,25 +711,25 @@
             <div class="gc-grid">
                 <div class="gc-card recommended">
                     <div class="gc-label safe">RECOMENDADO</div>
-                    <div class="gc-title">GC conservador (30 días)<span class="tooltip">Borra generaciones con +30 días de TODOS los perfiles y ejecuta GC. Seguro para uso semanal.<span class="tip-example">Ej: rebuild de hace 35 días ▶ se borra</span></span></div>
+                    <div class="gc-title">GC conservador (30 días)<span class="tooltip">Borra generaciones con +30 días de TODOS los perfiles y ejecuta GC. Mantiene la generación actual y las de los últimos 30 días. Ideal para uso semanal sin perder rollback.<span class="tip_example">Ej: rebuild de hace 35 días ▶ se borra</span></span></div>
                     <div class="gc-desc">Generaciones viejas + espacio liberado en un paso.</div>
                     <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span> <span class="flag">--delete-older-than</span> <span class="arg">30d</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                 </div>
                 <div class="gc-card">
                     <div class="gc-label moderate">MODERADO</div>
-                    <div class="gc-title">GC simple<span class="tooltip">Solo elimina archivos del store sin referencias. No borra generaciones.<span class="tip-example">Ej: tras borrar generaciones manualmente, libera GB</span></span></div>
+                    <div class="gc-title">GC simple<span class="tooltip">Solo elimina archivos del store sin referencias. No borra generaciones. Útil cuando ya borraste generaciones a mano y quieres liberar el espacio.<span class="tip_example">Ej: tras borrar generaciones manualmente, libera GB</span></span></div>
                     <div class="gc-desc">Libera espacio sin borrar generaciones.</div>
                     <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                 </div>
                 <div class="gc-card">
                     <div class="gc-label aggressive">AGRESIVO</div>
-                    <div class="gc-title">Limpieza profunda (-d)<span class="tooltip">Borra TODAS las generaciones antiguas de TODOS los perfiles + GC. Pierdes rollback a versiones antiguas.<span class="tip-example">Ej: tras confirmar que todo funciona bien</span></span></div>
+                    <div class="gc-title">Limpieza profunda (-d)<span class="tooltip">Borra TODAS las generaciones antiguas de TODOS los perfiles + GC. Pierdes rollback a versiones antiguas. Úsalo solo cuando estés seguro de que todo funciona.<span class="tip_example">Ej: tras confirmar que todo funciona bien</span></span></div>
                     <div class="gc-desc">Elimina generaciones de todos los perfiles + GC.</div>
                     <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span> <span class="flag">-d</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                 </div>
                 <div class="gc-card recommended">
                     <div class="gc-label safe">SEGURO</div>
-                    <div class="gc-title">Optimizar store<span class="tooltip">Deduplica archivos idénticos con hardlinks. No borra nada.<span class="tip-example">Ej: 3 versiones de glibc ▶ ocupa una</span></span></div>
+                    <div class="gc-title">Optimizar store<span class="tooltip">Deduplica archivos idénticos usando hardlinks. No borra nada, solo optimiza el espacio. Puede tardar un poco pero es seguro.<span class="tip_example">Ej: 3 versiones de glibc ▶ ocupa una</span></span></div>
                     <div class="gc-desc">Deduplica archivos (no borra, solo optimiza).</div>
                     <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-store</span> <span class="flag">--optimise</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                 </div>
@@ -767,7 +767,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Ver generaciones del sistema<span class="tooltip">Muestra todas las generaciones con fecha, número y cuál es la actual.</span></div>
+                <div class="card-title">Ver generaciones del sistema<span class="tooltip">Muestra todas las generaciones del perfil system con su número, fecha y si es la actual (current). Útil para saber cuántas tienes y cuáles borrar.</span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-env</span> <span class="flag">-p</span> <span class="path">/nix/var/nix/profiles/system</span> <span class="flag">--list-generations</span></code></pre>
@@ -775,7 +775,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Eliminar excepto las últimas 5<span class="tooltip">Mantiene las 5 más recientes. Útil para rollback seguro.<span class="tip-example">Ej: 20 generaciones ▶ borra 15</span></span></div>
+                <div class="card-title">Eliminar excepto las últimas 5<span class="tooltip">Mantiene las 5 generaciones más recientes del perfil system. Borra el resto. Ideal si haces rebuild frecuentemente y quieres un balance entre espacio y rollback.<span class="tip_example">Ej: 20 generaciones ▶ borra 15</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-env</span> <span class="flag">-p</span> <span class="path">/nix/var/nix/profiles/system</span> <span class="flag">--delete-generations</span> <span class="arg">+5</span></code></pre>
@@ -833,7 +833,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Opción A — Limpiar entradas huérfanas<span class="tooltip">Elimina .conf del bootloader de generaciones que ya no existen. Puede dejar entradas "fantasma" en la EFI.</span></div>
+                <div class="card-title">Opción A — Limpiar entradas huérfanas<span class="tooltip">Elimina archivos .conf del bootloader de generaciones que ya no existen. Rápido pero puede dejar entradas "fantasma" en la EFI que se limpian al reiniciar.</span></div>
                 <div class="card-desc" style="color: #fbbf24;">⚡ Rápido, pero a veces deja entradas <code>reported/absent</code>. Reinicia para limpiarlas.</div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
@@ -843,7 +843,7 @@
 
             <div class="card recommended">
                 <div class="recommended-badge">✓ Recomendado</div>
-                <div class="card-title">Opción B — Regenerar bootloader<span class="tooltip">Reconstruye el menú de arranque desde cero. No deja entradas fantasma.<span class="tip-example">Ej: 5 generaciones válidas ▶ el menú solo muestra esas 5</span></span></div>
+                <div class="card-title">Opción B — Regenerar bootloader<span class="tooltip">Ejecuta nixos-rebuild boot para reconstruir el menú de arranque desde cero. Solo aparecen las generaciones válidas. No deja entradas fantasma.<span class="tip_example">Ej: 5 generaciones válidas ▶ el menú solo muestra esas 5</span></span></div>
                 <div class="card-desc">Reconstruye el menú desde cero con solo las generaciones vigentes.</div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
@@ -876,7 +876,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">¿Uso Flakes o Canales?<span class="tooltip">Si tu config tiene "nix.settings.experimental-features" con "nix-command flakes", usas Flakes.</span></div>
+                <div class="card-title">¿Uso Flakes o Canales?<span class="tooltip">Comando para verificar tu configuración actual. Si usa canales (nixos-channel), cada rebuild puede cambiar versiones. Si usa flakes, las versiones están "congeladas" en flake.lock.<span class="tip_example">nix-channel --list ▶ muestra canales activos</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">nix-channel</span> <span class="flag">--list</span></code></pre>
@@ -885,7 +885,9 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Estructura típica<span class="tooltip">flake.nix define dependencias. flake.lock congela versiones. nixos/ contiene tu configuration.nix.</span></div>
+                <div class="card-title">Estructura típica<span class="tooltip">Organización de un proyecto con flakes. flake.nix declara qué dependencias usar (nixpkgs, home-manager). flake.lock guarda las versiones exactas (como package-lock.json). nixos/ contiene la configuración del sistema.<span class="tip_example">├── flake.nix ▶ define inputs y outputs
+├── flake.lock ▶ versiones exactas
+└── nixos/ ▶ tu config</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>tree</span></div>
                     <pre><code>mi-config/
@@ -906,7 +908,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Actualizar solo un input<span class="tooltip">Solo actualiza una dependencia sin tocar las demás. Útil si algo se rompió.<span class="tip-example">Ej: nix flake lock --update-input nixpkgs</span></span></div>
+                <div class="card-title">Actualizar solo un input<span class="tooltip">Actualiza un input específico sin tocar los demás. Útil cuando solo necesitás actualizar una dependencia (ej: home-manager) sin riesgo de romper otras.<span class="tip_example">nix flake lock --update-input home-manager</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">nix</span> <span class="cmd">flake</span> <span class="cmd">lock</span> <span class="flag">--update-input</span> <span class="arg">nixpkgs</span></code></pre>
@@ -933,7 +935,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Importar nixpkgs-unstable<span class="tooltip">Descarga el canal unstable directamente desde GitHub/NixOS channels.<span class="tip-example">Ej: let unstable = import (fetchTarball "...") {};</span></span></div>
+                <div class="card-title">Importar nixpkgs-unstable<span class="tooltip">Crea una variable "unstable" que contiene nixpkgs de la rama inestable. Se descarga en cada rebuild (no está congelado). Permite usar paquetes más nuevos sin cambiar todo el sistema.<span class="tip_example">let unstable = import (fetchTarball "https://...") {};</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">let</span>
@@ -945,7 +947,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Usar paquetes unstable en user packages<span class="tooltip">Mezcla pkgs (estable) con unstable.inestable según necesidad.</span></div>
+                <div class="card-title">Usar paquetes unstable en user packages<span class="tooltip">Podés mezclar paquetes de ambas ramas. pkgs.* usa la estable, unstable.* usa la inestable. Ideal para tener el sistema estable pero apps actualizadas (Neovim, Brave, Git).<span class="tip_example">pkgs.firefox (estable) + unstable.neovim (nuevo)</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">users.users.zebus3d</span> <span class="punct">=</span> <span class="punct">{</span>
@@ -993,7 +995,7 @@
             <h3>Canales</h3>
 
             <div class="card">
-                <div class="card-title">Actualizar y aplicar en un paso<span class="tooltip">Actualiza canal + reconstruye. Rápido pero no permite revisar cambios antes.<span class="tip-example">Ej: sudo nixos-rebuild switch --upgrade</span></span></div>
+                <div class="card-title">Actualizar y aplicar en un paso<span class="tooltip">Combina nix-channel --update + nixos-rebuild switch en un solo comando. Actualiza el canal y reconstruye el sistema inmediatamente. Rápido pero no permite revisar qué cambió.<span class="tip_example">sudo nixos-rebuild switch --upgrade</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--upgrade</span></code></pre>
@@ -1069,7 +1071,7 @@
             <h3>Buscar paquetes</h3>
 
             <div class="card">
-                <div class="card-title">Buscar en la terminal<span class="tooltip">Busca paquetes disponibles en tu canal o flake. Muestra nombre, versión y descripción.<span class="tip-example">Ej: nix search nixpkgs firefox</span></span></div>
+                <div class="card-title">Buscar en la terminal<span class="tooltip">Busca paquetes disponibles en nixpkgs. Muestra nombre, versión y descripción. También puedes buscar con: nix search nixpkgs firefox --json<span class="tip_example">nix search nixpkgs firefox</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">nix</span> <span class="cmd">search</span> <span class="arg">nixpkgs</span> <span class="arg">firefox</span></code></pre>
@@ -1077,7 +1079,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Buscar en la web<span class="tooltip">El buscador oficial de paquetes de NixOS. Más cómodo que la terminal para explorar.</span></div>
+                <div class="card-title">Buscar en la web<span class="tooltip">Buscador oficial de paquetes de NixOS. Puedes filtrar por categoría, sistema y ver información detallada. Ideal para explorar cuando no sabés el nombre exacto.<span class="tip_example">search.nixos.org/packages?query=blender</span></span></div>
                 <div class="card-desc"><a href="https://search.nixos.org/packages" style="color: #7dd3fc;" target="_blank">search.nixos.org/packages</a></div>
             </div>
 
@@ -1085,7 +1087,7 @@
 
             <div class="card recommended">
                 <div class="recommended-badge">✓ Recomendado</div>
-                <div class="card-title">Añadir a configuration.nix<span class="tooltip">Edita /etc/nixos/configuration.nix y añade los paquetes. Se instalan al hacer nixos-rebuild switch.<span class="tip-example">Ej: environment.systemPackages = [ pkgs.firefox pkgs.git ];</span></span></div>
+                <div class="card-title">Añadir a configuration.nix<span class="tooltip">Método principal y recomendado. Editá /etc/nixos/configuration.nix, agregá los paquetes a environment.systemPackages, y ejecutá sudo nixos-rebuild switch. Los paquetes quedan en la config y survive reinicios.<span class="tip_example">environment.systemPackages = [ pkgs.firefox pkgs.git ];</span></span></div>
                 <div class="card-desc">Edita <span class="inline-code">/etc/nixos/configuration.nix</span>:</div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
@@ -1105,7 +1107,7 @@
             <h3>Instalar (imperativo — rápido)</h3>
 
             <div class="card">
-                <div class="card-title">Instalar para el usuario actual<span class="tooltip">Instala solo para tu usuario. No requiere sudo ni rebuild. Se pierde si no está en la config.<span class="tip-example">Ej: nix-env -iA nixpkgs.firefox</span></span></div>
+                <div class="card-title">Instalar para el usuario actual<span class="tooltip">Instala solo para tu usuario. No requiere sudo ni rebuild. Se pierde si no está en la config.<span class="tip_example">Ej: nix-env -iA nixpkgs.firefox</span></span></div>
                 <div class="card-desc">Rápido pero no persistente entre reinstalaciones.</div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
@@ -1114,7 +1116,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Probar un paquete sin instalar<span class="tooltip">Descarga y ejecuta un paquete temporalmente sin instalarlo. No deja rastro en el sistema.<span class="tip-example">Ej: nix-shell -p python3 --run "python --version"</span></span></div>
+                <div class="card-title">Probar un paquete sin instalar<span class="tooltip">Descarga y ejecuta un paquete temporalmente sin instalarlo. No deja rastro en el sistema.<span class="tip_example">Ej: nix-shell -p python3 --run "python --version"</span></span></div>
                 <div class="card-desc">Ejecuta algo una sola vez sin instalarlo.</div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
@@ -1126,7 +1128,7 @@
 
             <div class="card recommended">
                 <div class="recommended-badge">✓ Salva-vidas</div>
-                <div class="card-title">Volver a la generación anterior<span class="tooltip">Si algo se rompió tras un rebuild, esto vuelve a la generación anterior inmediatamente. No borra nada, solo cambia a la versión previa.</span></div>
+                <div class="card-title">Volver a la generación anterior<span class="tooltip">Rollback rápido: vuelve a la generación anterior (la anterior a la actual). Si algo se rompió tras actualizar, esto te salva. No borra la generación problemática, solo cambia el enlace simbólico.<span class="tip_example">sudo nixos-rebuild switch --rollback</span></span></div>
                 <div class="card-desc">¿Algo se rompió tras actualizar? Vuelve atrás:</div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
@@ -1150,7 +1152,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Limpieza automática semanal<span class="tooltip">Timer de systemd que ejecuta GC automáticamente. "weekly" = una vez por semana.<span class="tip-example">Ej: cada domingo limpia generaciones viejas</span></span></div>
+                <div class="card-title">Limpieza automática semanal<span class="tooltip">Timer de systemd que ejecuta GC automáticamente. "weekly" = una vez por semana.<span class="tip_example">Ej: cada domingo limpia generaciones viejas</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">nix.gc</span> <span class="punct">=</span> <span class="punct">{</span>
@@ -1195,13 +1197,13 @@
             <h3>nix-shell — Entornos aislados</h3>
 
             <div class="intro-box">
-                <p><strong>¿Qué es nix-shell?</strong> Crea un entorno temporal con las dependencias que necessités. Es como un <strong>virtualenv de Python</strong> pero para cualquier lenguaje o herramienta. Dentro del shell tenés acceso a esos paquetes; afuera, no existen.</p>
+                <p><strong>¿Qué es nix-shell?</strong> Crea un entorno temporal con las dependencias que necesites. Es como un <strong>virtualenv de Python</strong> pero para cualquier lenguaje o herramienta. Dentro del shell tenés acceso a esos paquetes; afuera, no existen.</p>
                 <p>Es ideal para: no ensuciar el sistema con dependencias de un proyecto, probar herramientas rápido, o tener versiones distintas de un mismo paquete según el proyecto.</p>
             </div>
 
             <div class="card">
-                <div class="card-title">Shell interactivo con paquetes<span class="tooltip">Abre un nuevo shell donde python3, pip y sus dependencias están disponibles. Al salir (exit), todo desaparece.<span class="tip_example">Ej: nix-shell -p python3 nodejs</span></span></div>
-                <div class="card-desc">Entra a un shell con las herramientas que necessités:</div>
+                <div class="card-title">Shell interactivo con paquetes<span class="tooltip">Abre un shell temporal donde los paquetes especificados están disponibles. Al salir (exit), el entorno desaparece. Ideal para probar algo rápido sin ensuciar el sistema.<span class="tip_example">nix-shell -p python3 nodejs gcc</span></span></div>
+                <div class="card-desc">Entra a un shell con las herramientas que necesites:</div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">nix-shell</span> <span class="flag">-p</span> <span class="arg">python3</span> <span class="arg">nodejs</span> <span class="arg">gcc</span></code></pre>
@@ -1210,7 +1212,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Ejecutar un comando y salir<span class="tooltip">Ejecuta algo una sola vez sin entrar al shell interactivo.</span></div>
+                <div class="card-title">Ejecutar un comando y salir<span class="tooltip">Ejecuta un comando con los paquetes especificados y sale automáticamente. Sin entrar a un shell interactivo. Útil para scripts o pruebas rápidas.<span class="tip_example">nix-shell -p python3 --run "python --version"</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">nix-shell</span> <span class="flag">-p</span> <span class="arg">python3</span> <span class="flag">--run</span> <span class="str">"python --version"</span></code></pre>
@@ -1247,7 +1249,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Configurar nix-ld<span class="tooltip">Habilita nix-ld con las librerías que necesite tu app. Blender necesita librerías gráficas y CUDA.</span></div>
+                <div class="card-title">Configurar nix-ld<span class="tooltip">Permite ejecutar binarios externos (no compilados para NixOS). Añadí las librerías que tu app necesite. Ej: Blender → librerías gráficas + CUDA, Steam → steam-libs.<span class="tip_example">Blender: libx11, libglvnd, cuda_cudart</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">programs.nix-ld</span> <span class="punct">=</span> <span class="punct">{</span>
@@ -1293,7 +1295,7 @@
             <h3>Steam y Proton</h3>
 
             <div class="card">
-                <div class="card-title">steam-run para juegos de Windows<span class="tooltip">Steam en NixOS necesita steam-run para ejecutar Proton y juegos de Windows.</span></div>
+                <div class="card-title">steam-run para juegos de Windows<span class="tooltip">Wrapper que proporciona el entorno necesario para ejecutar juegos de Windows via Proton/Steam Play. Necesario porque los juegos no fueron compilados para NixOS.<span class="tip_example">steam-run /ruta/al/juego.exe</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">steam-run</span> <span class="arg">/ruta/al/juego.exe</span></code></pre>
@@ -1301,7 +1303,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Steam en el sistema<span class="tooltip">Añadir Steam directamente en configuration.nix con dependencias necesarias.</span></div>
+                <div class="card-title">Steam en el sistema<span class="tooltip">Instalación declarativa de Steam via configuration.nix. Añade las librerías necesarias a nix-ld para que Steam y Proton funcionen correctamente.<span class="tip_example">programs.steam.enable = true;</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">programs.steam</span> <span class="punct">=</span> <span class="punct">{</span>
@@ -1332,12 +1334,12 @@
             <h3>NVIDIA — GPU dual (Prime)</h3>
 
             <div class="info-box">
-                <p><strong>hardware.opengl ▶ hardware.graphics:</strong> Desde NixOS 24.05, <code>hardware.opengl</code> fue renombrado a <code>hardware.graphics</code>. Si tu config aún usa <code>opengl</code>, cámbialo.</p>
+                <p><strong>hardware.opengl ▶ hardware.graphics:</strong> Desde NixOS 24.11 (diciembre 2024), <code>hardware.opengl</code> fue renombrado a <code>hardware.graphics</code>. Si tu config aún usa <code>opengl</code>, cámbialo.</p>
             </div>
 
             <div class="card recommended">
                 <div class="recommended-badge">✓ Recomendado</div>
-                <div class="card-title">Configuración NVIDIA con Prime<span class="tooltip">Para laptops con Intel + NVIDIA. Sync = ambas GPUs siempre activas (máx rendimiento). Offload = ahorro de batería.</span></div>
+                <div class="card-title">Configuración NVIDIA con Prime<span class="tooltip">Para laptops con Intel + NVIDIA. Sync: ambas GPUs siempre activas (máx rendimiento, mayor consumo). Offload: solo la NVIDIA se activa cuando la necesitás (ahorro de batería). Necesitás los Bus IDs de tus GPUs.<span class="tip_example">Sync: gaming/escritorio. Offload:笔记本 con batería.</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="comment"># OpenGL</span>
@@ -1365,6 +1367,10 @@
                 <p><strong>Sync vs Offload:</strong> <span class="warn-tip">sync = rendimiento máximo<span class="warn-tooltip">Ambas GPUs siempre activas. Ideal para escritorio o si no te importa la batería.</span></span> — para laptops con batería, usá <code>offload.enable = true</code> y lanzá apps con <code>__NV_PRIME_RENDER_OFFLOAD=1</code>.</p>
             </div>
 
+            <div class="info-box">
+                <p><strong>Cómo obtener tus Bus IDs:</strong> Ejecutá <code>lspci | grep -E "VGA|3D"</code> para ver tus GPUs. Luego convertí los números de hexadecimal a decimal (ej: 01:00.0 → PCI:1:0:0, 05:00.0 → PCI:5:0:0).</p>
+            </div>
+
             <h3>nix-ld — Apps externas (Blender, Steam, etc.)</h3>
 
             <div class="intro-box">
@@ -1372,7 +1378,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Configurar nix-ld<span class="tooltip">Habilita nix-ld con las librerías que necesite tu app. Blender necesita librerías gráficas y CUDA.</span></div>
+                <div class="card-title">Configurar nix-ld<span class="tooltip">Permite ejecutar binarios externos (no compilados para NixOS). Añadí las librerías que tu app necesite. Ej: Blender → librerías gráficas + CUDA, Steam → steam-libs.<span class="tip_example">Blender: libx11, libglvnd, cuda_cudart</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">programs.nix-ld</span> <span class="punct">=</span> <span class="punct">{</span>
@@ -1477,7 +1483,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Steam en el sistema<span class="tooltip">Añadir Steam directamente en configuration.nix con dependencias necesarias.</span></div>
+                <div class="card-title">Steam en el sistema<span class="tooltip">Instalación declarativa de Steam via configuration.nix. Añade las librerías necesarias a nix-ld para que Steam y Proton funcionen correctamente.<span class="tip_example">programs.steam.enable = true;</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">programs.steam</span> <span class="punct">=</span> <span class="punct">{</span>
@@ -1507,11 +1513,11 @@
             <h3>Plasma 6</h3>
 
             <div class="info-box">
-                <p><strong>services.desktopManager.plasma6:</strong> Desde NixOS 24.05, KDE Plasma 6 reemplazó a Plasma 5. Usá <code>services.desktopManager.plasma6.enable = true</code> en lugar de <code>plasma5</code>.</p>
+                <p><strong>services.desktopManager.plasma6:</strong> En NixOS 24.05 Plasma 6 ya estaba disponible como opción. En 24.11 se volvió más estable. Usá <code>services.desktopManager.plasma6.enable = true</code> en lugar de <code>plasma5</code>.</p>
             </div>
 
             <div class="card">
-                <div class="card-title">KDE Plasma 6 + SDDM<span class="tooltip">El escritorio KDE Plasma 6 con su display manager SDDM.</span></div>
+                <div class="card-title">KDE Plasma 6 + SDDM<span class="tooltip">Entorno de escritorio Plasma 6 con el gestor de inicio SDDM. Los paquetes de KDE (kate, konsole, etc.) están en kdePackages, no en pkgs.<span class="tip_example">kdePackages.kate, kdePackages.filelight, kdePackages.dolphin</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">services.displayManager.sddm.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
