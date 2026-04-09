@@ -219,17 +219,26 @@
         .code-header .dot { font-size: 0.85rem; color: #a78bfa; font-family: 'JetBrains Mono', monospace; font-weight: 700; letter-spacing: 2px; }
 
         .copy-btn { position: relative; }
-        .copy-btn:hover::after {
+        .copy-btn::after {
             content: 'Copiar al portapapeles';
-            position: absolute; bottom: calc(100% + 6px); right: 0;
+            display: none; position: absolute;
+            bottom: calc(100% + 8px); right: 0;
             background: rgba(15, 15, 30, 0.95);
             border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 6px; padding: 6px 10px;
-            font-size: 0.72rem; font-weight: 500;
+            border-radius: 8px; padding: 8px 12px;
+            font-size: 0.75rem; font-weight: 400;
             color: #94a3b8; white-space: nowrap;
-            z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-            animation: tip-fade 0.2s ease;
+            width: max-content;
+            z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            pointer-events: none;
         }
+        .copy-btn::before {
+            content: ''; display: none; position: absolute;
+            bottom: calc(100% + 2px); right: 10px;
+            border: 6px solid transparent; border-top-color: rgba(15, 15, 30, 0.95);
+            z-index: 100;
+        }
+        .copy-btn:hover::after, .copy-btn:hover::before { display: block; animation: tip-fade 0.2s ease; }
         .copy-btn:hover { background: rgba(99, 102, 241, 0.25); color: #c4b5fd; }
         .copy-btn.copied {
             background: rgba(34, 197, 94, 0.15);
