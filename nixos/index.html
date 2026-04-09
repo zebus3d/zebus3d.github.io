@@ -221,11 +221,12 @@
         .copy-btn {
             background: rgba(99, 102, 241, 0.15);
             border: 1px solid rgba(99, 102, 241, 0.2);
-            color: #a78bfa; padding: 3px 10px; border-radius: 5px;
-            font-size: 0.68rem; cursor: pointer;
-            font-family: 'Inter', sans-serif; font-weight: 500;
+            color: #a78bfa; padding: 4px 6px; border-radius: 5px;
+            cursor: pointer;
             transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center;
         }
+        .copy-btn svg { width: 14px; height: 14px; }
         .copy-btn:hover { background: rgba(99, 102, 241, 0.25); color: #c4b5fd; }
         .copy-btn.copied {
             background: rgba(34, 197, 94, 0.15);
@@ -713,25 +714,25 @@
                     <div class="gc-label safe">RECOMENDADO</div>
                     <div class="gc-title">GC conservador (30 días)<span class="tooltip">Borra generaciones con +30 días de TODOS los perfiles y ejecuta GC. Mantiene la generación actual y las de los últimos 30 días. Ideal para uso semanal sin perder rollback.<span class="tip_example">Ej: rebuild de hace 35 días ▶ se borra</span></span></div>
                     <div class="gc-desc">Generaciones viejas + espacio liberado en un paso.</div>
-                    <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span> <span class="flag">--delete-older-than</span> <span class="arg">30d</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span> <span class="flag">--delete-older-than</span> <span class="arg">30d</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                 </div>
                 <div class="gc-card">
                     <div class="gc-label moderate">MODERADO</div>
                     <div class="gc-title">GC simple<span class="tooltip">Solo elimina archivos del store sin referencias. No borra generaciones. Útil cuando ya borraste generaciones a mano y quieres liberar el espacio.<span class="tip_example">Ej: tras borrar generaciones manualmente, libera GB</span></span></div>
                     <div class="gc-desc">Libera espacio sin borrar generaciones.</div>
-                    <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                 </div>
                 <div class="gc-card">
                     <div class="gc-label aggressive">AGRESIVO</div>
                     <div class="gc-title">Limpieza profunda (-d)<span class="tooltip">Borra TODAS las generaciones antiguas de TODOS los perfiles + GC. Pierdes rollback a versiones antiguas. Úsalo solo cuando estés seguro de que todo funciona.<span class="tip_example">Ej: tras confirmar que todo funciona bien</span></span></div>
                     <div class="gc-desc">Elimina generaciones de todos los perfiles + GC.</div>
-                    <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span> <span class="flag">-d</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span> <span class="flag">-d</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                 </div>
                 <div class="gc-card recommended">
                     <div class="gc-label safe">SEGURO</div>
                     <div class="gc-title">Optimizar store<span class="tooltip">Deduplica archivos idénticos usando hardlinks. No borra nada, solo optimiza el espacio. Puede tardar un poco pero es seguro.<span class="tip_example">Ej: 3 versiones de glibc ▶ ocupa una</span></span></div>
                     <div class="gc-desc">Deduplica archivos (no borra, solo optimiza).</div>
-                    <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-store</span> <span class="flag">--optimise</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-store</span> <span class="flag">--optimise</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                 </div>
             </div>
 
@@ -769,7 +770,7 @@
             <div class="card">
                 <div class="card-title">Ver generaciones del sistema<span class="tooltip">Muestra todas las generaciones del perfil system con su número, fecha y si es la actual (current). Útil para saber cuántas tienes y cuáles borrar.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-env</span> <span class="flag">-p</span> <span class="path">/nix/var/nix/profiles/system</span> <span class="flag">--list-generations</span></code></pre>
                 </div>
             </div>
@@ -777,7 +778,7 @@
             <div class="card">
                 <div class="card-title">Eliminar excepto las últimas 5<span class="tooltip">Mantiene las 5 generaciones más recientes del perfil system. Borra el resto. Ideal si haces rebuild frecuentemente y quieres un balance entre espacio y rollback.<span class="tip_example">Ej: 20 generaciones ▶ borra 15</span></span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-env</span> <span class="flag">-p</span> <span class="path">/nix/var/nix/profiles/system</span> <span class="flag">--delete-generations</span> <span class="arg">+5</span></code></pre>
                 </div>
             </div>
@@ -785,7 +786,7 @@
             <div class="card">
                 <div class="card-title">Eliminar las de más de 30 días<span class="tooltip">Borra generaciones del perfil system con +30 días. Más conservador que <code>+5</code>.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-env</span> <span class="flag">-p</span> <span class="path">/nix/var/nix/profiles/system</span> <span class="flag">--delete-generations</span> <span class="arg">30d</span></code></pre>
                 </div>
             </div>
@@ -836,7 +837,7 @@
                 <div class="card-title">Opción A — Limpiar entradas huérfanas<span class="tooltip">Elimina archivos .conf del bootloader de generaciones que ya no existen. Rápido pero puede dejar entradas "fantasma" en la EFI que se limpian al reiniciar.</span></div>
                 <div class="card-desc" style="color: #fbbf24;">⚡ Rápido, pero a veces deja entradas <code>reported/absent</code>. Reinicia para limpiarlas.</div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">bootctl</span> <span class="arg">cleanup</span></code></pre>
                 </div>
             </div>
@@ -846,7 +847,7 @@
                 <div class="card-title">Opción B — Regenerar bootloader<span class="tooltip">Ejecuta nixos-rebuild boot para reconstruir el menú de arranque desde cero. Solo aparecen las generaciones válidas. No deja entradas fantasma.<span class="tip_example">Ej: 5 generaciones válidas ▶ el menú solo muestra esas 5</span></span></div>
                 <div class="card-desc">Reconstruye el menú desde cero con solo las generaciones vigentes.</div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">boot</span></code></pre>
                 </div>
             </div>
@@ -878,7 +879,7 @@
             <div class="card">
                 <div class="card-title">¿Uso Flakes o Canales?<span class="tooltip">Comando para verificar tu configuración actual. Si usa canales (nixos-channel), cada rebuild puede cambiar versiones. Si usa flakes, las versiones están "congeladas" en flake.lock.<span class="tip_example">nix-channel --list ▶ muestra canales activos</span></span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="cmd">nix-channel</span> <span class="flag">--list</span></code></pre>
                 </div>
                 <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Si muestra <span class="inline-code">nixos https://nixos.org/channels/...</span> ▶ <strong>Canales</strong>. Si no ▶ <strong>Flakes</strong>.</p>
@@ -902,7 +903,7 @@
             <div class="card">
                 <div class="card-title">Actualizar dependencias<span class="tooltip">Equivalente a nix-channel --update pero con flakes.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">update</span></code></pre>
                 </div>
             </div>
@@ -910,7 +911,7 @@
             <div class="card">
                 <div class="card-title">Actualizar solo un input<span class="tooltip">Actualiza un input específico sin tocar los demás. Útil cuando solo necesitas actualizar una dependencia (ej: home-manager) sin riesgo de romper otras.<span class="tip_example">nix flake lock --update-input home-manager</span></span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="cmd">nix</span> <span class="cmd">flake</span> <span class="cmd">lock</span> <span class="flag">--update-input</span> <span class="arg">nixpkgs</span></code></pre>
                 </div>
             </div>
@@ -937,7 +938,7 @@
             <div class="card">
                 <div class="card-title">Importar nixpkgs-unstable<span class="tooltip">Crea una variable "unstable" que contiene nixpkgs de la rama inestable. Se descarga en cada rebuild (no está congelado). Permite usar paquetes más nuevos sin cambiar todo el sistema.<span class="tip_example">let unstable = import (fetchTarball "https://...") {};</span></span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="kw">let</span>
   <span class="kw">unstable</span> <span class="punct">=</span> <span class="kw">import</span> <span class="punct">(</span><span class="kw">fetchTarball</span> <span class="str">"https://nixos.org/channels/nixpkgs-unstable/nixexprs.tar.xz"</span><span class="punct">)</span> <span class="punct">{</span>
       <span class="kw">config.allowUnfree</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
@@ -949,7 +950,7 @@
             <div class="card">
                 <div class="card-title">Usar paquetes unstable en user packages<span class="tooltip">Puedes mezclar paquetes de ambas ramas. pkgs.* usa la estable, unstable.* usa la inestable. Ideal para tener el sistema estable pero apps actualizadas (Neovim, Brave, Git).<span class="tip_example">pkgs.firefox (estable) + unstable.neovim (nuevo)</span></span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="kw">users.users.zebus3d</span> <span class="punct">=</span> <span class="punct">{</span>
     <span class="kw">packages</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
         <span class="arg">kdePackages.kate</span>          <span class="comment"># ◀ estable</span>
@@ -997,7 +998,7 @@
             <div class="card">
                 <div class="card-title">Actualizar y aplicar en un paso<span class="tooltip">Combina nix-channel --update + nixos-rebuild switch en un solo comando. Actualiza el canal y reconstruye el sistema inmediatamente. Rápido pero no permite revisar qué cambió.<span class="tip_example">sudo nixos-rebuild switch --upgrade</span></span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--upgrade</span></code></pre>
                 </div>
             </div>
@@ -1005,7 +1006,7 @@
             <div class="card">
                 <div class="card-title">En dos pasos (revisar antes)<span class="tooltip">Útil si quieres ver qué cambió antes de aplicar.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-channel</span> <span class="flag">--update</span>
 <span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span></code></pre>
                 </div>
@@ -1016,7 +1017,7 @@
             <div class="card">
                 <div class="card-title">1. Actualizar flake.lock</div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">update</span></code></pre>
                 </div>
             </div>
@@ -1024,12 +1025,12 @@
             <div class="card">
                 <div class="card-title">2. Aplicar configuración</div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">.</span></code></pre>
                 </div>
                 <p style="color: #64748b; font-size: 0.82rem; margin-top: 8px;">Con host específico:</p>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">.#nombre-de-host</span></code></pre>
                 </div>
             </div>
@@ -1043,7 +1044,7 @@
             <div class="card">
                 <div class="card-title">Reconstruir con config híbrida<span class="tooltip">El fetchTarball se actualiza solo al hacer rebuild. No hay paso extra.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span></code></pre>
                 </div>
             </div>
@@ -1082,7 +1083,7 @@
                 <div class="card-title">Añadir a configuration.nix<span class="tooltip">Método principal y recomendado. Edita /etc/nixos/configuration.nix, añade los paquetes a environment.systemPackages, y ejecuta sudo nixos-rebuild switch. Los paquetes quedan en la config y sobreviven reinicios.<span class="tip_example">environment.systemPackages = [ pkgs.firefox pkgs.git ];</span></span></div>
                 <div class="card-desc">Edita <span class="inline-code">/etc/nixos/configuration.nix</span>:</div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="kw">environment.systemPackages</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
     <span class="arg">firefox</span>
     <span class="arg">git</span>
@@ -1091,7 +1092,7 @@
                 </div>
                 <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Luego reconstruye:</p>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span></code></pre>
                 </div>
             </div>
@@ -1102,7 +1103,7 @@
                 <div class="card-title">Instalar para el usuario actual<span class="tooltip">Instala solo para tu usuario. No requiere sudo ni rebuild. Se pierde si no está en la config.<span class="tip_example">Ej: nix-env -iA nixpkgs.firefox</span></span></div>
                 <div class="card-desc">Rápido pero no persistente entre reinstalaciones.</div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="cmd">nix-env</span> <span class="flag">-iA</span> <span class="arg">nixpkgs.firefox</span></code></pre>
                 </div>
             </div>
@@ -1111,7 +1112,7 @@
                 <div class="card-title">Probar un paquete sin instalar<span class="tooltip">Descarga y ejecuta un paquete temporalmente sin instalarlo. No deja rastro en el sistema.<span class="tip_example">Ej: nix-shell -p python3 --run "python --version"</span></span></div>
                 <div class="card-desc">Ejecuta algo una sola vez sin instalarlo.</div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="cmd">nix-shell</span> <span class="flag">-p</span> <span class="arg">python3</span> <span class="flag">--run</span> <span class="str">"python --version"</span></code></pre>
                 </div>
             </div>
@@ -1123,7 +1124,7 @@
                 <div class="card-title">Volver a la generación anterior<span class="tooltip">Rollback rápido: vuelve a la generación anterior (la anterior a la actual). Si algo se rompió tras actualizar, esto te salva. No borra la generación problemática, solo cambia el enlace simbólico.<span class="tip_example">sudo nixos-rebuild switch --rollback</span></span></div>
                 <div class="card-desc">¿Algo se rompió tras actualizar? Vuelve atrás:</div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--rollback</span></code></pre>
                 </div>
             </div>
@@ -1146,7 +1147,7 @@
             <div class="card">
                 <div class="card-title">Limpieza automática semanal<span class="tooltip">Timer de systemd que ejecuta GC automáticamente. "weekly" = una vez por semana.<span class="tip_example">Ej: cada domingo limpia generaciones viejas</span></span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="kw">nix.gc</span> <span class="punct">=</span> <span class="punct">{</span>
     <span class="kw">automatic</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
     <span class="kw">dates</span> <span class="punct">=</span> <span class="str">"weekly"</span><span class="punct">;</span>
@@ -1158,7 +1159,7 @@
             <div class="card">
                 <div class="card-title">Optimización automática del store<span class="tooltip">Deduplica archivos idénticos automáticamente al añadir algo al store.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="kw">nix.settings.auto-optimise-store</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span></code></pre>
                 </div>
             </div>
@@ -1166,7 +1167,7 @@
             <div class="card">
                 <div class="card-title">Limitar generaciones en el menú de arranque<span class="tooltip">Systemd-boot solo muestra las N generaciones más recientes. No borra, solo oculta del menú.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="kw">boot.loader.systemd-boot.configurationLimit</span> <span class="punct">=</span> <span class="num">10</span><span class="punct">;</span></code></pre>
                 </div>
             </div>
@@ -1197,7 +1198,7 @@
                 <div class="card-title">Shell interactivo con paquetes<span class="tooltip">Abre un shell temporal donde los paquetes especificados están disponibles. Al salir (exit), el entorno desaparece. Ideal para probar algo rápido sin ensuciar el sistema.<span class="tip_example">nix-shell -p python3 nodejs gcc</span></span></div>
                 <div class="card-desc">Entra a un shell con las herramientas que necesites:</div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="cmd">nix-shell</span> <span class="flag">-p</span> <span class="arg">python3</span> <span class="arg">nodejs</span> <span class="arg">gcc</span></code></pre>
                 </div>
                 <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Dentro del shell puedes usar <code>python3</code>, <code>node</code>, <code>gcc</code>. Al escribir <code>exit</code>, desaparecen.</p>
@@ -1206,7 +1207,7 @@
             <div class="card">
                 <div class="card-title">Ejecutar un comando y salir<span class="tooltip">Ejecuta un comando con los paquetes especificados y sale automáticamente. Sin entrar a un shell interactivo. Útil para scripts o pruebas rápidas.<span class="tip_example">nix-shell -p python3 --run "python --version"</span></span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="cmd">nix-shell</span> <span class="flag">-p</span> <span class="arg">python3</span> <span class="flag">--run</span> <span class="str">"python --version"</span></code></pre>
                 </div>
             </div>
@@ -1216,7 +1217,7 @@
                 <div class="card-title">shell.nix — Entorno reproducible<span class="tooltip">Crea un archivo shell.nix en tu proyecto. Cualquiera que ejecute "nix-shell" obtiene el mismo entorno.<span class="tip_example">{ pkgs ? import <nixpkgs> {} }: pkgs.mkShell { buildInputs = [ pkgs.python3 pkgs.pip ]; }</span></span></div>
                 <div class="card-desc">Creá un <span class="inline-code">shell.nix</span> en tu proyecto para definir el entorno:</div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="punct">{</span> <span class="kw">pkgs</span> <span class="punct">?</span> <span class="kw">import</span> <span class="str">&lt;nixpkgs&gt;</span> <span class="punct">{} }</span><span class="punct">:</span>
 
 <span class="kw">pkgs.mkShell</span> <span class="punct">{</span>
@@ -1243,7 +1244,7 @@
             <div class="card">
                 <div class="card-title">Configurar nix-ld<span class="tooltip">Permite ejecutar binarios externos (no compilados para NixOS). Añadí las librerías que tu app necesite. Ej: Blender → librerías gráficas + CUDA, Steam → steam-libs.<span class="tip_example">Blender: libx11, libglvnd, cuda_cudart</span></span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="kw">programs.nix-ld</span> <span class="punct">=</span> <span class="punct">{</span>
     <span class="kw">enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
     <span class="kw">libraries</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
@@ -1272,7 +1273,7 @@
             <div class="card">
                 <div class="card-title">Crear un wrapper con writeShellScriptBin<span class="tooltip">Envuelve un binario para que use las librerías de Nix. Útil para apps que necesitas aislar.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="kw">pkgs</span><span class="punct">.</span><span class="arg">writeShellScriptBin</span> <span class="str">"mi-app"</span> <span class="str">''
     export LD_LIBRARY_PATH=${pkgs.libgl}/lib:$LD_LIBRARY_PATH
     exec /ruta/a/binario "$@"
@@ -1289,7 +1290,7 @@
             <div class="card">
                 <div class="card-title">steam-run para juegos de Windows<span class="tooltip">Wrapper que proporciona el entorno necesario para ejecutar juegos de Windows via Proton/Steam Play. Necesario porque los juegos no fueron compilados para NixOS.<span class="tip_example">steam-run /ruta/al/juego.exe</span></span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="cmd">steam-run</span> <span class="arg">/ruta/al/juego.exe</span></code></pre>
                 </div>
             </div>
@@ -1297,7 +1298,7 @@
             <div class="card">
                 <div class="card-title">Steam en el sistema<span class="tooltip">Instalación declarativa de Steam via configuration.nix. Añade las librerías necesarias a nix-ld para que Steam y Proton funcionen correctamente.<span class="tip_example">programs.steam.enable = true;</span></span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="kw">programs.steam</span> <span class="punct">=</span> <span class="punct">{</span>
     <span class="kw">enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
     <span class="kw">remotePlay</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
@@ -1333,7 +1334,7 @@
                 <div class="recommended-badge">✓ Recomendado</div>
                 <div class="card-title">Configuración NVIDIA con Prime<span class="tooltip">Para portátiles con Intel + NVIDIA. Sync: ambas GPUs siempre activas (máx rendimiento, mayor consumo). Offload: solo la NVIDIA se activa cuando la necesitas (ahorro de batería). Necesitas los Bus IDs de tus GPUs.<span class="tip_example">Sync: gaming/escritorio. Offload: portátil con batería.</span></span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="comment"># OpenGL</span>
 <span class="kw">hardware.graphics</span> <span class="punct">=</span> <span class="punct">{</span>
     <span class="kw">enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
@@ -1372,7 +1373,7 @@
             <div class="card">
                 <div class="card-title">Configurar nix-ld<span class="tooltip">Permite ejecutar binarios externos (no compilados para NixOS). Añadí las librerías que tu app necesite. Ej: Blender → librerías gráficas + CUDA, Steam → steam-libs.<span class="tip_example">Blender: libx11, libglvnd, cuda_cudart</span></span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="kw">programs.nix-ld</span> <span class="punct">=</span> <span class="punct">{</span>
     <span class="kw">enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
     <span class="kw">libraries</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
@@ -1402,7 +1403,7 @@
                 <div class="card-title">Launcher script<span class="tooltip">Script que configura las variables de entorno necesarias para GPU Nvidia y ejecuta Blender.</span></div>
                 <div class="card-desc" style="color: #94a3b8; font-size: 0.82rem; margin-bottom: 10px;">Guardar en: <span class="inline-code">~/.scripts/blender_launcher.sh</span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="kw">#!/usr/bin/env bash</span>
 <span class="comment"># Blender launcher script for NixOS (Reforzado)</span>
 <span class="kw">BLENDER_PATH</span>=<span class="str">"$1"</span>
@@ -1440,7 +1441,7 @@
                 <div class="card-title">Archivo .desktop<span class="tooltip">Archivo para que Plasma/KDE reconozca Blender como aplicación.</span></div>
                 <div class="card-desc" style="color: #94a3b8; font-size: 0.82rem; margin-bottom: 10px;">Guardar en: <span class="inline-code">~/.local/share/applications/blender-X.X.X.desktop</span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>desktop</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>desktop</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="kw">[Desktop Entry]</span>
 <span class="arg">Name</span>=<span class="str">Blender 5.1.0</span>
 <span class="arg">Exec</span>=<span class="str">/home/zebus3d/.scripts/blender_launcher.sh /home/zebus3d/Downloads/Blenders/blender-5.1.0-linux-x64/blender %f</span>
@@ -1469,7 +1470,7 @@
             <div class="card">
                 <div class="card-title">Steam-run para juegos de Windows<span class="tooltip">Steam en NixOS necesita steam-run para ejecutar Proton y juegos de Windows.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="cmd">steam-run</span> <span class="arg">/ruta/al/juego.exe</span></code></pre>
                 </div>
             </div>
@@ -1477,7 +1478,7 @@
             <div class="card">
                 <div class="card-title">Steam en el sistema<span class="tooltip">Instalación declarativa de Steam via configuration.nix. Añade las librerías necesarias a nix-ld para que Steam y Proton funcionen correctamente.<span class="tip_example">programs.steam.enable = true;</span></span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="kw">programs.steam</span> <span class="punct">=</span> <span class="punct">{</span>
     <span class="kw">enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
     <span class="kw">remotePlay</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
@@ -1493,7 +1494,7 @@
             <div class="card">
                 <div class="card-title">Libvirt + Virt-Manager<span class="tooltip">Máquinas virtuales con KVM/QEMU. Virt-Manager es la GUI para gestionarlas.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="kw">virtualisation.libvirtd.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
 <span class="kw">programs.virt-manager.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
 
@@ -1511,7 +1512,7 @@
             <div class="card">
                 <div class="card-title">KDE Plasma 6 + SDDM<span class="tooltip">Entorno de escritorio Plasma 6 con el gestor de inicio SDDM. Los paquetes de KDE (kate, konsole, etc.) están en kdePackages, no en pkgs.<span class="tip_example">kdePackages.kate, kdePackages.filelight, kdePackages.dolphin</span></span></div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="kw">services.displayManager.sddm.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
 <span class="kw">services.desktopManager.plasma6.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
 
@@ -1595,12 +1596,13 @@
         // Copy code
         function copyCode(btn) {
             const block = btn.closest('.code-block, .gc-code');
-            const text = block.querySelector('code, pre').textContent.replace('Copiar', '').trim();
+            const text = block.querySelector('code, pre').textContent.trim();
             navigator.clipboard.writeText(text).then(() => {
-                btn.textContent = 'Copiado!';
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
                 btn.classList.add('copied');
                 setTimeout(() => {
-                    btn.textContent = 'Copiar';
+                    btn.innerHTML = originalHTML;
                     btn.classList.remove('copied');
                 }, 2000);
             });
