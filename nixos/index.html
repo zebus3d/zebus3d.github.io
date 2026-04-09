@@ -816,7 +816,7 @@
             <h2><span class="icon">🔧</span> Limpiar bootloader</h2>
 
             <div class="intro-box">
-                <p><strong>¿Qué es el bootloader?</strong> Es el menú que ves al encender el PC donde eliges qué generación de NixOS arrancar. Cada generación crea una entrada en ese menú.</p>
+                <p><strong>¿Qué es el bootloader?</strong> Es el menú que ves al encender el ordenador donde eliges qué generación de NixOS arrancar. Cada generación crea una entrada en ese menú.</p>
                 <p>Cuando borras generaciones, los archivos de esas entradas desaparecen pero las <strong>entradas en el menú pueden quedar huérfanas</strong>. Esta sección es para limpiarlas.</p>
             </div>
 
@@ -868,7 +868,7 @@
 
             <div class="intro-box">
                 <p><strong>¿Qué son los Flakes?</strong> Son la forma moderna de gestionar tu configuración de NixOS. Imagina que tu configuración es un "proyecto" con sus propias dependencias versionadas, como un proyecto de programación con su <span class="inline-code">package.json</span>.</p>
-                <p>El archivo <span class="inline-code">flake.nix</span> declara qué usar y el <span class="inline-code">flake.lock</span> "congela" las versiones exactas para que la compilación sea siempre idéntica. Esto hace que tu sistema sea <strong>reproducible</strong>: si copias los archivos a otro PC, obtienes exactamente lo mismo.</p>
+                <p>El archivo <span class="inline-code">flake.nix</span> declara qué usar y el <span class="inline-code">flake.lock</span> "congela" las versiones exactas para que la compilación sea siempre idéntica. Esto hace que tu sistema sea <strong>reproducible</strong>: si copias los archivos a otro ordenador, obtienes exactamente lo mismo.</p>
             </div>
 
             <div class="info-box">
@@ -908,7 +908,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Actualizar solo un input<span class="tooltip">Actualiza un input específico sin tocar los demás. Útil cuando solo necesitás actualizar una dependencia (ej: home-manager) sin riesgo de romper otras.<span class="tip_example">nix flake lock --update-input home-manager</span></span></div>
+                <div class="card-title">Actualizar solo un input<span class="tooltip">Actualiza un input específico sin tocar los demás. Útil cuando solo necesitas actualizar una dependencia (ej: home-manager) sin riesgo de romper otras.<span class="tip_example">nix flake lock --update-input home-manager</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">nix</span> <span class="cmd">flake</span> <span class="cmd">lock</span> <span class="flag">--update-input</span> <span class="arg">nixpkgs</span></code></pre>
@@ -947,7 +947,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Usar paquetes unstable en user packages<span class="tooltip">Podés mezclar paquetes de ambas ramas. pkgs.* usa la estable, unstable.* usa la inestable. Ideal para tener el sistema estable pero apps actualizadas (Neovim, Brave, Git).<span class="tip_example">pkgs.firefox (estable) + unstable.neovim (nuevo)</span></span></div>
+                <div class="card-title">Usar paquetes unstable en user packages<span class="tooltip">Puedes mezclar paquetes de ambas ramas. pkgs.* usa la estable, unstable.* usa la inestable. Ideal para tener el sistema estable pero apps actualizadas (Neovim, Brave, Git).<span class="tip_example">pkgs.firefox (estable) + unstable.neovim (nuevo)</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">users.users.zebus3d</span> <span class="punct">=</span> <span class="punct">{</span>
@@ -1037,7 +1037,7 @@
             <h3>Config Híbrida (fetchTarball)</h3>
 
             <div class="info-box">
-                <p>Si usás el enfoque híbrido como tu config actual, <strong>no necesitás actualizar nada manualmente</strong>. <code>fetchTarball</code> descarga la última versión de nixpkgs-unstable en cada <code>nixos-rebuild</code>.</p>
+                <p>si usas el enfoque híbrido como tu config actual, <strong>no necesitas actualizar nada manualmente</strong>. <code>fetchTarball</code> descarga la última versión de nixpkgs-unstable en cada <code>nixos-rebuild</code>.</p>
             </div>
 
             <div class="card">
@@ -1049,7 +1049,7 @@
             </div>
 
             <div class="warning-box">
-                <p><strong>FetchTarball vs flakes:</strong> <span class="warn-tip">fetchTarball siempre descarga lo último<span class="warn-tooltip">Cada rebuild verifica si hay nueva versión de nixpkgs-unstable. Más lento pero siempre actual. Flakes usa flake.lock para versiones fijas y es más rápido.</span></span> — cada rebuild descarga. Si querés velocidad, migrá a <strong>flakes</strong>.</p>
+                <p><strong>FetchTarball vs flakes:</strong> <span class="warn-tip">fetchTarball siempre descarga lo último<span class="warn-tooltip">Cada rebuild verifica si hay nueva versión de nixpkgs-unstable. Más lento pero siempre actual. Flakes usa flake.lock para versiones fijas y es más rápido.</span></span> — cada rebuild descarga. Si quieres velocidad, migra a <strong>flakes</strong>.</p>
             </div>
 
             <div class="page-nav">
@@ -1079,7 +1079,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Buscar en la web<span class="tooltip">Buscador oficial de paquetes de NixOS. Puedes filtrar por categoría, sistema y ver información detallada. Ideal para explorar cuando no sabés el nombre exacto.<span class="tip_example">search.nixos.org/packages?query=blender</span></span></div>
+                <div class="card-title">Buscar en la web<span class="tooltip">Buscador oficial de paquetes de NixOS. Puedes filtrar por categoría, sistema y ver información detallada. Ideal para explorar cuando no sabes el nombre exacto.<span class="tip_example">search.nixos.org/packages?query=blender</span></span></div>
                 <div class="card-desc"><a href="https://search.nixos.org/packages" style="color: #7dd3fc;" target="_blank">search.nixos.org/packages</a></div>
             </div>
 
@@ -1087,7 +1087,7 @@
 
             <div class="card recommended">
                 <div class="recommended-badge">✓ Recomendado</div>
-                <div class="card-title">Añadir a configuration.nix<span class="tooltip">Método principal y recomendado. Editá /etc/nixos/configuration.nix, agregá los paquetes a environment.systemPackages, y ejecutá sudo nixos-rebuild switch. Los paquetes quedan en la config y sobreviven reinicios.<span class="tip_example">environment.systemPackages = [ pkgs.firefox pkgs.git ];</span></span></div>
+                <div class="card-title">Añadir a configuration.nix<span class="tooltip">Método principal y recomendado. Edita /etc/nixos/configuration.nix, añade los paquetes a environment.systemPackages, y ejecuta sudo nixos-rebuild switch. Los paquetes quedan en la config y sobreviven reinicios.<span class="tip_example">environment.systemPackages = [ pkgs.firefox pkgs.git ];</span></span></div>
                 <div class="card-desc">Edita <span class="inline-code">/etc/nixos/configuration.nix</span>:</div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
@@ -1197,7 +1197,7 @@
             <h3>nix-shell — Entornos aislados</h3>
 
             <div class="intro-box">
-                <p><strong>¿Qué es nix-shell?</strong> Crea un entorno temporal con las dependencias que necesites. Es como un <strong>virtualenv de Python</strong> pero para cualquier lenguaje o herramienta. Dentro del shell tenés acceso a esos paquetes; afuera, no existen.</p>
+                <p><strong>¿Qué es nix-shell?</strong> Crea un entorno temporal con las dependencias que necesites. Es como un <strong>virtualenv de Python</strong> pero para cualquier lenguaje o herramienta. Dentro del shell tienes acceso a esos paquetes; afuera, no existen.</p>
                 <p>Es ideal para: no ensuciar el sistema con dependencias de un proyecto, probar herramientas rápido, o tener versiones distintas de un mismo paquete según el proyecto.</p>
             </div>
 
@@ -1208,7 +1208,7 @@
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">nix-shell</span> <span class="flag">-p</span> <span class="arg">python3</span> <span class="arg">nodejs</span> <span class="arg">gcc</span></code></pre>
                 </div>
-                <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Dentro del shell podés usar <code>python3</code>, <code>node</code>, <code>gcc</code>. Al escribir <code>exit</code>, desaparecen.</p>
+                <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Dentro del shell puedes usar <code>python3</code>, <code>node</code>, <code>gcc</code>. Al escribir <code>exit</code>, desaparecen.</p>
             </div>
 
             <div class="card">
@@ -1221,7 +1221,7 @@
 
             <div class="card recommended">
                 <div class="recommended-badge">✓ Recomendado</div>
-                <div class="card-title">shell.nix — Entorno reproducible<span class="tooltip">Creá un archivo shell.nix en tu proyecto. Cualquiera que ejecute "nix-shell" obtiene el mismo entorno.<span class="tip_example">Ej: { pkgs ? import <nixpkgs> {} }: pkgs.mkShell { buildInputs = [ pkgs.python3 pkgs.pip ]; }</span></span></div>
+                <div class="card-title">shell.nix — Entorno reproducible<span class="tooltip">Crea un archivo shell.nix en tu proyecto. Cualquiera que ejecute "nix-shell" obtiene el mismo entorno.<span class="tip_example">{ pkgs ? import <nixpkgs> {} }: pkgs.mkShell { buildInputs = [ pkgs.python3 pkgs.pip ]; }</span></span></div>
                 <div class="card-desc">Creá un <span class="inline-code">shell.nix</span> en tu proyecto para definir el entorno:</div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
@@ -1235,7 +1235,7 @@
     <span class="punct">];</span>
 <span class="punct">}</span></code></pre>
                 </div>
-                <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Luego simplemente ejecutá <span class="inline-code">nix-shell</span> en esa carpeta.</p>
+                <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Luego simplemente ejecuta <span class="inline-code">nix-shell</span> en esa carpeta.</p>
             </div>
 
             <div class="info-box">
@@ -1268,17 +1268,17 @@
             </div>
 
             <div class="warning-box">
-                <p><strong>¿Cuándo usar nix-ld?</strong> Cuando descargás un binario precompilado de su web oficial (Blender, OBS, Spotify, Discord, Steam) y no hay una versión en nixpkgs o necesitás la última versión.</p>
+                <p><strong>¿Cuándo usar nix-ld?</strong> Cuando descargas un binario precompilado de su web oficial (Blender, OBS, Spotify, Discord, Steam) y no hay una versión en nixpkgs o necesitas la última versión.</p>
             </div>
 
             <h3>Wrappers con mkWrapper</h3>
 
             <div class="intro-box">
-                <p><strong>Wrappers</strong> son "envoltorios" que ejecutan un binario con las librerías de Nix. Es más flexible que nix-ld porque podés tener wrappers distintos por aplicación.</p>
+                <p><strong>Wrappers</strong> son "envoltorios" que ejecutan un binario con las librerías de Nix. Es más flexible que nix-ld porque puedes tener wrappers distintos por aplicación.</p>
             </div>
 
             <div class="card">
-                <div class="card-title">Crear un wrapper con writeShellScriptBin<span class="tooltip">Envuelve un binario para que use las librerías de Nix. Útil para apps que necesitás aislar.</span></div>
+                <div class="card-title">Crear un wrapper con writeShellScriptBin<span class="tooltip">Envuelve un binario para que use las librerías de Nix. Útil para apps que necesitas aislar.</span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">pkgs</span><span class="punct">.</span><span class="arg">writeShellScriptBin</span> <span class="str">"mi-app"</span> <span class="str">''
@@ -1289,7 +1289,7 @@
             </div>
 
             <div class="info-box">
-                <p><strong>¿nix-ld vs mkWrapper?</strong> <code>nix-ld</code> es global (todos los binarios lo usan). <code>mkWrapper</code> es por-app. Para apps que descargás de internet y querés que funcione "solo", usá <code>nix-ld</code>. Para personalización fina, usá wrappers.</p>
+                <p><strong>¿nix-ld vs mkWrapper?</strong> <code>nix-ld</code> es global (todos los binarios lo usan). <code>mkWrapper</code> es por-app. Para apps que descargas de internet y quieres que funcione "solo", usa <code>nix-ld</code>. Para personalización fina, usa wrappers.</p>
             </div>
 
             <h3>Steam y Proton</h3>
@@ -1339,7 +1339,7 @@
 
             <div class="card recommended">
                 <div class="recommended-badge">✓ Recomendado</div>
-                <div class="card-title">Configuración NVIDIA con Prime<span class="tooltip">Para laptops con Intel + NVIDIA. Sync: ambas GPUs siempre activas (máx rendimiento, mayor consumo). Offload: solo la NVIDIA se activa cuando la necesitás (ahorro de batería). Necesitás los Bus IDs de tus GPUs.<span class="tip_example">Sync: gaming/escritorio. Offload:笔记本 con batería.</span></span></div>
+                <div class="card-title">Configuración NVIDIA con Prime<span class="tooltip">Para portátiles con Intel + NVIDIA. Sync: ambas GPUs siempre activas (máx rendimiento, mayor consumo). Offload: solo la NVIDIA se activa cuando la necesitas (ahorro de batería). Necesitas los Bus IDs de tus GPUs.<span class="tip_example">Sync: gaming/escritorio. Offload: portátil con batería.</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="comment"># OpenGL</span>
@@ -1364,11 +1364,11 @@
             </div>
 
             <div class="warning-box">
-                <p><strong>Sync vs Offload:</strong> <span class="warn-tip">sync = rendimiento máximo<span class="warn-tooltip">Ambas GPUs siempre activas. Ideal para escritorio o si no te importa la batería.</span></span> — para laptops con batería, usá <code>offload.enable = true</code> y lanzá apps con <code>__NV_PRIME_RENDER_OFFLOAD=1</code>.</p>
+                <p><strong>Sync vs Offload:</strong> <span class="warn-tip">sync = rendimiento máximo<span class="warn-tooltip">Ambas GPUs siempre activas. Ideal para escritorio o si no te importa la batería.</span></span> — para portátiles con batería, usa <code>offload.enable = true</code> y lanza apps con <code>__NV_PRIME_RENDER_OFFLOAD=1</code>.</p>
             </div>
 
             <div class="info-box">
-                <p><strong>Cómo obtener tus Bus IDs:</strong> Ejecutá <code>lspci | grep -E "VGA|3D"</code> para ver tus GPUs. Luego convertí los números de hexadecimal a decimal (ej: 01:00.0 → PCI:1:0:0, 05:00.0 → PCI:5:0:0).</p>
+                <p><strong>Cómo obtener tus Bus IDs:</strong> Ejecuta <code>lspci | grep -E "VGA|3D"</code> para ver tus GPUs. Luego convierte los números de hexadecimal a decimal (ej: 01:00.0 → PCI:1:0:0, 05:00.0 → PCI:5:0:0).</p>
             </div>
 
             <h3>nix-ld — Apps externas (Blender, Steam, etc.)</h3>
@@ -1397,7 +1397,7 @@
             </div>
 
             <div class="warning-box">
-                <p><strong>¿Cuándo usar nix-ld?</strong> Cuando descargás un binario precompilado de su web oficial (Blender, OBS, Spotify, Discord, Steam) y no hay una versión en nixpkgs o necesitás la última versión.</p>
+                <p><strong>¿Cuándo usar nix-ld?</strong> Cuando descargas un binario precompilado de su web oficial (Blender, OBS, Spotify, Discord, Steam) y no hay una versión en nixpkgs o necesitas la última versión.</p>
             </div>
 
             <h3>Blender descargado (binario precompilado)</h3>
