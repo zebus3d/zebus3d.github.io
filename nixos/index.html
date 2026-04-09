@@ -75,8 +75,13 @@
             position: sticky; top: 0; z-index: 100;
             background: rgba(10, 10, 15, 0.85);
             backdrop-filter: blur(16px);
-            padding: 5px 0 10px;
+            padding: 5px 0 20px;
             margin-top: 0;
+            border-radius: 20px;
+            transition: border-radius 0.3s ease;
+        }
+        .sticky-nav.stuck {
+            border-radius: 0 0 20px 20px;
         }
 
         /* Tab navigation */
@@ -209,11 +214,8 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.72rem; color: #64748b;
         }
-        .code-header .dots { display: flex; gap: 6px; }
-        .code-header .dot { width: 10px; height: 10px; border-radius: 50%; }
-        .code-header .dot.red { background: #ff5f57; }
-        .code-header .dot.yellow { background: #febc2e; }
-        .code-header .dot.green { background: #28c840; }
+        .code-header .dots { display: flex; gap: 6px; align-items: center; }
+        .code-header .dot { font-size: 0.85rem; color: #a78bfa; font-family: 'JetBrains Mono', monospace; font-weight: 700; letter-spacing: 2px; }
 
         .copy-btn {
             background: rgba(99, 102, 241, 0.15);
@@ -419,6 +421,11 @@
         /* Tables */
         .risk-table {
             width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.88rem;
+            background: rgba(15, 15, 25, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            overflow: hidden;
         }
         .risk-table th {
             text-align: left; padding: 10px 14px;
@@ -761,7 +768,7 @@
             <div class="card">
                 <div class="card-title">Ver generaciones del sistema<span class="tooltip">Muestra todas las generaciones con fecha, número y cuál es la actual.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-env</span> <span class="flag">-p</span> <span class="path">/nix/var/nix/profiles/system</span> <span class="flag">--list-generations</span></code></pre>
                 </div>
             </div>
@@ -769,7 +776,7 @@
             <div class="card">
                 <div class="card-title">Eliminar excepto las últimas 5<span class="tooltip">Mantiene las 5 más recientes. Útil para rollback seguro.<span class="tip-example">Ej: 20 generaciones ▶ borra 15</span></span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-env</span> <span class="flag">-p</span> <span class="path">/nix/var/nix/profiles/system</span> <span class="flag">--delete-generations</span> <span class="arg">+5</span></code></pre>
                 </div>
             </div>
@@ -777,7 +784,7 @@
             <div class="card">
                 <div class="card-title">Eliminar las de más de 30 días<span class="tooltip">Borra generaciones del perfil system con +30 días. Más conservador que <code>+5</code>.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-env</span> <span class="flag">-p</span> <span class="path">/nix/var/nix/profiles/system</span> <span class="flag">--delete-generations</span> <span class="arg">30d</span></code></pre>
                 </div>
             </div>
@@ -828,7 +835,7 @@
                 <div class="card-title">Opción A — Limpiar entradas huérfanas<span class="tooltip">Elimina .conf del bootloader de generaciones que ya no existen. Puede dejar entradas "fantasma" en la EFI.</span></div>
                 <div class="card-desc" style="color: #fbbf24;">⚡ Rápido, pero a veces deja entradas <code>reported/absent</code>. Reinicia para limpiarlas.</div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">bootctl</span> <span class="arg">cleanup</span></code></pre>
                 </div>
             </div>
@@ -838,7 +845,7 @@
                 <div class="card-title">Opción B — Regenerar bootloader<span class="tooltip">Reconstruye el menú de arranque desde cero. No deja entradas fantasma.<span class="tip-example">Ej: 5 generaciones válidas ▶ el menú solo muestra esas 5</span></span></div>
                 <div class="card-desc">Reconstruye el menú desde cero con solo las generaciones vigentes.</div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">boot</span></code></pre>
                 </div>
             </div>
@@ -870,7 +877,7 @@
             <div class="card">
                 <div class="card-title">¿Uso Flakes o Canales?<span class="tooltip">Si tu config tiene "nix.settings.experimental-features" con "nix-command flakes", usas Flakes.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">nix-channel</span> <span class="flag">--list</span></code></pre>
                 </div>
                 <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Si muestra <span class="inline-code">nixos https://nixos.org/channels/...</span> ▶ <strong>Canales</strong>. Si no ▶ <strong>Flakes</strong>.</p>
@@ -879,7 +886,7 @@
             <div class="card">
                 <div class="card-title">Estructura típica<span class="tooltip">flake.nix define dependencias. flake.lock congela versiones. nixos/ contiene tu configuration.nix.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>tree</span></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>tree</span></div>
                     <pre><code>mi-config/
 ├── <span class="path">flake.nix</span>        <span class="comment"># Dependencias y outputs</span>
 ├── <span class="path">flake.lock</span>       <span class="comment"># Versiones congeladas</span>
@@ -892,7 +899,7 @@
             <div class="card">
                 <div class="card-title">Actualizar dependencias<span class="tooltip">Equivalente a nix-channel --update pero con flakes.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">update</span></code></pre>
                 </div>
             </div>
@@ -900,7 +907,7 @@
             <div class="card">
                 <div class="card-title">Actualizar solo un input<span class="tooltip">Solo actualiza una dependencia sin tocar las demás. Útil si algo se rompió.<span class="tip-example">Ej: nix flake lock --update-input nixpkgs</span></span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">nix</span> <span class="cmd">flake</span> <span class="cmd">lock</span> <span class="flag">--update-input</span> <span class="arg">nixpkgs</span></code></pre>
                 </div>
             </div>
@@ -927,7 +934,7 @@
             <div class="card">
                 <div class="card-title">Importar nixpkgs-unstable<span class="tooltip">Descarga el canal unstable directamente desde GitHub/NixOS channels.<span class="tip-example">Ej: let unstable = import (fetchTarball "...") {};</span></span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">let</span>
   <span class="kw">unstable</span> <span class="punct">=</span> <span class="kw">import</span> <span class="punct">(</span><span class="kw">fetchTarball</span> <span class="str">"https://nixos.org/channels/nixpkgs-unstable/nixexprs.tar.xz"</span><span class="punct">)</span> <span class="punct">{</span>
       <span class="kw">config.allowUnfree</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
@@ -939,7 +946,7 @@
             <div class="card">
                 <div class="card-title">Usar paquetes unstable en user packages<span class="tooltip">Mezcla pkgs (estable) con unstable.inestable según necesidad.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">users.users.zebus3d</span> <span class="punct">=</span> <span class="punct">{</span>
     <span class="kw">packages</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
         <span class="arg">kdePackages.kate</span>          <span class="comment"># ◀ estable</span>
@@ -987,7 +994,7 @@
             <div class="card">
                 <div class="card-title">Actualizar y aplicar en un paso<span class="tooltip">Actualiza canal + reconstruye. Rápido pero no permite revisar cambios antes.<span class="tip-example">Ej: sudo nixos-rebuild switch --upgrade</span></span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--upgrade</span></code></pre>
                 </div>
             </div>
@@ -995,7 +1002,7 @@
             <div class="card">
                 <div class="card-title">En dos pasos (revisar antes)<span class="tooltip">Útil si quieres ver qué cambió antes de aplicar.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-channel</span> <span class="flag">--update</span>
 <span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span></code></pre>
                 </div>
@@ -1006,7 +1013,7 @@
             <div class="card">
                 <div class="card-title">1. Actualizar flake.lock</div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">update</span></code></pre>
                 </div>
             </div>
@@ -1014,12 +1021,12 @@
             <div class="card">
                 <div class="card-title">2. Aplicar configuración</div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">.</span></code></pre>
                 </div>
                 <p style="color: #64748b; font-size: 0.82rem; margin-top: 8px;">Con host específico:</p>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">.#nombre-de-host</span></code></pre>
                 </div>
             </div>
@@ -1033,7 +1040,7 @@
             <div class="card">
                 <div class="card-title">Reconstruir con config híbrida<span class="tooltip">El fetchTarball se actualiza solo al hacer rebuild. No hay paso extra.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span></code></pre>
                 </div>
             </div>
@@ -1063,7 +1070,7 @@
             <div class="card">
                 <div class="card-title">Buscar en la terminal<span class="tooltip">Busca paquetes disponibles en tu canal o flake. Muestra nombre, versión y descripción.<span class="tip-example">Ej: nix search nixpkgs firefox</span></span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">nix</span> <span class="cmd">search</span> <span class="arg">nixpkgs</span> <span class="arg">firefox</span></code></pre>
                 </div>
             </div>
@@ -1080,7 +1087,7 @@
                 <div class="card-title">Añadir a configuration.nix<span class="tooltip">Edita /etc/nixos/configuration.nix y añade los paquetes. Se instalan al hacer nixos-rebuild switch.<span class="tip-example">Ej: environment.systemPackages = [ pkgs.firefox pkgs.git ];</span></span></div>
                 <div class="card-desc">Edita <span class="inline-code">/etc/nixos/configuration.nix</span>:</div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">environment.systemPackages</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
     <span class="arg">firefox</span>
     <span class="arg">git</span>
@@ -1089,7 +1096,7 @@
                 </div>
                 <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Luego reconstruye:</p>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span></code></pre>
                 </div>
             </div>
@@ -1100,7 +1107,7 @@
                 <div class="card-title">Instalar para el usuario actual<span class="tooltip">Instala solo para tu usuario. No requiere sudo ni rebuild. Se pierde si no está en la config.<span class="tip-example">Ej: nix-env -iA nixpkgs.firefox</span></span></div>
                 <div class="card-desc">Rápido pero no persistente entre reinstalaciones.</div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">nix-env</span> <span class="flag">-iA</span> <span class="arg">nixpkgs.firefox</span></code></pre>
                 </div>
             </div>
@@ -1109,7 +1116,7 @@
                 <div class="card-title">Probar un paquete sin instalar<span class="tooltip">Descarga y ejecuta un paquete temporalmente sin instalarlo. No deja rastro en el sistema.<span class="tip-example">Ej: nix-shell -p python3 --run "python --version"</span></span></div>
                 <div class="card-desc">Ejecuta algo una sola vez sin instalarlo.</div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">nix-shell</span> <span class="flag">-p</span> <span class="arg">python3</span> <span class="flag">--run</span> <span class="str">"python --version"</span></code></pre>
                 </div>
             </div>
@@ -1121,7 +1128,7 @@
                 <div class="card-title">Volver a la generación anterior<span class="tooltip">Si algo se rompió tras un rebuild, esto vuelve a la generación anterior inmediatamente. No borra nada, solo cambia a la versión previa.</span></div>
                 <div class="card-desc">¿Algo se rompió tras actualizar? Vuelve atrás:</div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--rollback</span></code></pre>
                 </div>
             </div>
@@ -1144,7 +1151,7 @@
             <div class="card">
                 <div class="card-title">Limpieza automática semanal<span class="tooltip">Timer de systemd que ejecuta GC automáticamente. "weekly" = una vez por semana.<span class="tip-example">Ej: cada domingo limpia generaciones viejas</span></span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">nix.gc</span> <span class="punct">=</span> <span class="punct">{</span>
     <span class="kw">automatic</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
     <span class="kw">dates</span> <span class="punct">=</span> <span class="str">"weekly"</span><span class="punct">;</span>
@@ -1156,7 +1163,7 @@
             <div class="card">
                 <div class="card-title">Optimización automática del store<span class="tooltip">Deduplica archivos idénticos automáticamente al añadir algo al store.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">nix.settings.auto-optimise-store</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span></code></pre>
                 </div>
             </div>
@@ -1164,7 +1171,7 @@
             <div class="card">
                 <div class="card-title">Limitar generaciones en el menú de arranque<span class="tooltip">Systemd-boot solo muestra las N generaciones más recientes. No borra, solo oculta del menú.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">boot.loader.systemd-boot.configurationLimit</span> <span class="punct">=</span> <span class="num">10</span><span class="punct">;</span></code></pre>
                 </div>
             </div>
@@ -1195,7 +1202,7 @@
                 <div class="card-title">Shell interactivo con paquetes<span class="tooltip">Abre un nuevo shell donde python3, pip y sus dependencias están disponibles. Al salir (exit), todo desaparece.<span class="tip_example">Ej: nix-shell -p python3 nodejs</span></span></div>
                 <div class="card-desc">Entra a un shell con las herramientas que necessités:</div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">nix-shell</span> <span class="flag">-p</span> <span class="arg">python3</span> <span class="arg">nodejs</span> <span class="arg">gcc</span></code></pre>
                 </div>
                 <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Dentro del shell podés usar <code>python3</code>, <code>node</code>, <code>gcc</code>. Al escribir <code>exit</code>, desaparecen.</p>
@@ -1204,7 +1211,7 @@
             <div class="card">
                 <div class="card-title">Ejecutar un comando y salir<span class="tooltip">Ejecuta algo una sola vez sin entrar al shell interactivo.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">nix-shell</span> <span class="flag">-p</span> <span class="arg">python3</span> <span class="flag">--run</span> <span class="str">"python --version"</span></code></pre>
                 </div>
             </div>
@@ -1214,7 +1221,7 @@
                 <div class="card-title">shell.nix — Entorno reproducible<span class="tooltip">Creá un archivo shell.nix en tu proyecto. Cualquiera que ejecute "nix-shell" obtiene el mismo entorno.<span class="tip_example">Ej: { pkgs ? import <nixpkgs> {} }: pkgs.mkShell { buildInputs = [ pkgs.python3 pkgs.pip ]; }</span></span></div>
                 <div class="card-desc">Creá un <span class="inline-code">shell.nix</span> en tu proyecto para definir el entorno:</div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="punct">{</span> <span class="kw">pkgs</span> <span class="punct">?</span> <span class="kw">import</span> <span class="str">&lt;nixpkgs&gt;</span> <span class="punct">{} }</span><span class="punct">:</span>
 
 <span class="kw">pkgs.mkShell</span> <span class="punct">{</span>
@@ -1241,7 +1248,7 @@
             <div class="card">
                 <div class="card-title">Configurar nix-ld<span class="tooltip">Habilita nix-ld con las librerías que necesite tu app. Blender necesita librerías gráficas y CUDA.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">programs.nix-ld</span> <span class="punct">=</span> <span class="punct">{</span>
     <span class="kw">enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
     <span class="kw">libraries</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
@@ -1270,7 +1277,7 @@
             <div class="card">
                 <div class="card-title">Crear un wrapper con writeShellScriptBin<span class="tooltip">Envuelve un binario para que use las librerías de Nix. Útil para apps que necesitás aislar.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">pkgs</span><span class="punct">.</span><span class="arg">writeShellScriptBin</span> <span class="str">"mi-app"</span> <span class="str">''
     export LD_LIBRARY_PATH=${pkgs.libgl}/lib:$LD_LIBRARY_PATH
     exec /ruta/a/binario "$@"
@@ -1287,7 +1294,7 @@
             <div class="card">
                 <div class="card-title">steam-run para juegos de Windows<span class="tooltip">Steam en NixOS necesita steam-run para ejecutar Proton y juegos de Windows.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">steam-run</span> <span class="arg">/ruta/al/juego.exe</span></code></pre>
                 </div>
             </div>
@@ -1295,7 +1302,7 @@
             <div class="card">
                 <div class="card-title">Steam en el sistema<span class="tooltip">Añadir Steam directamente en configuration.nix con dependencias necesarias.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">programs.steam</span> <span class="punct">=</span> <span class="punct">{</span>
     <span class="kw">enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
     <span class="kw">remotePlay</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
@@ -1331,7 +1338,7 @@
                 <div class="recommended-badge">✓ Recomendado</div>
                 <div class="card-title">Configuración NVIDIA con Prime<span class="tooltip">Para laptops con Intel + NVIDIA. Sync = ambas GPUs siempre activas (máx rendimiento). Offload = ahorro de batería.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="comment"># OpenGL</span>
 <span class="kw">hardware.graphics</span> <span class="punct">=</span> <span class="punct">{</span>
     <span class="kw">enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
@@ -1366,7 +1373,7 @@
             <div class="card">
                 <div class="card-title">Configurar nix-ld<span class="tooltip">Habilita nix-ld con las librerías que necesite tu app. Blender necesita librerías gráficas y CUDA.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">programs.nix-ld</span> <span class="punct">=</span> <span class="punct">{</span>
     <span class="kw">enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
     <span class="kw">libraries</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
@@ -1396,7 +1403,7 @@
                 <div class="card-title">Launcher script<span class="tooltip">Script que configura las variables de entorno necesarias para GPU Nvidia y ejecuta Blender.</span></div>
                 <div class="card-desc" style="color: #94a3b8; font-size: 0.82rem; margin-bottom: 10px;">Guardar en: <span class="inline-code">~/.scripts/blender_launcher.sh</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">#!/usr/bin/env bash</span>
 <span class="comment"># Blender launcher script for NixOS (Reforzado)</span>
 <span class="kw">BLENDER_PATH</span>=<span class="str">"$1"</span>
@@ -1434,7 +1441,7 @@
                 <div class="card-title">Archivo .desktop<span class="tooltip">Archivo para que Plasma/KDE reconozca Blender como aplicación.</span></div>
                 <div class="card-desc" style="color: #94a3b8; font-size: 0.82rem; margin-bottom: 10px;">Guardar en: <span class="inline-code">~/.local/share/applications/blender-X.X.X.desktop</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>desktop</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>desktop</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">[Desktop Entry]</span>
 <span class="arg">Name</span>=<span class="str">Blender 5.1.0</span>
 <span class="arg">Exec</span>=<span class="str">/home/zebus3d/.scripts/blender_launcher.sh /home/zebus3d/Downloads/Blenders/blender-5.1.0-linux-x64/blender %f</span>
@@ -1463,7 +1470,7 @@
             <div class="card">
                 <div class="card-title">Steam-run para juegos de Windows<span class="tooltip">Steam en NixOS necesita steam-run para ejecutar Proton y juegos de Windows.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="cmd">steam-run</span> <span class="arg">/ruta/al/juego.exe</span></code></pre>
                 </div>
             </div>
@@ -1471,7 +1478,7 @@
             <div class="card">
                 <div class="card-title">Steam en el sistema<span class="tooltip">Añadir Steam directamente en configuration.nix con dependencias necesarias.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">programs.steam</span> <span class="punct">=</span> <span class="punct">{</span>
     <span class="kw">enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
     <span class="kw">remotePlay</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
@@ -1487,7 +1494,7 @@
             <div class="card">
                 <div class="card-title">Libvirt + Virt-Manager<span class="tooltip">Máquinas virtuales con KVM/QEMU. Virt-Manager es la GUI para gestionarlas.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">virtualisation.libvirtd.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
 <span class="kw">programs.virt-manager.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
 
@@ -1505,7 +1512,7 @@
             <div class="card">
                 <div class="card-title">KDE Plasma 6 + SDDM<span class="tooltip">El escritorio KDE Plasma 6 con su display manager SDDM.</span></div>
                 <div class="code-block">
-                    <div class="code-header"><div class="dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)">Copiar</button></div>
                     <pre><code><span class="kw">services.displayManager.sddm.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
 <span class="kw">services.desktopManager.plasma6.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
 
@@ -1607,6 +1614,19 @@
             const idx = pageIds.indexOf(currentPage.id);
             if (e.key === 'ArrowRight' && idx < pageIds.length - 1) showPage(pageIds[idx + 1]);
             if (e.key === 'ArrowLeft' && idx > 0) showPage(pageIds[idx - 1]);
+        });
+
+        // ===== STICKY NAV BORDER RADIUS =====
+        const stickyNav = document.querySelector('.sticky-nav');
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.scrollY;
+            if (currentScroll > 10) {
+                stickyNav.classList.add('stuck');
+            } else {
+                stickyNav.classList.remove('stuck');
+            }
+            lastScroll = currentScroll;
         });
 
         // ===== SEARCH =====
