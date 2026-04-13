@@ -64,20 +64,20 @@ body {
   z-index: 1;
   max-width: 480px;
   margin: 0 auto;
-  padding: 48px 20px 80px;
+  padding: 40px 20px 60px;
   min-height: 100vh;
 }
 
 .profile {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
 }
 
 .avatar-wrapper {
   position: relative;
-  width: 120px;
-  height: 120px;
-  margin: 0 auto 24px;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 20px;
 }
 
 .avatar {
@@ -107,22 +107,22 @@ body {
 }
 
 .tagline {
-  font-size: 1rem;
+  font-size: 0.875rem;
   color: var(--text-secondary);
   font-weight: 500;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .email-link {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
+  gap: 6px;
+  padding: 8px 16px;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
   color: var(--text-secondary);
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   text-decoration: none;
   transition: all 0.3s var(--transition);
 }
@@ -152,13 +152,13 @@ body {
 .links-section {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
 }
 
 .category {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .category-title {
@@ -173,15 +173,15 @@ body {
 .link-card {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 16px 20px;
+  gap: 12px;
+  padding: 12px 16px;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   color: var(--text-primary);
   text-decoration: none;
   font-weight: 500;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   transition: all 0.25s var(--transition);
   cursor: pointer;
 }
@@ -219,34 +219,61 @@ body {
 }
 
 .footer {
-  margin-top: 48px;
+  margin-top: 32px;
   text-align: center;
   color: var(--text-muted);
   font-size: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  text-decoration: none;
+  transition: all 0.3s var(--transition);
+}
+
+.footer-contact:hover {
+  color: var(--text-primary);
+  border-color: var(--border-hover);
+}
+
+.footer-contact svg {
+  flex-shrink: 0;
 }
 
 @media (max-width: 480px) {
   .container {
-    padding: 32px 16px 64px;
+    padding: 24px 16px 48px;
   }
 
   .avatar-wrapper {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
   }
 
   .name {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
   }
 
   .link-card {
-    padding: 14px 16px;
-    font-size: 0.9rem;
+    padding: 10px 14px;
+    font-size: 0.85rem;
   }
 
   .link-icon {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
   }
 }
 
