@@ -1,135 +1,103 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <title>zebus3d links</title>
-  <link rel="stylesheet" href="style.css">
-
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>zebus3d links</title>
+  <meta name="description" content="zebus3d - 3D Artist & Developer">
+  <meta name="theme-color" content="#0f0f0f">
 
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 
   <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
   <link rel="manifest" href="favicon_io/site.webmanifest">
-
 </head>
 
 <body>
-  <div id="container">
-    <div id="columna" class="columna">
+  <div class="bg-pattern"></div>
+  <div class="bg-gradient"></div>
+  
+  <main class="container">
+    <section class="profile">
+      <div class="avatar-wrapper">
+        <img src="imgs/skull.png" alt="zebus3d avatar" class="avatar">
+      </div>
+      
+      <h1 class="name">zebus3d</h1>
+      <p class="tagline">3D Artist & Developer</p>
+      
+      <a href="#" class="email-link reverse" data-name="zebus3dream" data-domain="gmail" data-tld="com" onclick="window.location.href=`mailto:${this.dataset.name}@${this.dataset.domain}.${this.dataset.tld}?Subject=Contact%20from%20zebus3d.github.io%20`; return false;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        <span class="email-text">contacto</span>
+      </a>
+    </section>
 
-      <div id="cabecera">
-        <div class="image-cropper transformed">
-          <img src="imgs/skull.png" alt="Avatar" id="Logo">
-        </div>
-
-        <a href="#" class="reverse" data-name="zebus3dream" data-domain="gmail" data-tld="com" onclick="window.location.href=`mailto:${this.dataset.name}@${this.dataset.domain}.${this.dataset.tld}?Subject=Contact%20from%20zebus3d.github.io%20`; return false;">
-          <div id="title">
-            <span class="title-text">zebus 3D</span><br>
-          </div>
+    <nav class="links-section">
+      <div class="category">
+        <h2 class="category-title">Portfolio</h2>
+        <a href="https://zebus3d.artstation.com" target="_blank" class="link-card">
+          <img src="imgs/artstation.png" alt="" class="link-icon">
+          <span>Artstation</span>
+          <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
-
-        <div id="subtitle">
-          <span class="font-effect-3d-float text_link">3D Artis | Developer</span>
-        </div>
       </div>
 
-      <div id='links-containter'>
-
-        <button class="accordion items_button_acordion">
-          <span class="item category-span font-effect-3d-float text_link">
-            <div class="item category-icons">
-              <img src='imgs/mostrar_mas.png' class='mostrar_mas'>
-              <img src='imgs/mostrar_menos.png' class='mostrar_menos'>
-            </div>
-            <div class="item category-text">Portfolio</div>
-
-          </span>
-        </button>
-        <div class="panel">
-          <a href="https://zebus3d.artstation.com" target="_blank">
-          <!-- <a href="https://zebus3d.artstation.com/" target="_blank"> -->
-            <div class="item links zoom">
-              <img src="imgs/artstation.png" class="item img-miniatura"><span class="item font-effect-3d-float text_link">Artstation</span>
-            </div>
-          </a>
-        </div>
-
-
-        <button class="accordion items_button_acordion">
-          <span class="category-span font-effect-3d-float text_link">
-            <div class="item category-icons">
-              <img src='imgs/mostrar_mas.png' class='mostrar_mas'>
-              <img src='imgs/mostrar_menos.png' class='mostrar_menos'>
-            </div>
-            <div class="item category-text">Social Networks</div>
-
-          </span>
-        </button>
-        <div class="panel">
-          <a href="https://www.linkedin.com/in/jorge-hernandez-melendez/" target="_blank">
-            <div class="item links zoom">
-              <img src="imgs/linkedin.png" class="item img-miniatura"><span class="item font-effect-3d-float text_link">LinkedIn</span>
-            </div>
-          </a>
-          <a href="https://vimeo.com/zebus3d" target="_blank">
-            <div class="item links zoom">
-              <img src="imgs/vimeo.png" class="item img-miniatura"><span class="item font-effect-3d-float text_link">Vimeo</span>
-            </div>
-          </a>
-          <a href="https://www.youtube.com/c/zebus3d" target="_blank">
-            <div class="item links zoom">
-              <img src="imgs/youtube.png" class="item img-miniatura"><span class="item font-effect-3d-float text_link">YouTube</span>
-            </div>
-          </a>
-          <a href="https://github.com/zebus3d/" target="_blank">
-            <div class="item links zoom">
-              <img src="imgs/github.png" class="item img-miniatura"><span class="item font-effect-3d-float text_link">GitHub</span>
-            </div>
-          </a>
-        </div>
-
-
-        <button class="accordion items_button_acordion">
-          <span class="category-span font-effect-3d-float text_link">
-            <div class="item category-icons">
-              <img src='imgs/mostrar_mas.png' class='mostrar_mas'>
-              <img src='imgs/mostrar_menos.png' class='mostrar_menos'>
-            </div>
-            <div class="item category-text">B3FX</div>
-
-          </span>
-        </button>
-        <div class="panel">
-          <a href="https://b3fxstudios.com/" target="_blank">
-            <div class="item links zoom">
-              <img src="imgs/b3fxlogo.png" class="item img-miniatura"><span class="item font-effect-3d-float text_link">B3FX Studios</span>
-            </div>
-          </a>
-          <a href="https://www.youtube.com/channel/UC6OdKRmOwxsdEaU9AVgkffA" target="_blank">
-            <div class="item links zoom">
-              <img src="imgs/b3fxlogo.png" class="item img-miniatura"><span class="item font-effect-3d-float text_link">B3FX Youtube</span>
-            </div>
-          </a>
-          <a href="https://www.instagram.com/rbdlabstudio/" target="_blank">
-            <div class="item links zoom">
-              <img src="imgs/b3fxlogo.png" class="item img-miniatura"><span class="item font-effect-3d-float text_link">B3FX Instagram</span>
-            </div>
-          </a>
-        </div>
-
+      <div class="category">
+        <h2 class="category-title">Social Networks</h2>
+        <a href="https://www.linkedin.com/in/jorge-hernandez-melendez/" target="_blank" class="link-card">
+          <img src="imgs/linkedin.png" alt="" class="link-icon">
+          <span>LinkedIn</span>
+          <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a href="https://vimeo.com/zebus3d" target="_blank" class="link-card">
+          <img src="imgs/vimeo.png" alt="" class="link-icon">
+          <span>Vimeo</span>
+          <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a href="https://www.youtube.com/c/zebus3d" target="_blank" class="link-card">
+          <img src="imgs/youtube.png" alt="" class="link-icon">
+          <span>YouTube</span>
+          <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a href="https://github.com/zebus3d/" target="_blank" class="link-card">
+          <img src="imgs/github.png" alt="" class="link-icon">
+          <span>GitHub</span>
+          <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
       </div>
 
+      <div class="category">
+        <h2 class="category-title">B3FX</h2>
+        <a href="https://b3fxstudios.com/" target="_blank" class="link-card">
+          <img src="imgs/b3fxlogo.png" alt="" class="link-icon">
+          <span>B3FX Studios</span>
+          <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a href="https://www.youtube.com/channel/UC6OdKRmOwxsdEaU9AVgkffA" target="_blank" class="link-card">
+          <img src="imgs/b3fxlogo.png" alt="" class="link-icon">
+          <span>B3FX YouTube</span>
+          <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a href="https://www.instagram.com/rbdlabstudio/" target="_blank" class="link-card">
+          <img src="imgs/b3fxlogo.png" alt="" class="link-icon">
+          <span>B3FX Instagram</span>
+          <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+    </nav>
 
+    <footer class="footer">
+      <p>© 2026 zebus3d</p>
+    </footer>
+  </main>
 
-    </div>
-  </div>
-
-  <script src="js/jquery-3.6.0.min.js"></script>
   <script src="js/main.js"></script>
-
 </body>
 
 </html>
