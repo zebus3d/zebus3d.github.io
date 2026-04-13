@@ -7,6 +7,20 @@
   <title>zebus3d links</title>
   <meta name="description" content="zebus3d - 3D Artist & Developer">
   <meta name="theme-color" content="#0f0f0f">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zebus3d.github.io/">
+  <meta property="og:title" content="zebus3d links">
+  <meta property="og:description" content="3D Artist & Developer - Portfolio and social links">
+  <meta property="og:image" content="https://zebus3d.github.io/imgs/skull.png">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://zebus3d.github.io/">
+  <meta property="twitter:title" content="zebus3d links">
+  <meta property="twitter:description" content="3D Artist & Developer - Portfolio and social links">
+  <meta property="twitter:image" content="https://zebus3d.github.io/imgs/skull.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,7 +37,13 @@
   <div class="bg-pattern"></div>
   <div class="bg-gradient"></div>
   
-  <main class="container">
+  <main class="container" role="main" aria-label="Página principal de enlaces">
+    <div class="theme-toggle">
+      <button id="theme-toggle" aria-label="Toggle light/dark theme">
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
     <section class="profile">
       <div class="avatar-wrapper">
         <img src="imgs/skull.png" alt="zebus3d avatar" class="avatar">
@@ -33,11 +53,11 @@
       <p class="tagline">3D Artist & Developer</p>
     </section>
 
-    <nav class="links-section">
+    <nav class="links-section" role="navigation" aria-label="Enlaces de portafolio y redes sociales">
       <div class="category">
         <h2 class="category-title">Portfolio</h2>
         <a href="https://zebus3d.artstation.com" target="_blank" class="link-card">
-          <img src="imgs/artstation.png" alt="" class="link-icon">
+          <img src="imgs/artstation.png" alt="ArtStation logo" class="link-icon">
           <span>Artstation</span>
           <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
@@ -46,22 +66,22 @@
       <div class="category">
         <h2 class="category-title">Social Networks</h2>
         <a href="https://www.linkedin.com/in/jorge-hernandez-melendez/" target="_blank" class="link-card">
-          <img src="imgs/linkedin.png" alt="" class="link-icon">
+          <img src="imgs/linkedin.png" alt="LinkedIn logo" class="link-icon">
           <span>LinkedIn</span>
           <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
         <a href="https://vimeo.com/zebus3d" target="_blank" class="link-card">
-          <img src="imgs/vimeo.png" alt="" class="link-icon">
+          <img src="imgs/vimeo.png" alt="Vimeo logo" class="link-icon">
           <span>Vimeo</span>
           <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
         <a href="https://www.youtube.com/c/zebus3d" target="_blank" class="link-card">
-          <img src="imgs/youtube.png" alt="" class="link-icon">
+          <img src="imgs/youtube.png" alt="YouTube logo" class="link-icon">
           <span>YouTube</span>
           <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
         <a href="https://github.com/zebus3d/" target="_blank" class="link-card">
-          <img src="imgs/github.png" alt="" class="link-icon">
+          <img src="imgs/github.png" alt="GitHub logo" class="link-icon">
           <span>GitHub</span>
           <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
@@ -70,33 +90,123 @@
       <div class="category">
         <h2 class="category-title">B3FX</h2>
         <a href="https://b3fxstudios.com/" target="_blank" class="link-card">
-          <img src="imgs/b3fxlogo.png" alt="" class="link-icon">
+          <img src="imgs/b3fxlogo.png" alt="B3FX Studios logo" class="link-icon">
           <span>B3FX Studios</span>
           <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
         <a href="https://www.youtube.com/channel/UC6OdKRmOwxsdEaU9AVgkffA" target="_blank" class="link-card">
-          <img src="imgs/b3fxlogo.png" alt="" class="link-icon">
+          <img src="imgs/b3fxlogo.png" alt="B3FX YouTube logo" class="link-icon">
           <span>B3FX YouTube</span>
           <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
         <a href="https://www.instagram.com/rbdlabstudio/" target="_blank" class="link-card">
-          <img src="imgs/b3fxlogo.png" alt="" class="link-icon">
+          <img src="imgs/b3fxlogo.png" alt="B3FX Instagram logo" class="link-icon">
           <span>B3FX Instagram</span>
           <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
       </div>
     </nav>
 
-    <footer class="footer">
+    <footer class="footer" role="contentinfo" aria-label="Información de contacto y derechos de autor">
       <p>© 2026 zebus3d</p>
-      <a href="javascript:void(0)" class="footer-contact" onclick="window.location.href='mailto:'+'zebus3dream'+'@'+'gmail.com'+'?Subject=Contact%20from%20zebus3d.github.io'">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-        <span>Contacto</span>
-      </a>
+      <div class="footer-actions">
+        <button class="footer-contact" id="copy-email" aria-label="Copiar dirección de correo electrónico">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span>Copiar email</span>
+        </button>
+        <button class="footer-contact" id="send-email" aria-label="Abrir cliente de correo para enviar mensaje">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span>Enviar email</span>
+        </button>
+      </div>
+      <div id="copy-message" class="copy-message" aria-live="polite" role="alert"></div>
     </footer>
   </main>
 
   <script>
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const root = document.documentElement;
+      
+      // Cargar tema guardado
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      root.setAttribute('data-theme', savedTheme);
+      
+      themeToggle.addEventListener('click', () => {
+        const currentTheme = root.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+      });
+    })();
+
+     // Funcionalidad para copiar email
+    (function() {
+      const copyButton = document.getElementById('copy-email');
+      const copyMessage = document.getElementById('copy-message');
+      const sendButton = document.getElementById('send-email');
+      
+      // Función para obtener el email (ofuscado)
+      function getEmail() {
+        // Construir email dividiéndolo en partes
+        const parts = [
+          String.fromCharCode(122, 101, 98, 117, 115, 51, 100, 114, 101, 97, 109), // zebus3dream
+          String.fromCharCode(64), // @
+          String.fromCharCode(103, 109, 97, 105, 108, 46, 99, 111, 109) // gmail.com
+        ];
+        return parts.join('');
+      }
+      
+      if (copyButton && copyMessage) {
+        copyButton.addEventListener('click', async () => {
+          const email = getEmail();
+          
+          try {
+            await navigator.clipboard.writeText(email);
+            
+            // Mostrar mensaje de confirmación
+            copyMessage.textContent = '✓ Email copiado al portapapeles';
+            copyMessage.classList.add('show');
+            
+            // Restaurar texto después de 3 segundos
+            setTimeout(() => {
+              copyMessage.classList.remove('show');
+              setTimeout(() => {
+                copyMessage.textContent = '';
+              }, 300);
+            }, 3000);
+            
+            // Feedback visual del botón
+            copyButton.style.borderColor = 'var(--accent)';
+            copyButton.style.color = 'var(--accent)';
+            setTimeout(() => {
+              copyButton.style.borderColor = '';
+              copyButton.style.color = '';
+            }, 1000);
+            
+          } catch (err) {
+            // Fallback para navegadores antiguos
+            copyMessage.textContent = 'Error al copiar. Email: ' + getEmail();
+            copyMessage.classList.add('show');
+            setTimeout(() => {
+              copyMessage.classList.remove('show');
+              setTimeout(() => {
+                copyMessage.textContent = '';
+              }, 300);
+            }, 5000);
+          }
+        });
+      }
+      
+      if (sendButton) {
+        sendButton.addEventListener('click', () => {
+          const email = getEmail();
+          const subject = 'Contact from zebus3d.github.io';
+          window.location.href = 'mailto:' + email + '?Subject=' + encodeURIComponent(subject);
+        });
+      }
+    })();
+  </script>
 </body>
 
 </html>
