@@ -758,8 +758,8 @@
 </div>
 
 <div class="card">
-<div class="card-title">configuration.nix — tu configuración<span class="tooltip">El archivo principal. Aquí definís TODO: paquetes, servicios, usuarios, red, bootloader. Está en /etc/nixos/configuration.nix</span></div>
-<div class="card-desc">El archivo principal del sistema. Editás → reconstruís → listo.</div>
+<div class="card-title">configuration.nix — tu configuración<span class="tooltip">El archivo principal. Aquí defines TODO: paquetes, servicios, usuarios, red, bootloader. Está en /etc/nixos/configuration.nix</span></div>
+<div class="card-desc">El archivo principal del sistema. Editas → reconstruyes → listo.</div>
 <div class="code-block">
 <pre><code><span class="comment"># Editar:</span>
 <span class="cmd">sudo</span> <span class="cmd">vim</span> <span class="path">/etc/nixos/configuration.nix</span>
@@ -791,9 +791,9 @@
 <h3>El flujo de trabajo</h3>
 
 <div class="steps">
-<li><strong>Editás</strong> tu configuración
+<li><strong>Editas</strong> tu configuración
 <div class="step-desc"><code>sudo vim /etc/nixos/configuration.nix</code></div></li>
-<li><strong>Reconstruís</strong> el sistema
+<li><strong>Reconstruyes</strong> el sistema
 <div class="step-desc"><code>sudo nixos-rebuild switch</code></div></li>
 <li><strong>Listo</strong> — tu sistema refleja la config
 <div class="step-desc">Si algo falla: <code>--rollback</code> te salva</div></li>
@@ -804,7 +804,7 @@
 </div>
 
 <div class="info-box">
-<p><strong>💡 Dato importante:</strong> El archivo <code>/etc/nixos/hardware-configuration.nix</code> se genera automáticamente y contiene la config de tu hardware (discos, particiones, etc.). <strong>No lo edités a mano</strong>, se regenera cada vez que ejecutás <code>nixos-generate-config</code>. Tu config principal solo necesita tener <code>imports = [ ./hardware-configuration.nix ];</code> al principio.</p>
+<p><strong>💡 Dato importante:</strong> El archivo <code>/etc/nixos/hardware-configuration.nix</code> se genera automáticamente y contiene la config de tu hardware (discos, particiones, etc.). <strong>No lo edites a mano</strong>, se regenera cada vez que ejecutas <code>nixos-generate-config</code>. Tu config principal solo necesita tener <code>imports = [ ./hardware-configuration.nix ];</code> al principio.</p>
 </div>
 
 <h3>Comandos esenciales</h3>
@@ -1352,7 +1352,7 @@
             <div class="card recommended">
                 <div class="recommended-badge">✓ Recomendado</div>
                 <div class="card-title">shell.nix — Entorno reproducible<span class="tooltip">Crea un archivo shell.nix en tu proyecto. Cualquiera que ejecute "nix-shell" obtiene el mismo entorno.<span class="tip_example">{ pkgs ? import <nixpkgs> {} }: pkgs.mkShell { buildInputs = [ pkgs.python3 pkgs.python3Packages.pip ]; }</span></span></div>
-                <div class="card-desc">Creá un <span class="inline-code">shell.nix</span> en tu proyecto para definir el entorno:</div>
+                <div class="card-desc">Crea un <span class="inline-code">shell.nix</span> en tu proyecto para definir el entorno:</div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="punct">{</span> <span class="kw">pkgs</span> <span class="punct">?</span> <span class="kw">import</span> <span class="str">&lt;nixpkgs&gt;</span> <span class="punct">{} }</span><span class="punct">:</span>
@@ -1379,7 +1379,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Configurar nix-ld<span class="tooltip">Permite ejecutar binarios externos (no compilados para NixOS). Añadí las librerías que tu app necesite. Ej: Blender → librerías gráficas + CUDA, Steam → steam-libs.<span class="tip_example">Blender: libx11, libglvnd, cuda_cudart</span></span></div>
+                <div class="card-title">Configurar nix-ld<span class="tooltip">Permite ejecutar binarios externos (no compilados para NixOS). Añade las librerías que tu app necesite. Ej: Blender → librerías gráficas + CUDA, Steam → steam-libs.<span class="tip_example">Blender: libx11, libglvnd, cuda_cudart</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="kw">programs.nix-ld</span> <span class="punct">=</span> <span class="punct">{</span>
@@ -1508,7 +1508,7 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Configurar nix-ld<span class="tooltip">Permite ejecutar binarios externos (no compilados para NixOS). Añadí las librerías que tu app necesite. Ej: Blender → librerías gráficas + CUDA, Steam → steam-libs.<span class="tip_example">Blender: libx11, libglvnd, cuda_cudart</span></span></div>
+                <div class="card-title">Configurar nix-ld<span class="tooltip">Permite ejecutar binarios externos (no compilados para NixOS). Añade las librerías que tu app necesite. Ej: Blender → librerías gráficas + CUDA, Steam → steam-libs.<span class="tip_example">Blender: libx11, libglvnd, cuda_cudart</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                     <pre><code><span class="kw">programs.nix-ld</span> <span class="punct">=</span> <span class="punct">{</span>
@@ -1643,7 +1643,7 @@
             <h3>Plasma 6</h3>
 
             <div class="info-box">
-                <p><strong>services.desktopManager.plasma6:</strong> En NixOS 24.05 Plasma 6 ya estaba disponible como opción. En 24.11 se volvió más estable. Usá <code>services.desktopManager.plasma6.enable = true</code> en lugar de <code>plasma5</code>.</p>
+                <p><strong>services.desktopManager.plasma6:</strong> En NixOS 24.05 Plasma 6 ya estaba disponible como opción. En 24.11 se volvió más estable. Usa <code>services.desktopManager.plasma6.enable = true</code> en lugar de <code>plasma5</code>.</p>
             </div>
 
             <div class="card">
