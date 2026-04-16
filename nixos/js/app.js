@@ -68,6 +68,20 @@ function initPageEvents() {
     
     updateNavButtons();
     initCopyButtons();
+    
+    // Aplicar resaltado de sintaxis si highlight.js está disponible
+    if (typeof hljs !== 'undefined' && hljs.highlightAll) {
+        // Usar highlightAll para procesar todos los elementos no procesados
+        // El parámetro { ignoreUnprocessed: true } evita reprocesar elementos ya resaltados
+        setTimeout(() => {
+            hljs.highlightAll({ ignoreUnprocessed: true });
+        }, 10);
+    }
+    
+    // Inicializar carga de archivos para página flakes
+    if (currentPage === 'flakes') {
+        initFlakesFileLoaders();
+    }
 }
 
 function updateNavButtons() {
@@ -188,6 +202,119 @@ function initCopyButtons() {
                 }, 2000);
             }
         };
+    });
+}
+
+function initFlakesFileLoaders() {
+    // Función para cargar archivo
+    async function loadFile(codeElement) {
+        const filePath = codeElement.dataset.file;
+        if (!filePath || codeElement.dataset.loaded) return;
+        
+        try {
+            const response = await fetch(filePath);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const content = await response.text();
+            codeElement.textContent = content;
+            codeElement.dataset.loaded = true;
+            
+            // Aplicar resaltado de sintaxis si highlight.js está disponible
+            if (typeof hljs !== 'undefined') {
+                // Esperar un poco para que el contenido se renderice
+                setTimeout(() => {
+                    // Remover clases hljs previas para forzar reprocesamiento
+                    codeElement.classList.remove('hljs');
+                    
+                    // Determinar el lenguaje basado en las clases existentes
+                    const langClass = Array.from(codeElement.classList).find(cls => 
+                        cls.startsWith('language-')
+                    );
+                    let language = null;
+                    if (langClass) {
+                        language = langClass.replace('language-', '');
+                    }
+                    
+                    // Verificar si el lenguaje está registrado en highlight.js
+                    const languageKnown = language && hljs.getLanguage(language);
+                    if (language && !languageKnown) {
+                        console.warn(`Lenguaje '${language}' no registrado en highlight.js. ¿Faltó cargar el script del lenguaje?`);
+                    }
+                    
+                    // Método 1: highlightElement con lenguaje específico (preciso)
+                    if (hljs.highlightElement && languageKnown) {
+                        try {
+                            hljs.highlightElement(codeElement, { language });
+                        } catch (err) {
+                            console.warn('highlightElement falló, intentando highlightAll:', err);
+                            if (hljs.highlightAll) {
+                                hljs.highlightAll({ ignoreUnprocessed: true });
+                            }
+                        }
+                    } 
+                    // Método 2: highlightAll para lenguaje desconocido o sin highlightElement
+                    else if (hljs.highlightAll) {
+                        hljs.highlightAll({ ignoreUnprocessed: true });
+                    }
+                    
+                    // Verificar después de 100ms si se aplicó la clase hljs
+                    setTimeout(() => {
+                        if (!codeElement.classList.contains('hljs')) {
+                            console.warn('Clase hljs no aplicada, intentando resaltado manual');
+                            
+                            // Intentar resaltado manual si tenemos lenguaje conocido
+                            if (language && hljs.getLanguage(language)) {
+                                try {
+                                    const code = codeElement.textContent;
+                                    const result = hljs.highlight(code, { language });
+                                    codeElement.innerHTML = result.value;
+                                    console.log('Resaltado manual aplicado para lenguaje:', language);
+                                } catch (err) {
+                                    console.error('Error en resaltado manual:', err);
+                                }
+                            }
+                            
+                            // Asegurar clase hljs y language-
+                            codeElement.classList.add('hljs');
+                            if (language) {
+                                codeElement.classList.add('language-' + language);
+                            }
+                        }
+                    }, 100);
+                    
+                }, 50); // Tiempo mínimo para asegurar renderizado
+            } else {
+                console.warn('highlight.js no disponible al cargar archivo');
+            }
+        } catch (error) {
+            console.error('Error cargando archivo:', error);
+            codeElement.textContent = `Error cargando archivo: ${error.message}`;
+        }
+    }
+    
+    const fileDetails = document.querySelectorAll('.file-details');
+    fileDetails.forEach(details => {
+        // Remover listener previo si existe
+        details.removeEventListener('toggle', details._toggleHandler);
+        
+        const toggleHandler = (event) => {
+            if (details.open) {
+                const codeElement = details.querySelector('code[data-file].load-external');
+                if (codeElement && !codeElement.dataset.loaded) {
+                    loadFile(codeElement);
+                }
+            }
+        };
+        
+        details._toggleHandler = toggleHandler;
+        details.addEventListener('toggle', toggleHandler);
+        
+        // Si ya está abierto, cargar archivo
+        if (details.open) {
+            const codeElement = details.querySelector('code[data-file].load-external');
+            if (codeElement && !codeElement.dataset.loaded) {
+                loadFile(codeElement);
+            }
+        }
     });
 }
 

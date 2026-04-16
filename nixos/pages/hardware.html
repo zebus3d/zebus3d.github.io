@@ -33,8 +33,8 @@
     <span class="kw">package</span> <span class="punct">=</span> <span class="kw">config.boot.kernelPackages.nvidiaPackages.stable</span><span class="punct">;</span>
     <span class="kw">prime</span> <span class="punct">=</span> <span class="punct">{</span>
         <span class="kw">sync.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
-        <span class="kw">intelBusId</span> <span class="punct">=</span> <span class="str">"PCI:5:0:0"</span><span class="punct">;</span>
-        <span class="kw">nvidiaBusId</span> <span class="punct">=</span> <span class="str">"PCI:1:0:0"</span><span class="punct">;</span>
+        <span class="kw">intelBusId</span> <span class="punct">=</span> <span class="str">"PCI:0:2:0"</span><span class="punct">;</span>
+        <span class="kw">nvidiaBusId</span> <span class="punct">=</span> <span class="str">"PCI:1:2:0"</span><span class="punct">;</span>
     <span class="punct">};</span>
 <span class="punct">};</span></code></pre>
     </div>
@@ -131,7 +131,7 @@
 <span class="kw">services.desktopManager.plasma6.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
 
 <span class="comment"># Iconos de KDE:</span>
-<span class="kw">users.users.zebus3d.packages</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
+<span class="kw">users.users.usuario.packages</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
     <span class="arg">kdePackages.kate</span>
     <span class="arg">kdePackages.filelight</span>
 <span class="punct">];</span></code></pre>

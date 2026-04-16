@@ -1,0 +1,128 @@
+/* Tema personalizado para highlight.js que coincide con el diseño de Apuntes NixOS */
+
+.hljs {
+    background: #0d1117;
+    color: #e2e8f0;
+    padding: 14px 16px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    border-radius: 0 0 10px 10px;
+    overflow-x: auto;
+}
+
+/* Para bloques de código que ya tienen .code-block */
+.code-block .hljs {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+}
+
+/* Colores específicos para diferentes lenguajes */
+
+/* General - para todos los lenguajes */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-section,
+.hljs-link {
+    color: #c4b5fd; /* púrpura claro */
+    font-weight: 500;
+}
+
+.hljs-function,
+.hljs-title,
+.hljs-attr {
+    color: #a78bfa; /* púrpura medio */
+}
+
+.hljs-string,
+.hljs-meta .hljs-string,
+.hljs-regexp,
+.hljs-addition {
+    color: #34d399; /* verde */
+}
+
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name {
+    color: #60a5fa; /* azul */
+}
+
+.hljs-comment,
+.hljs-quote,
+.hljs-deletion,
+.hljs-meta {
+    color: #64748b; /* gris azulado */
+    font-style: italic;
+}
+
+.hljs-variable,
+.hljs-template-variable,
+.hljs-attribute {
+    color: #fbbf24; /* amarillo */
+}
+
+.hljs-symbol,
+.hljs-bullet {
+    color: #f472b6; /* rosa */
+}
+
+.hljs-strong {
+    font-weight: bold;
+}
+
+.hljs-emphasis {
+    font-style: italic;
+}
+
+/* Específico para bash/shell */
+.language-bash .hljs-built_in,
+.language-sh .hljs-built_in {
+    color: #22d3ee; /* cian */
+}
+
+.language-bash .hljs-string,
+.language-sh .hljs-string {
+    color: #34d399; /* verde */
+}
+
+/* Específico para Nix */
+.language-nix .hljs-attr {
+    color: #c4b5fd; /* púrpura claro */
+}
+
+.language-nix .hljs-string {
+    color: #34d399; /* verde */
+}
+
+.language-nix .hljs-keyword {
+    color: #f472b6; /* rosa */
+}
+
+/* Específico para JSON */
+.language-json .hljs-attr {
+    color: #60a5fa; /* azul */
+}
+
+.language-json .hljs-string {
+    color: #34d399; /* verde */
+}
+
+.language-json .hljs-literal {
+    color: #f472b6; /* rosa */
+}
+
+/* Asegurar que el resaltado no rompa el diseño existente */
+pre code.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 0;
+}
+
+/* Compatibilidad con el sistema actual de clases para bash */
+code .cmd { color: #22d3ee; font-weight: 500; }
+code .arg { color: #e2e8f0; }
+code .flag { color: #c4b5fd; }
+code .path { color: #34d399; }
+code .comment { color: #64748b; font-style: italic; }

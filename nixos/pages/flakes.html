@@ -27,71 +27,8 @@
             <span>bash</span>
             <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
         </div>
-        <pre><code><span class="cmd">nix-channel</span> <span class="flag">--list</span></code></pre>
-    </div>
-    <div class="card-desc" style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Si muestra <span class="inline-code">nixos https://nixos.org/channels/...</span> ▶ <strong>Canales</strong>. Si no ▶ <strong>Flakes</strong>.</p>
-</div>
-
-<h3 id="estructura-tpica">Estructura típica</h3>
-
-<div class="card">
-    <div class="card-title">Estructura de proyecto con Flakes<span class="tooltip">Organización de un proyecto con flakes. flake.nix declara qué dependencias usar (nixpkgs, home-manager). flake.lock guarda las versiones exactas (como package-lock.json). nixos/ contiene la configuración del sistema.<span class="tip_example">├── flake.nix ▶ define inputs y outputs
-├── flake.lock ▶ versiones exactas
-└── nixos/ ▶ config del sistema</span></span></div>
-    <div class="card-desc">Cómo organizar tu configuración con Flakes.</div>
-    <div class="code-block">
-        <div class="code-header">
-            <span class="dots"><span class="dot">● ● ●</span></span>
-            <span>bash</span>
-            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
-        </div>
-        <pre><code>mi-config/
-├── <span class="path">flake.nix</span>        <span class="comment"># Dependencias y outputs</span>
-├── <span class="path">flake.lock</span>       <span class="comment"># Versiones congeladas</span>
-└── <span class="path">nixos/</span>
-    ├── <span class="path">configuration.nix</span>
-    └── <span class="path">hardware-configuration.nix</span></code></pre>
-    </div>
-</div>
-
-<h3 id="comandos-tiles">Comandos útiles</h3>
-
-<div class="card">
-    <div class="card-title">Actualizar Flake<span class="tooltip">Actualiza todas las dependencias a sus últimas versiones según flake.nix.</span></div>
-    <div class="card-desc">Actualizar todas las dependencias.</div>
-    <div class="code-block">
-        <div class="code-header">
-            <span class="dots"><span class="dot">● ● ●</span></span>
-            <span>bash</span>
-            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
-        </div>
-        <pre><code><span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">update</span></code></pre>
-    </div>
-</div>
-
-<div class="card">
-    <div class="card-title">Actualizar un input específico<span class="tooltip">Actualizar solo una dependencia específica (ej: nixpkgs-unstable) sin tocar las otras.</span></div>
-    <div class="card-desc">Actualizar solo una dependencia.</div>
-    <div class="code-block">
-        <div class="code-header">
-            <span class="dots"><span class="dot">● ● ●</span></span>
-            <span>bash</span>
-            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
-        </div>
-        <pre><code><span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">lock</span> <span class="flag">--update-input</span> <span class="arg">nixpkgs-unstable</span></code></pre>
-    </div>
-</div>
-
-<div class="card">
-    <div class="card-title">Evaluar configuración<span class="tooltip">Ver la configuración sin aplicar cambios. Útil para depurar.</span></div>
-    <div class="card-desc">Probar la configuración.</div>
-    <div class="code-block">
-        <div class="code-header">
-            <span class="dots"><span class="dot">● ● ●</span></span>
-            <span>bash</span>
-            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
-        </div>
-        <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">dry-build</span> <span class="flag">--flake</span> <span class="path">.#nixos</span></code></pre>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">dry-build</span> <span class="flag">--flake</span> <span class="path">/etc/nixos#mi-hostname</span>  <span class="comment"># preferido (ruta absoluta, sin cd)</span>
+<span class="comment"># sudo nixos-rebuild dry-build --flake .#mi-hostname   # requiere cd /etc/nixos primero</span></code></pre>
     </div>
 </div>
 
@@ -102,3 +39,449 @@
         <tr><td>Actualizar un input</td><td><span class="inline-code">nix flake lock --update-input X</span></td><td><span class="risk-badge moderate">MODERADO</span></td></tr>
     </tbody>
 </table>
+
+<h3 id="flujo-actualizacion-sistema">Flujo de actualización del sistema</h3>
+
+<div class="intro-box">
+    <p><strong>Proceso completo:</strong> Actualizar paquetes con flakes requiere dos pasos: 1) Actualizar las versiones en el flake, 2) Aplicar los cambios al sistema.</p>
+    <p><strong>Recomendación:</strong> Siempre prueba primero con <span class="inline-code">dry-build</span> para ver qué cambiará.</p>
+</div>
+
+<div class="card">
+    <div class="card-title">Opción 1: Actualizar TODO (más arriesgado)<span class="tooltip">Actualiza tanto nixpkgs estable como unstable. Puede cambiar muchas cosas en el sistema.</span></div>
+    <div class="card-desc">Para obtener las últimas versiones de todo, incluyendo el núcleo del sistema.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">update</span> <span class="path">/etc/nixos</span>
+<span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">/etc/nixos#mi-hostname</span>  <span class="comment"># preferido (ruta absoluta, sin cd)</span>
+<span class="comment"># Alternativa con cd:</span>
+<span class="comment"># cd /etc/nixos && sudo nix flake update && sudo nixos-rebuild switch --flake .#mi-hostname</span></code></pre>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-title">Opción 2: Actualizar solo paquetes unstable (recomendado)<span class="tooltip">Actualiza solo los paquetes marcados como 'unstable' en tu configuración. Más seguro.</span></div>
+    <div class="card-desc">Para obtener versiones nuevas de aplicaciones (Brave, Neovim, etc.) sin tocar el núcleo del sistema.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">lock</span> <span class="path">/etc/nixos</span> <span class="flag">--update-input</span> <span class="arg">nixpkgs-unstable</span>
+<span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">/etc/nixos#mi-hostname</span>  <span class="comment"># preferido (ruta absoluta, sin cd)</span>
+<span class="comment"># Alternativa con cd:</span>
+<span class="comment"># cd /etc/nixos && sudo nix flake lock --update-input nixpkgs-unstable && sudo nixos-rebuild switch --flake .#mi-hostname</span></code></pre>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-title">Prueba antes de aplicar<span class="tooltip">Ver qué cambiará sin modificar el sistema.</span></div>
+    <div class="card-desc">Simula la reconstrucción para ver los paquetes que se actualizarán.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">dry-build</span> <span class="flag">--flake</span> <span class="path">/etc/nixos#mi-hostname</span>  <span class="comment"># preferido (ruta absoluta)</span>
+<span class="comment"># sudo nixos-rebuild dry-build --flake .#mi-hostname   # requiere cd /etc/nixos</span></code></pre>
+    </div>
+</div>
+
+<div class="info-box">
+    <p><strong>¿Qué significan los inputs?</strong></p>
+    <ul>
+        <li><span class="inline-code">nixpkgs</span> → Versión estable de NixOS (nixos-25.11). Cambiarlo actualiza el núcleo del sistema.</li>
+        <li><span class="inline-code">nixpkgs-unstable</span> → Versión de desarrollo. Solo afecta a los paquetes que usan <span class="inline-code">unstable.</span> en tu configuración.</li>
+    </ul>
+    <p><strong>Frecuencia recomendada:</strong> Actualiza <span class="inline-code">nixpkgs-unstable</span> semanalmente para tener aplicaciones actualizadas. Actualiza <span class="inline-code">nixpkgs</span> solo cuando necesites nuevas características del sistema.</p>
+</div>
+
+<h3 id="migracion-canales-flakes">Migración desde canales a flakes</h3>
+
+<div class="intro-box">
+    <p><strong>Proceso real ejecutado:</strong> Estos son los comandos exactos que se usaron para migrar este sistema de canales tradicionales a flakes. La migración es segura y reversible si algo sale mal.</p>
+    <p><strong>Características de este proceso:</strong></p>
+    <ul>
+        <li>Incluye solución al error común <span class="inline-code">experimental Nix feature 'nix-command' is disabled</span></li>
+        <li>Usa rutas absolutas en los comandos (sin necesidad de <span class="inline-code">cd</span>)</li>
+        <li>Muestra la salida real obtenida durante la migración</li>
+        <li>Compatible con hostname <span class="inline-code">mi-hostname</span> y usuario <span class="inline-code">usuario</span></li>
+    </ul>
+</div>
+
+<div class="card">
+    <div class="card-title">Paso 1: Copiar archivos de configuración<span class="tooltip">Prepara los archivos flake.nix y configuration.nix en /etc/nixos/</span></div>
+    <div class="card-desc">Copia los archivos desde la carpeta de migración al directorio de configuración del sistema.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">cp</span> <span class="flag">-i</span> <span class="path">~/migracion_a_flakes/flake.nix</span> <span class="path">~/migracion_a_flakes/configuration.nix</span> <span class="path">/etc/nixos/</span></code></pre>
+    </div>
+    <div class="card-desc">El flag <span class="inline-code">-i</span> pregunta antes de sobrescribir si ya existe configuration.nix.</div>
+</div>
+
+<div class="card">
+    <div class="card-title">Paso 2: Generar flake.lock (con solución a error común)<span class="tooltip">Actualiza los inputs y crea el archivo de versiones exactas.</span></div>
+    <div class="card-desc">Este paso puede fallar con el error de features experimentales deshabilitados. La solución es añadir <span class="inline-code">--extra-experimental-features</span>.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="cmd">cd</span> <span class="path">/etc/nixos</span> <span class="cmd">&&</span> <span class="cmd">sudo</span> <span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">update</span>  <span class="comment"># Error esperado: 'experimental Nix feature...'</span>
+<span class="comment"># Solución:</span>
+<span class="cmd">sudo</span> <span class="cmd">nix</span> <span class="flag">--extra-experimental-features</span> <span class="arg">'nix-command flakes'</span> <span class="cmd">flake</span> <span class="arg">update</span></code></pre>
+    </div>
+    <div class="card-desc">Salida real obtenida:</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code>warning: creating lock file "/etc/nixos/flake.lock": 
+• Added input 'nixpkgs':
+    'github:NixOS/nixpkgs/7e495b747b51f95ae15e74377c5ce1fe69c1765f?narHash=sha256-B35lpsqnSZwn1Lmz06BpwF7atPgFmUgw1l8KAV3zpVQ%3D' (2026-04-13)
+• Added input 'nixpkgs-unstable':
+    'github:NixOS/nixpkgs/4bd9165a9165d7b5e33ae57f3eecbcb28fb231c9?narHash=sha256-l/iNYDZ4bGOAFQY2q8y5OAfBBtrDAaPuRQqWaFHVRXM%3D' (2026-04-14)</code></pre>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-title">Paso 3: Aplicar la configuración con flakes<span class="tooltip">Compila y cambia al nuevo sistema usando flakes.</span></div>
+    <div class="card-desc">Usando ruta absoluta (recomendado) para no tener que hacer <span class="inline-code">cd /etc/nixos</span> primero.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">/etc/nixos#mi-hostname</span></code></pre>
+    </div>
+    <div class="card-desc">Salida real obtenida (resumida):</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code>building the system configuration...
+stopping the following units: accounts-daemon.service
+activating the configuration...
+setting up /etc...
+reloading user units for usuario...
+restarting sysinit-reactivation.target
+reloading the following units: dbus.service
+restarting the following units: polkit.service
+starting the following units: accounts-daemon.service
+the following new units were started: libvirtd.service, NetworkManager-dispatcher.service, sysinit-reactivation.target, systemd-tmpfiles-resetup.service
+Done. The new configuration is /nix/store/ky3ivn1l7ikv5lqf081fkzp47mqxjsr3-nixos-system-nixos-25.11.20260413.7e495b7</code></pre>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-title">Paso 4: Verificar la migración<span class="tooltip">Confirmar que el sistema ahora usa flakes correctamente.</span></div>
+    <div class="card-desc">Comandos para verificar que la migración fue exitosa.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">show</span></code></pre>
+    </div>
+    <div class="card-desc">Deberías ver algo similar a:</div>
+    <div class="tree-view">
+        <div class="tree-line tree-path">
+            <span class="tree-icon">📁</span>
+            <span class="tree-text">path:/etc/nixos?lastModified=1776364370&narHash=sha256-QvCG2nFNZTBfg9wwhR7oVrMK2Sj6PpvGx67Oh4lgHHY%3D</span>
+        </div>
+        <div class="tree-line tree-branch">
+            <span class="tree-connector">└───</span>
+            <span class="tree-icon">📦</span>
+            <span class="tree-label">nixosConfigurations</span>
+        </div>
+        <div class="tree-line tree-leaf">
+            <span class="tree-connector">    └───</span>
+            <span class="tree-icon">🖥️</span>
+            <span class="tree-hostname">mi-hostname</span>
+            <span class="tree-colon">:</span>
+            <span class="tree-type">NixOS configuration</span>
+        </div>
+    </div>
+</div>
+
+<div class="critical-box">
+    <div class="critical-title">⚠️ Error común durante la migración</div>
+    <p><strong>Problema:</strong> <code>error: experimental Nix feature 'nix-command' is disabled; add '--extra-experimental-features nix-command' to enable it</code></p>
+    <p><strong>Causa:</strong> El daemon de Nix no tiene habilitados los features experimentales aunque tu <code>configuration.nix</code> ya los incluya (<code>nix.settings.experimental-features = [ "nix-command" "flakes" ];</code>).</p>
+    <p><strong>Solución:</strong> Usa el flag <code>--extra-experimental-features</code> en el comando:</p>
+    <pre><code>sudo nix --extra-experimental-features 'nix-command flakes' flake update</code></pre>
+    <p>Una vez que se aplique la configuración con flakes, este error desaparecerá porque el daemon se reiniciará con los features habilitados.</p>
+</div>
+
+<div class="info-box">
+    <p><strong>¿Por qué usar rutas absolutas?</strong></p>
+    <p>El usuario prefiere comandos con rutas absolutas como <span class="inline-code">sudo nixos-rebuild switch --flake /etc/nixos#mi-hostname</span> en lugar de tener que hacer <span class="inline-code">cd /etc/nixos</span> primero. Esto hace que los comandos sean más explícitos y fáciles de copiar/pegar.</p>
+</div>
+
+<div class="info-box">
+    <p><strong>¿Qué contiene cada archivo?</strong></p>
+    <ul>
+        <li><strong>flake.nix</strong> → Define las <em>dependencias</em> (inputs) y cómo <em>construir</em> el sistema (outputs). Es el "contrato" principal: especifica qué versiones de nixpkgs usar y qué configuración generar (<code>nixosConfigurations.mi-hostname</code>).</li>
+        <li><strong>configuration.nix</strong> → Configuración <em>completa</em> del sistema. Recibe dos parámetros: <code>pkgs</code> (paquetes estables) y <code>unstable</code> (paquetes inestables). Todo lo que defines aquí (usuario, servicios, kernel, etc.) se aplica al sistema.</li>
+        <li><strong>flake.lock</strong> → Archivo generado <em>automáticamente</em> que "congela" las versiones exactas de los inputs. Garantiza que <strong>siempre</strong> se compile lo mismo (reproducibilidad). No se edita manualmente; se regenera con <code>nix flake update</code>.</li>
+    </ul>
+    <p><strong>Flujo:</strong> <code>flake.nix</code> → (genera) → <code>flake.lock</code> → (usa) → <code>configuration.nix</code> → (produce) → sistema NixOS.</p>
+</div>
+
+<h3 id="archivos-ejemplo">Archivos de ejemplo</h3>
+
+<div class="intro-box">
+    <p><strong>Configuración real utilizada:</strong> Estos son los archivos exactos que se usaron para migrar a flakes. Incluyen configuraciones específicas como:</p>
+    <ul>
+        <li>Hostname: <span class="inline-code">mi-hostname</span> (línea 21 en configuration.nix)</li>
+        <li>Usuario: <span class="inline-code">usuario</span> con shell zsh y paquetes unstable</li>
+        <li>Plasma 6, NVIDIA, localización española, timezone América/Asunción</li>
+        <li>Dos inputs: nixpkgs estable (25.11) y nixpkgs-unstable</li>
+    </ul>
+    <p><strong>Nota:</strong> Reemplaza <span class="inline-code">usuario</span> por tu nombre de usuario y ajusta el hostname según tu sistema.</p>
+</div>
+
+
+
+<details id="flake-nix" class="file-details">
+    <summary class="file-summary">
+        <span class="file-icon">📄</span>
+        <div class="file-info">
+            <div class="file-name">flake.nix</div>
+            <div class="file-desc">Define inputs y outputs</div>
+        </div>
+        <div class="file-tooltip">Haz clic para expandir/contraer el contenido completo</div>
+    </summary>
+    <div class="card">
+        <div class="card-title">flake.nix<span class="tooltip">Define las dependencias (inputs) y cómo construir el sistema (outputs).</span></div>
+        <div class="card-desc">Estructura básica de un flake para NixOS con dos canales: estable y unstable.</div>
+        <div class="code-block">
+            <div class="code-header">
+                <span class="dots"><span class="dot">● ● ●</span></span>
+                <span>nix</span>
+                <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+            </div>
+            <pre><code data-file="../flake_migration/flake.nix" class="load-external language-nix">Cargando flake.nix...</code></pre>
+        </div>
+    </div>
+</details>
+
+<details id="configuration-nix" class="file-details">
+    <summary class="file-summary">
+        <span class="file-icon">📄</span>
+        <div class="file-info">
+            <div class="file-name">configuration.nix</div>
+            <div class="file-desc">Configuración del sistema</div>
+        </div>
+        <div class="file-tooltip">Haz clic para expandir/contraer el contenido completo</div>
+    </summary>
+    <div class="card">
+        <div class="card-title">configuration.nix<span class="tooltip">Configuración completa del sistema. Nota: requiere hardware-configuration.nix generado automáticamente.</span></div>
+        <div class="card-desc">Versión compatible con flakes (usa parámetro 'unstable' en lugar de fetchTarball).</div>
+        <div class="code-block">
+            <div class="code-header">
+                <span class="dots"><span class="dot">● ● ●</span></span>
+                <span>nix</span>
+                <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+            </div>
+            <pre><code data-file="../flake_migration/configuration.nix" class="load-external language-nix">Cargando configuration.nix...</code></pre>
+        </div>
+    </div>
+</details>
+
+<details id="flake-lock" class="file-details">
+    <summary class="file-summary">
+        <span class="file-icon">🔒</span>
+        <div class="file-info">
+            <div class="file-name">flake.lock</div>
+            <div class="file-desc">Versiones exactas (generado)</div>
+        </div>
+        <div class="file-tooltip">Archivo generado automáticamente - haz clic para ver ejemplo</div>
+    </summary>
+    <div class="card">
+        <div class="card-title">flake.lock<span class="tooltip">Archivo generado automáticamente con las versiones exactas de los inputs.</span></div>
+        <div class="card-desc">No es necesario editarlo manualmente. Se regenera con <span class="inline-code">nix flake update</span>.</div>
+        <div class="code-block">
+            <div class="code-header">
+                <span class="dots"><span class="dot">● ● ●</span></span>
+                <span>json</span>
+                <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+            </div>
+            <pre><code data-file="../flake_migration/flake.lock" class="load-external language-json">Cargando flake.lock...</code></pre>
+        </div>
+    </div>
+</details>
+
+<div class="info-box">
+    <p><strong>Notas importantes:</strong></p>
+    <ul>
+        <li><strong>hardware-configuration.nix</strong> se genera automáticamente con <span class="inline-code">nixos-generate-config</span> y debe estar en el mismo directorio.</li>
+        <li>El UUID de la partición <span class="inline-code">/home</span> es específico de este sistema. Obtén el tuyo con <span class="inline-code">lsblk -f</span>.</li>
+        <li>Las IDs de bus PCI para NVIDIA (líneas 205-206) son específicas de esta máquina. Usa <span class="inline-code">lspci | grep -i nvidia</span> para encontrar las tuyas.</li>
+        <li>Reemplaza <span class="inline-code">usuario</span> por tu nombre de usuario en todo el archivo.</li>
+        <li>Los archivos se expanden/contraen al hacer clic en los iconos o en los títulos.</li>
+    </ul>
+</div>
+
+<style>
+.file-summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    background: #1e293b;
+    cursor: pointer;
+    list-style: none;
+    position: relative;
+}
+.file-summary .file-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+    width: 30px;
+    text-align: center;
+}
+.file-summary .file-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.file-summary .file-name {
+    font-weight: 600;
+    color: #f1f5f9;
+    font-size: 1rem;
+    white-space: nowrap;
+}
+.file-summary .file-desc {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    white-space: nowrap;
+}
+.file-summary .file-tooltip {
+    font-size: 0.7rem;
+    color: #60a5fa;
+    font-style: italic;
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding-right: 30px;
+}
+.file-details {
+    margin: 20px 0;
+    border: 1px solid #475569;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.file-details summary {
+    list-style: none;
+    position: relative;
+}
+.file-details summary::-webkit-details-marker {
+    display: none;
+}
+.file-details summary:after {
+    content: '▶';
+    position: absolute;
+    right: 10px;
+    transition: transform 0.3s;
+}
+.file-details[open] summary:after {
+    transform: rotate(90deg);
+}
+.file-details .card {
+    margin: 0;
+    border: none;
+    border-radius: 0;
+}
+
+/* Estilos para árbol visual de salida de nix flake show */
+.tree-view {
+    background: #0d1117;
+    border: 1px solid rgba(99, 102, 241, 0.12);
+    border-radius: 10px;
+    padding: 16px;
+    margin: 10px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1.7;
+}
+
+.tree-line {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+    color: #e2e8f0;
+}
+
+.tree-line:last-child {
+    margin-bottom: 0;
+}
+
+.tree-path {
+    color: #94a3b8;
+    font-size: 0.78rem;
+}
+
+.tree-branch {
+    margin-left: 0;
+}
+
+.tree-leaf {
+    margin-left: 20px;
+}
+
+.tree-connector {
+    color: #475569;
+    font-family: 'JetBrains Mono', monospace;
+    margin-right: 4px;
+}
+
+.tree-icon {
+    margin-right: 6px;
+    font-size: 0.9rem;
+}
+
+.tree-text {
+    color: #c4b5fd;
+    word-break: break-all;
+}
+
+.tree-label {
+    color: #60a5fa;
+    font-weight: 500;
+}
+
+.tree-hostname {
+    color: #34d399;
+    font-weight: 600;
+}
+
+.tree-colon {
+    color: #e2e8f0;
+    margin: 0 4px;
+}
+
+.tree-type {
+    color: #fbbf24;
+    font-style: italic;
+}
+</style>
+
+

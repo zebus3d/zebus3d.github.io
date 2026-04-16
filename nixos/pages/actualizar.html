@@ -58,20 +58,21 @@
             <span>bash</span>
             <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
         </div>
-        <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">.#nixos</span></code></pre>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">/etc/nixos#mi-hostname</span></code></pre>
     </div>
-    <div class="card-desc" style="color: #64748b; font-size: 0.82rem; margin-top: 8px;">El formato es <code>.#nombre-de-config</code> donde el nombre debe coincidir con el definido en <code>flake.nix</code> (ej: <code>nixosConfigurations.nixos</code>).</div>
+    <div class="card-desc" style="color: #64748b; font-size: 0.82rem; margin-top: 8px;">El formato es <code>.#nombre-de-config</code> donde el nombre debe coincidir con el definido en <code>flake.nix</code> (ej: <code>nixosConfigurations.mi-hostname</code>).</div>
 </div>
 
 <div class="info-box">
-    <p><strong>Con host específico:</strong> Si tienes múltiples máquinas definidas:</p>
+    <p><strong>Recordatorio:</strong> Usa ruta absoluta para no tener que hacer <code>cd /etc/nixos</code>. El nombre después de <code>#</code> debe coincidir con <code>nixosConfigurations.mi-hostname</code> en tu <code>flake.nix</code>.</p>
 </div>
 
 <div class="code-block">
     <div class="code-header">
             <span class="dots"><span class="dot">● ● ●</span></span>
             <span>bash</span>
-            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height"13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
         </div>
-    <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">.#mi-host</span></code></pre>
+    <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">/etc/nixos#mi-hostname</span>  <span class="comment"># preferido (ruta absoluta)</span>
+<span class="comment"># sudo nixos-rebuild switch --flake .#mi-hostname   # requiere cd /etc/nixos</span></code></pre>
 </div>
