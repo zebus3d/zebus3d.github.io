@@ -143,3 +143,66 @@
 <span class="punct">];</span></code></pre>
     </div>
 </div>
+
+<h3>Optimizar arranque de Plasma</h3>
+
+<div class="intro-box">
+    <p><strong>¿El panel de Plasma tarda en aparecer?</strong> Cada widget (reloj, lanzador, notificaciones) tiene un valor <code>PreloadWeight</code> que determina cuándo carga. Valores altos = carga inmediata = tarda más en arrancar.</p>
+    <p>Reducir este valor hace que el panel aparezca primero y los widgets carguen en segundo plano.</p>
+</div>
+
+<div class="card">
+    <div class="card-title">Reducir PreloadWeight<span class="tooltip">Edita el archivo de configuración de Plasma para acelerar el arranque.</span></div>
+    <div class="card-desc">Aplicable a KDE Plasma.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="cmd">mkdir</span> <span class="flag">-p</span> ~/.config<span class="flag"> &&</span> cp ~/.config/plasma-org.kde.plasma.desktop-appletsrc ~/.config/plasma-org.kde.plasma.desktop-appletsrc.backup</code></pre>
+    </div>
+    <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Antes de modificar, haz backup del archivo.</p>
+</div>
+
+<div class="card">
+    <div class="card-title">Valores óptimos<span class="tooltip">Cambia estos valores en [Containments][2][Applets][X][Configuration].</span></div>
+    <div class="card-desc">Reduce de 100 a 30.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="comment"># En ~/.config/plasma-org.kde.plasma.desktop-appletsrc:</span>
+<span class="arg">DigitalClock</span> <span class="kw">PreloadWeight</span><span class="punct">=</span><span class="arg">100</span>  <span class="comment">→ 30</span>
+<span class="arg">AndromedaLauncher</span> <span class="kw">PreloadWeight</span><span class="punct">=</span><span class="arg">100</span> <span class="comment">→ 30</span>
+<span class="arg">Notificaciones</span> <span class="kw">PreloadWeight</span><span class="punct">=</span><span class="arg">100</span> <span class="comment">→ 30</span>
+<span class="arg">Clipboard</span> <span class="kw">PreloadWeight</span><span class="punct">=</span><span class="arg">100</span> <span class="comment">→ 30</span>
+<span class="arg">SystemMonitor</span> <span class="kw">PreloadWeight</span><span class="punct">=</span><span class="arg">20</span>   <span class="comment">← (opcional, menor=prioridad baja)</span></code></pre>
+    </div>
+    <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Busca <code>PreloadWeight</code> en el archivo y cambia los valores. Cierra sesión y vuelve a entrar para probar.</p>
+</div>
+
+<div class="info-box">
+    <p><strong>¿Funciona?</strong> El panel debería aparecer casi instantáneamente (~1-3s) en lugar de esperar 5-10s a que carguen todos los widgets.</p>
+    <p><strong>Más info:</strong> Los valores van de 0 (Nunca cargar) a 100 (Cargar primero). 30 es un buen equilibrio: carga rápido pero los widgets aparecen enseguida.</p>
+</div>
+
+<h3>Restaurar si hay problemas</h3>
+
+<div class="intro-box">
+    <p>Si algo sale mal, <strong>restaurar el backup es instantáneo</strong>.</p>
+</div>
+
+<div class="card critical">
+    <div class="card-title">Restaurar backup<span class="tooltip">Deshace todos los cambios realizados.</span></div>
+    <div class="card-desc">Recuperar configuración anterior.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="cmd">cp</span> ~/.config/plasma-org.kde.plasma.desktop-appletsrc.backup ~/.config/plasma-org.kde.plasma.desktop-appletsrc</code></pre>
+    </div>
+    <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Cierra sesión y vuelve a entrar. Si el panel no carga bien, reinicia el PC.</p>
+</div>
+
+<div class="warning-box">
+    <p><strong>Consejo:</strong> Después de cada cambio significativo, renombra el backup (ej: <code>.backup-v1</code>, <code>.backup-v2</code>) para poder volver atrás si es necesario.</p>
+</div>
