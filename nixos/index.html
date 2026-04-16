@@ -1582,81 +1582,10 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Archivo .desktop<span class="tooltip">Archivo para que Plasma/KDE reconozca Blender como aplicación.</span></div>
-                <div class="card-desc" style="color: #94a3b8; font-size: 0.82rem; margin-bottom: 10px;">Guardar en: <span class="inline-code">~/.local/share/applications/blender-X.X.X.desktop</span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>desktop</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="kw">[Desktop Entry]</span>
-<span class="arg">Name</span>=<span class="str">Blender 5.1.0</span>
-<span class="arg">Exec</span>=<span class="str">/home/zebus3d/.scripts/blender_launcher.sh /home/zebus3d/Downloads/Blenders/blender-5.1.0-linux-x64/blender %f</span>
-<span class="arg">Icon</span>=<span class="str">/home/zebus3d/.icons/custom/blender.svg</span>
-<span class="arg">Terminal</span>=<span class="kw">false</span>
-<span class="arg">Type</span>=<span class="kw">Application</span>
-<span class="arg">PrefersNonDefaultGPU</span>=<span class="kw">true</span>
-<span class="arg">Categories</span>=<span class="str">Graphics;3DGraphics;</span></code></pre>
-                </div>
-            </div>
-
-            <div class="warning-box">
-                <p><strong>⚠️ Ojo con el Garbage Collector:</strong> Al ejecutar <span class="inline-code">nix-collect-garbage</span>, se borran librerías del store que programas que usan <strong>PySide6</strong> necesitan. Si obtienes errores como <span class="inline-code">libglib-2.0.so.0 not found</span>, es porque tu lanzador no está inyectando estas librerías desde el store.</p>
-            </div>
-
-            <div class="info-box">
-                <p><strong>¿Por qué el lanzador reforzado?</strong> Aunque Blender traiga sus librerías, los procesos hijos (como un editor de scripts externo) heredan el entorno de Blender. El script reforzado asegura un "pasillo seguro" para estas librerías incluso tras limpiezas profundas del sistema.</p>
-            </div>
-
-            <div class="safe-box">
-                <p><strong>💡 Tip para Addons:</strong> Para evitar errores de segmentación (SIGSEGV), filtra el <span class="inline-code">.venv</span> de tu proyecto del <span class="inline-code">sys.path</span> antes de lanzar procesos que usen Qt. Esto evita que se carguen dos versiones distintas de la librería a la vez.</p>
-            </div>
-
-            <h3>Steam y juegos con Proton</h3>
-
-            <div class="card">
-                <div class="card-title">Steam-run para juegos de Windows<span class="tooltip">Steam en NixOS necesita steam-run para ejecutar Proton y juegos de Windows.</span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">steam-run</span> <span class="arg">/ruta/al/juego.exe</span></code></pre>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Steam en el sistema<span class="tooltip">Instalación declarativa de Steam via configuration.nix. Añade las librerías necesarias a nix-ld para que Steam y Proton funcionen correctamente.<span class="tip_example">programs.steam.enable = true;</span></span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="kw">programs.steam</span> <span class="punct">=</span> <span class="punct">{</span>
-    <span class="kw">enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
-    <span class="kw">remotePlay.openFirewall</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
-<span class="punct">};</span>
-<span class="kw">programs.nix-ld.libraries</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
-    <span class="arg">steam</span>
-<span class="punct">];</span></code></pre>
-                </div>
-            </div>
-
-            <h3>Virtualización</h3>
-
-            <div class="card">
-                <div class="card-title">Libvirt + Virt-Manager<span class="tooltip">Máquinas virtuales con KVM/QEMU. Virt-Manager es la GUI para gestionarlas.</span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="kw">virtualisation.libvirtd.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
-<span class="kw">programs.virt-manager.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
-
-<span class="comment"># Añadir usuario al grupo libvirtd:</span>
-<span class="kw">users.users.zebus3d.extraGroups</span> <span class="punct">=</span> <span class="punct">[</span> <span class="str">"libvirtd"</span> <span class="punct">];</span></code></pre>
-                </div>
-            </div>
-
-            <h3>Plasma 6</h3>
-
-            <div class="info-box">
-                <p><strong>services.desktopManager.plasma6:</strong> En NixOS 24.05 Plasma 6 ya estaba disponible como opción. En 24.11 se volvió más estable. Usa <code>services.desktopManager.plasma6.enable = true</code> en lugar de <code>plasma5</code>.</p>
-            </div>
-
-            <div class="card">
                 <div class="card-title">KDE Plasma 6 + SDDM<span class="tooltip">Entorno de escritorio Plasma 6 con el gestor de inicio SDDM. Los paquetes de KDE (kate, konsole, etc.) están en kdePackages, no en pkgs.<span class="tip_example">kdePackages.kate, kdePackages.filelight, kdePackages.dolphin</span></span></div>
+                <div class="card-desc">Entorno de escritorio Plasma 6 con el gestor de inicio SDDM.</div>
                 <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2-2v1"></path></svg></button></div>
                     <pre><code><span class="kw">services.displayManager.sddm.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
 <span class="kw">services.desktopManager.plasma6.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
 
@@ -1665,6 +1594,18 @@
     <span class="arg">kdePackages.kate</span>
     <span class="arg">kdePackages.filelight</span>
 <span class="punct">];</span></code></pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Activar Numlock en SDDM<span class="tooltip">Activa el bloqueo numérico automáticamente al iniciar SDDM. En Plasma también puedes configurarlo desde: Settings > Keyboard > Numlock on startup = On.</span></div>
+                <div class="card-desc">Activa el teclado numérico al iniciar sesión en SDDM.</div>
+                <div class="code-block">
+                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2-2v1"></path></svg></button></div>
+                    <pre><code><span class="kw">services.displayManager.sddm.autoNumlock</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span></code></pre>
+                </div>
+                <div class="info-box" style="margin-top: 10px;">
+                    <p>En Plasma también: <strong>Settings > Keyboard > Numlock on startup = On</strong></p>
                 </div>
             </div>
 
