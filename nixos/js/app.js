@@ -337,8 +337,18 @@ async function initFromHash() {
     await showPage(pageIds.includes(page) ? page : 'primeros', anchor);
     
     if (anchor) {
-        const el = document.getElementById(anchor);
-        if (el) {
+        // Función para intentar scroll con reintentos
+        const attemptScroll = (retryCount = 0) => {
+            const el = document.getElementById(anchor);
+            if (!el) {
+                if (retryCount < 5) {
+                    setTimeout(() => attemptScroll(retryCount + 1), 50);
+                    return;
+                }
+                console.warn(`Elemento con id "${anchor}" no encontrado después de ${retryCount} intentos`);
+                return;
+            }
+            
             // Esperar a que el layout se estabilice
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
@@ -346,7 +356,7 @@ async function initFromHash() {
                     const stickyHeight = stickyNav ? stickyNav.offsetHeight : 0;
                     const offset = stickyHeight + 20; // margen adicional
                     const elementPosition = el.getBoundingClientRect().top + window.scrollY;
-                    const offsetPosition = elementPosition - offset;
+                    const offsetPosition = Math.max(0, elementPosition - offset);
                     
                     window.scrollTo({
                         top: offsetPosition,
@@ -354,7 +364,10 @@ async function initFromHash() {
                     });
                 });
             });
-        }
+        };
+        
+        // Comenzar intento
+        attemptScroll();
     }
 }
 
