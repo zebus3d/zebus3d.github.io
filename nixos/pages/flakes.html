@@ -1,0 +1,94 @@
+<h2><span class="icon">❄️</span> Flakes</h2>
+
+<div class="intro-box">
+    <p><strong>¿Qué son los Flakes?</strong> Son la forma moderna de gestionar tu configuración de NixOS. Imagina que tu configuración es un "proyecto" con sus propias dependencias versionadas, como un proyecto de programación con su <span class="inline-code">package.json</span>.</p>
+    <p>El archivo <span class="inline-code">flake.nix</span> declara qué usar y el <span class="inline-code">flake.lock</span> "congela" las versiones exactas para que la compilación sea siempre idéntica. Esto hace que tu sistema sea <strong>reproducible</strong>: si copias los archivos a otro ordenador, obtienes exactamente lo mismo.</p>
+</div>
+
+<div class="info-box">
+    <p><strong>Canales vs Flakes:</strong> Los canales son como un "apt update" global (simple pero menos control). Los flakes son proyectos independientes con dependencias versionadas (más control, más reproducible).</p>
+</div>
+
+<div class="critical-box">
+    <div class="critical-title">⚠️ Requiere configuración</div>
+    <p>Para usar flakes necesitas añadir esta línea en tu <code>configuration.nix</code>:</p>
+    <pre><code>nix.settings.experimental-features = [ "nix-command" "flakes" ];</code></pre>
+    <p>Sin esto, los comandos de flakes <strong>no funcionarán</strong>.</p>
+</div>
+
+<h3>Verificar tipo de configuración</h3>
+
+<div class="card">
+    <div class="card-title">¿Canales o Flakes?<span class="tooltip">Cómo saber qué tipo de configuración estás usando.</span></div>
+    <div class="card-desc">Ejecuta este comando para saber qué sistema usas.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="cmd">nix-channel</span> <span class="flag">--list</span></code></pre>
+    </div>
+    <div class="card-desc" style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Si muestra <span class="inline-code">nixos https://nixos.org/channels/...</span> ▶ <strong>Canales</strong>. Si no ▶ <strong>Flakes</strong>.</p>
+</div>
+
+<h3>Estructura típica</h3>
+
+<div class="card">
+    <div class="card-title">Estructura de proyecto con Flakes<span class="tooltip">Organización de un proyecto con flakes. flake.nix declara qué dependencias usar (nixpkgs, home-manager). flake.lock guarda las versiones exactas (como package-lock.json). nixos/ contiene la configuración del sistema.<span class="tip_example">├── flake.nix ▶ define inputs y outputs
+├── flake.lock ▶ versiones exactas
+└── nixos/ ▶ config del sistema</span></span></div>
+    <div class="card-desc">Cómo organizar tu configuración con Flakes.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code>mi-config/
+├── <span class="path">flake.nix</span>        <span class="comment"># Dependencias y outputs</span>
+├── <span class="path">flake.lock</span>       <span class="comment"># Versiones congeladas</span>
+└── <span class="path">nixos/</span>
+    ├── <span class="path">configuration.nix</span>
+    └── <span class="path">hardware-configuration.nix</span></code></pre>
+    </div>
+</div>
+
+<h3>Comandos útiles</h3>
+
+<div class="card">
+    <div class="card-title">Actualizar Flake<span class="tooltip">Actualiza todas las dependencias a sus últimas versiones según flake.nix.</span></div>
+    <div class="card-desc">Actualizar todas las dependencias.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">update</span></code></pre>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-title">Actualizar un input específico<span class="tooltip">Actualizar solo una dependencia específica (ej: nixpkgs-unstable) sin tocar las otras.</span></div>
+    <div class="card-desc">Actualizar solo una dependencia.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">lock</span> <span class="flag">--update-input</span> <span class="arg">nixpkgs-unstable</span></code></pre>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-title">Evaluar configuración<span class="tooltip">Ver la configuración sin aplicar cambios. Útil para depurar.</span></div>
+    <div class="card-desc">Probar la configuración.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">dry-build</span> <span class="flag">--flake</span> <span class="path">.#nixos</span></code></pre>
+    </div>
+</div>
+
+<table class="risk-table">
+    <thead><tr><th>Situación</th><th>Comando</th><th>Riesgo</th></tr></thead>
+    <tbody>
+        <tr><td>Actualizar todo</td><td><span class="inline-code">nix flake update</span></td><td><span class="risk-badge moderate">MODERADO</span></td></tr>
+        <tr><td>Actualizar un input</td><td><span class="inline-code">nix flake lock --update-input X</span></td><td><span class="risk-badge moderate">MODERADO</span></td></tr>
+    </tbody>
+</table>

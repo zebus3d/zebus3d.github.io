@@ -1,0 +1,78 @@
+<h2><span class="icon">🗑️</span> Generaciones</h2>
+
+<div class="intro-box">
+    <p><strong>¿Qué son las generaciones?</strong> Cada vez que haces <code>nixos-rebuild switch</code>, NixOS guarda una "foto" completa de tu sistema. Estas fotos se llaman <strong>generaciones</strong>.</p>
+    <p>Si algo sale mal después de un cambio, puedes <strong>volver atrás</strong> (rollback) a cualquier generación anterior. Es como tener un control de versiones del sistema entero.</p>
+</div>
+
+<div class="info-box">
+    <p><strong>La generación actual NUNCA se borra</strong>. Siempre puedes volver a ella. Las generaciones son <strong>perfiles</strong> en <code>/nix/var/nix/profiles/system/</code></p>
+</div>
+
+<h3>Manejar generaciones</h3>
+
+<div class="card">
+    <div class="card-title">Ver generaciones<span class="tooltip">Lista todas las generaciones con su fecha, versión de NixOS y si son la actual.</span></div>
+    <div class="card-desc">Ver qué generaciones tienes disponibles.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-env</span> <span class="flag">-p</span> <span class="path">/nix/var/nix/profiles/system</span> <span class="flag">--list-generations</span></code></pre>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-title">Borrar generaciones específicas<span class="tooltip">Borra generaciones por número. Útil para limpiar generaciones antiguas.<span class="tip_example">sudo nixos-rebuild delete-generations 1 2 3 4 5</span></span></div>
+    <div class="card-desc">Eliminar generaciones antiguas manualmente.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">delete-generations</span> <span class="arg">1</span> <span class="arg">2</span> <span class="arg">3</span></code></pre>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-title">Rollback<span class="tooltip">Volver a la generación anterior. Es el método más rápido para revertir cambios.</span></div>
+    <div class="card-desc">Volver al estado anterior.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--rollback</span></code></pre>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-title">Elegir generación específica<span class="tooltip">Seleccionar una generación exacta por número.Útil si sabes cuál funcionaba bien.<span class="tip_example">sudo nixos-rebuild switch --profile 5</span></span></div>
+    <div class="card-desc">Cambiar a una generación específica.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--generation</span> <span class="arg">&lt;número&gt;</span></code></pre>
+    </div>
+</div>
+
+<h3>Limpiar generaciones huérfanas</h3>
+
+<div class="warning-box">
+    <p><strong>Consejo:</strong> Tras borrar generaciones, puedes liberar el espacio ejecutando:</p>
+</div>
+
+<div class="code-block">
+    <div class="code-header">
+        <span class="dots"><span class="dot">● ● ●</span></span>
+    </div>
+    <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span></code></pre>
+</div>
+
+<table class="risk-table">
+    <thead><tr><th>Situación</th><th>Comando</th><th>Riesgo</th></tr></thead>
+    <tbody>
+        <tr><td>Ver todas</td><td><span class="inline-code">nix-env --list-generations</span></td><td><span class="risk-badge safe">SEGURO</span></td></tr>
+        <tr><td>Volver atrás</td><td><span class="inline-code">nixos-rebuild switch --rollback</span></td><td><span class="risk-badge safe">SEGURO</span></td></tr>
+        <tr><td>Borrar específicas</td><td><span class="inline-code">nixos-rebuild delete-generations 1 2</span></td><td><span class="risk-badge moderate">MODERADO</span></td></tr>
+    </tbody>
+</table>

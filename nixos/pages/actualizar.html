@@ -1,0 +1,67 @@
+<h2><span class="icon">🔄</span> Actualizar el sistema</h2>
+
+<div class="intro-box">
+    <p><strong>¿Qué significa actualizar en NixOS?</strong> A diferencia de otras distros donde "actualizar paquetes" es un comando separado, aquí actualizar significa: (1) descargar las últimas versiones del canal o flake, y (2) reconstruir todo el sistema con esas versiones. Kernel, apps, librerías — todo se actualiza de golpe.</p>
+    <p><strong>¿Cada cuánto?</strong> Cada <strong>1-2 semanas</strong> es lo ideal. Diario genera demasiadas generaciones. Esperar meses aumenta el riesgo de romper algo. Usuario casual ▶ una vez al mes.</p>
+</div>
+
+<h3>Con canales</h3>
+
+<div class="card">
+    <div class="card-title">Actualizar con --upgrade<span class="tooltip">Hace el update del canal y rebuild en un paso. El método más sencillo.</span></div>
+    <div class="card-desc">Método rápido.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--upgrade</span></code></pre>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-title">Actualizar en dos pasos<span class="tooltip">Primero actualiza el canal, luego reconstruye. Te permite verificar cambios entre pasos.</span></div>
+    <div class="card-desc">Método manual.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-channel</span> <span class="flag">--update</span>
+<span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span></code></pre>
+    </div>
+</div>
+
+<h3>Con Flakes</h3>
+
+<div class="card">
+    <div class="card-title">Actualizar dependencias<span class="tooltip">Actualiza todas las dependencias según flake.nix. Equivalente a npm update.</span></div>
+    <div class="card-desc">Actualizar flakes.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">update</span></code></pre>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-title">Reconstruir con Flake<span class="tooltip">Aplica la configuración del flake. El formato es <code>.#nombre-de-config</code>.</span></div>
+    <div class="card-desc">Aplicar cambios del flake.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">.#nixos</span></code></pre>
+    </div>
+    <div class="card-desc" style="color: #64748b; font-size: 0.82rem; margin-top: 8px;">El formato es <code>.#nombre-de-config</code> donde el nombre debe coincidir con el definido en <code>flake.nix</code> (ej: <code>nixosConfigurations.nixos</code>).</div>
+</div>
+
+<div class="info-box">
+    <p><strong>Con host específico:</strong> Si tienes múltiples máquinas definidas:</p>
+</div>
+
+<div class="code-block">
+    <div class="code-header">
+        <span class="dots"><span class="dot">● ● ●</span></span>
+    </div>
+    <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">.#mi-host</span></code></pre>
+</div>

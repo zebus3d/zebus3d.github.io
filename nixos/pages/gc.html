@@ -1,0 +1,53 @@
+<h2><span class="icon">🧹</span> Garbage Collector</h2>
+
+<div class="intro-box">
+    <p><strong>¿Qué es el Garbage Collector?</strong> En NixOS nada se borra automáticamente. Cada vez que actualizas el sistema, se crea una nueva <strong>generación</strong> (una foto completa de tu sistema) y todos los archivos se guardan en <span class="inline-code">/nix/store</span>. Con el tiempo esto acumula gigas de versiones que ya no usas.</p>
+    <p>El GC es el comando que <strong>libera ese espacio</strong>. Primero borras generaciones (los "punteros") y luego el GC elimina los archivos reales que ya nadie referencia. Es como vaciar la papelera de reciclaje.</p>
+</div>
+
+<div class="info-box">
+    <p>La generación actual (la que estás usando ahora) <strong>NUNCA</strong> se elimina. Siempre puedes hacer rollback.</p>
+</div>
+
+<div class="warning-box">
+    <p><strong>IMPORTANTE:</strong> <span class="warn-tip">No tener compilaciones o descargas activas<span class="warn-tooltip">Aplica a: <code>nix-collect-garbage</code>, <code>-d</code> y <code>--delete-older-than</code>. Si <code>nixos-rebuild</code> está descargando/compilando y el GC borra esas referencias, falla con "path does not exist".</span></span> al ejecutar el GC.</p>
+</div>
+
+<div class="gc-grid">
+    <div class="gc-card recommended">
+        <div class="gc-label safe">RECOMENDADO</div>
+        <div class="gc-title">GC conservador (30 días)<span class="tooltip">Borra generaciones con +30 días de TODOS los perfiles y ejecuta GC. Mantiene la generación actual y las de los últimos 30 días. Ideal para uso semanal sin perder rollback.<span class="tip_example">Ej: rebuild de hace 35 días ▶ se borra</span></span></div>
+        <div class="gc-desc">Generaciones viejas + espacio liberado en un paso.</div>
+        <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span> <span class="flag">--delete-older-than</span> <span class="arg">30d</span></div>
+    </div>
+    <div class="gc-card">
+        <div class="gc-label moderate">MODERADO</div>
+        <div class="gc-title">GC simple<span class="tooltip">Solo elimina archivos del store sin referencias. No borra generaciones. Útil cuando ya borraste generaciones a mano y quieres liberar el espacio. ⚠️ No actualiza el menú de systemd-boot: ejecuta nixos-rebuild boot después para sincronizar las entradas.<span class="tip_example">Ej: tras borrar generaciones manualmente, libera GB</span></span></div>
+        <div class="gc-desc">Libera espacio sin borrar generaciones. Requiere <code>nixos-rebuild boot</code> después para actualizar el bootloader.</div>
+        <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span></div>
+    </div>
+    <div class="gc-card">
+        <div class="gc-label aggressive">AGRESIVO</div>
+        <div class="gc-title">GC agresivo (-d)<span class="tooltip">Borra TODAS las generaciones excepto la actual. Úsalo con precaución si necesitas espacio. ⚠️ Elimina TODOS los rollbacks.<span class="tip_example">Ej: solo queda la generación actual</span></span></div>
+        <div class="gc-desc">Borra todas las generaciones anteriores.</div>
+        <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span> <span class="flag">-d</span></div>
+    </div>
+    <div class="gc-card">
+        <div class="gc-label safe">SEGURO</div>
+        <div class="gc-title">Optimizar store<span class="tooltip">Deduplica archivos iguales en el store. No borra nada, solo organiza para ahorrar espacio.<span class="tip_example">Ej: misma librería en 50 programas ▶ 1 copia</span></span></div>
+        <div class="gc-desc">Deduplica archivos en el store.</div>
+        <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-store</span> <span class="flag">--optimise</span></div>
+    </div>
+</div>
+
+<h3>¿Cuál usar?</h3>
+
+<table class="risk-table">
+    <thead><tr><th>Situación</th><th>Comando</th><th>Riesgo</th></tr></thead>
+    <tbody>
+        <tr><td>Limpieza semanal</td><td><span class="inline-code">--delete-older-than 30d</span></td><td><span class="risk-badge safe">SEGURO</span></td></tr>
+        <tr><td>Tras borrar generaciones a mano</td><td><span class="inline-code">nix-collect-garbage</span></td><td><span class="risk-badge safe">SEGURO</span></td></tr>
+        <tr><td>Limpieza profunda</td><td><span class="inline-code">-d</span></td><td><span class="risk-badge aggressive">AGRESIVO</span></td></tr>
+        <tr><td>Espacio extra sin borrar</td><td><span class="inline-code">nix-store --optimise</span></td><td><span class="risk-badge safe">SEGURO</span></td></tr>
+    </tbody>
+</table>

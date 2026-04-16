@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apuntes NixOS</title>
-    <!-- Google Analytics (para quitar, borra desde aquí hasta el cierre del script) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WF80PK43WQ"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -12,7 +11,6 @@
         gtag('js', new Date());
         gtag('config', 'G-WF80PK43WQ');
     </script>
-    <!-- Fin Google Analytics -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
@@ -70,7 +68,6 @@
 
         html { scroll-behavior: smooth; }
 
-        /* Sticky nav container */
         .sticky-nav {
             position: sticky; top: 0; z-index: 100;
             background: rgba(10, 10, 15, 0.85);
@@ -84,7 +81,6 @@
             border-radius: 0 0 20px 20px;
         }
 
-        /* Tab navigation */
         .tab-bar {
             background: transparent;
             border: none; padding: 10px 0 0; margin-bottom: 0;
@@ -119,13 +115,10 @@
         }
         .tab-btn .tab-icon { font-size: 0.95rem; }
 
-        /* Pages */
-        .page {
-            display: none;
+        #content {
             animation: page-in 0.3s ease;
             margin-top: 20px;
         }
-        .page.active { display: block; }
 
         @keyframes page-in {
             from { opacity: 0; transform: translateY(10px); }
@@ -394,7 +387,6 @@
 
         .card .card-title { display: flex; align-items: center; gap: 8px; }
 
-        /* GC Grid */
         .gc-grid {
             display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px;
         }
@@ -459,7 +451,6 @@
         }
         .gc-card .gc-code .copy-btn { position: absolute; top: 8px; right: 8px; }
 
-        /* Tables */
         .risk-table {
             width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.88rem;
             background: rgba(15, 15, 25, 0.6);
@@ -504,7 +495,6 @@
             border: 1px solid rgba(239, 68, 68, 0.25);
         }
 
-        /* Steps */
         .steps { counter-reset: step; list-style: none; padding: 0; }
         .steps li {
             counter-increment: step;
@@ -541,7 +531,6 @@
             font-size: 0.8rem; color: #7dd3fc;
         }
 
-        /* Page nav (prev/next) */
         .page-nav {
             display: flex; justify-content: space-between; align-items: center;
             margin-top: 36px; padding: 30px 0 40px;
@@ -575,7 +564,6 @@
         }
         .page-dot:hover:not(.active) { background: rgba(99, 102, 241, 0.4); }
 
-        /* Search */
         .search-bar {
             max-width: 500px; margin: 12px auto 8px; padding: 0 20px;
             position: relative;
@@ -645,7 +633,6 @@
             pointer-events: none;
         }
 
-        /* Search highlight on page */
         .search-highlight {
             background: rgba(251, 191, 36, 0.25);
             border: 1px solid rgba(251, 191, 36, 0.4);
@@ -658,7 +645,6 @@
             color: #475569; font-size: 0.82rem;
         }
 
-        /* Scroll to top button - mobile only */
         .scroll-top {
             display: none;
             position: fixed; bottom: 24px; right: 24px;
@@ -679,9 +665,9 @@
         }
 
         @media (max-width: 640px) {
-            .page-nav-btn { padding: 8px 12px; }
+            .page-nav-btn { padding: 8px 10px; min-width: 44px; }
             .page-nav-btn span:not(.arrow) { display: none; }
-            .page-nav-btn .arrow { margin: 0; }
+            .page-nav-btn .arrow { margin: 0; font-size: 1.4rem; font-weight: 300; }
         }
 
         @media (max-width: 768px) {
@@ -730,900 +716,15 @@
                     <button class="tab-btn" data-page="hardware"><span class="tab-icon">🖥️</span> Hardware</button>
                 </div>
             </nav>
-</div>
-
-<!-- PAGE 0: Primeros Pasos -->
-<div class="page active" id="primeros">
-<h2><span class="icon">🚀</span> Primeros pasos en NixOS</h2>
-
-<div class="intro-box">
-<p><strong>¿Qué es NixOS?</strong> Es una distribución de Linux donde <strong>todo se configura desde un archivo</strong>: servicios, paquetes, usuarios, red, bootloader... No usas comandos como <code>apt install</code> ni modificas archivos a mano. Escribes tu configuración y NixOS la hace realidad.</p>
-<p>Esto se llama modelo <strong>declarativo</strong>: escribes lo que quieres y NixOS se encarga de traerte lo que pediste. Es como escribir la carta a los Reyes Magos: solo escribes tus deseos y alguien se encarga de traerte todo.</p>
-</div>
-
-<div class="info-box">
-<p><strong>¿Qué es <code>nixpkgs</code>?</strong> Es el repositorio gigante con miles de programas para Nix/NixOS. Cuando dices <code>pkgs.firefox</code>, está diciendo "del repositorio nixpkgs, tráeme Firefox". Puedes buscar paquetes en <a href="https://search.nixos.org/packages" style="color: #7dd3fc;" target="_blank">search.nixos.org/packages</a>.</p>
-</div>
-
-<h3>Conceptos fundamentales</h3>
-
-<div class="card">
-<div class="card-title">El Nix Store — /nix/store<span class="tooltip">Es la carpeta donde Nix guarda TODOS los archivos del sistema: programas, librerías, configuraciones. Cada versión de cada paquete tiene su propia carpeta con un hash único.</span></div>
-<div class="card-desc">Donde Nix guarda todo. Cada paquete/version tiene su carpeta única.</div>
-<div class="code-block">
-<pre><code><span class="comment"># Ejemplo:</span>
-<span class="path">/nix/store/abc123-firefox-120.0/</span>      <span class="comment"># Firefox</span>
-<span class="path">/nix/store/def456-glibc-2.38/</span>        <span class="comment"># Librería C</span></code></pre>
-</div>
-</div>
-
-<div class="card">
-<div class="card-title">configuration.nix — tu configuración<span class="tooltip">El archivo principal. Aquí defines TODO: paquetes, servicios, usuarios, red, bootloader. Está en /etc/nixos/configuration.nix</span></div>
-<div class="card-desc">El archivo principal del sistema. Editas → reconstruyes → listo.</div>
-<div class="code-block">
-<pre><code><span class="comment"># Editar:</span>
-<span class="cmd">sudo</span> <span class="cmd">vim</span> <span class="path">/etc/nixos/configuration.nix</span>
-<span class="comment"># Aplicar:</span>
-<span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span></code></pre>
-</div>
-</div>
-
-<div class="card">
-<div class="card-title">pkgs — la colección de paquetes<span class="tooltip">Es la variable que contiene todos los paquetes disponibles. Cuando escribes pkgs.firefox, dices "del repositorio, quiero firefox".</span></div>
-<div class="card-desc"><code>pkgs</code> es una variable con miles de programas.</div>
-<div class="code-block">
-<pre><code><span class="kw">environment.systemPackages</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span> <span class="arg">firefox</span> <span class="arg">git</span> <span class="arg">vlc</span> <span class="punct">];</span></code></pre>
-</div>
-<div class="card-desc" style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;"><code>with pkgs;</code> es un atajo: en lugar de escribir <code>pkgs.firefox pkgs.git</code>, solo escribes <code>firefox git</code></div>
-</div>
-
-<div class="card">
-<div class="card-title">Perfil y generaciones — tu sistema versionado<span class="tooltip">Un perfil apunta a la generación actual. Cada rebuild crea una nueva generación. Podés volver atrás (rollback).</span></div>
-<div class="card-desc">Cada rebuild crea una "generación". Podés volver atrás si algo falla.</div>
-<div class="code-block">
-<pre><code><span class="comment"># Ver generaciones:</span>
-<span class="cmd">sudo</span> <span class="cmd">nix-env</span> <span class="flag">-p</span> <span class="path">/nix/var/nix/profiles/system</span> <span class="flag">--list-generations</span>
-<span class="comment"># Volver atrás:</span>
-<span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--rollback</span></code></pre>
-</div>
-</div>
-
-<h3>El flujo de trabajo</h3>
-
-<div class="steps">
-<li><strong>Editas</strong> tu configuración
-<div class="step-desc"><code>sudo vim /etc/nixos/configuration.nix</code></div></li>
-<li><strong>Reconstruyes</strong> el sistema
-<div class="step-desc"><code>sudo nixos-rebuild switch</code></div></li>
-<li><strong>Listo</strong> — tu sistema refleja la config
-<div class="step-desc">Si algo falla: <code>--rollback</code> te salva</div></li>
-</div>
-
-<div class="safe-box">
-<p><strong>Editor recomendado:</strong> Usa <code>vim</code> si empiezas. Ejemplo: <code>sudo vim /etc/nixos/configuration.nix</code>. Para salir: <code>Esc</code>, luego <code>:wq</code>, luego <code>Enter</code>.</p>
-</div>
-
-<div class="info-box">
-<p><strong>💡 Dato importante:</strong> El archivo <code>/etc/nixos/hardware-configuration.nix</code> se genera automáticamente y contiene la config de tu hardware (discos, particiones, etc.). <strong>No lo edites a mano</strong>, se regenera cada vez que ejecutas <code>nixos-generate-config</code>. Tu config principal solo necesita tener <code>imports = [ ./hardware-configuration.nix ];</code> al principio.</p>
-</div>
-
-<h3>Comandos esenciales</h3>
-
-<table class="risk-table">
-<thead><tr><th>Comando</th><th>Para qué</th></tr></thead>
-<tbody>
-<tr><td><span class="inline-code">sudo vim /etc/nixos/configuration.nix</span></td><td>Editar la configuración</td></tr>
-<tr><td><span class="inline-code">sudo nixos-rebuild switch</span></td><td>Aplicar los cambios</td></tr>
-<tr><td><span class="inline-code">sudo nixos-rebuild switch --rollback</span></td><td>Volver a la generación anterior</td></tr>
-<tr><td><span class="inline-code">sudo nix-collect-garbage</span></td><td>Liberar espacio de paquetes huérfanos</td></tr>
-</tbody>
-</table>
-
-<div class="info-box">
-<p><strong>Sobre Flakes:</strong> Esta guía cubre canales e híbrido (fetchTarball) que son más simples para empezar.</p>
-</div>
-
-</div>
-
-<!-- PAGE 1: GC -->
-        <div class="page" id="gc">
-            <h2><span class="icon">🧹</span> Garbage Collector</h2>
-
-            <div class="intro-box">
-                <p><strong>¿Qué es el Garbage Collector?</strong> En NixOS nada se borra automáticamente. Cada vez que actualizas el sistema, se crea una nueva <strong>generación</strong> (una foto completa de tu sistema) y todos los archivos se guardan en <span class="inline-code">/nix/store</span>. Con el tiempo esto acumula gigas de versiones que ya no usas.</p>
-                <p>El GC es el comando que <strong>libera ese espacio</strong>. Primero borras generaciones (los "punteros") y luego el GC elimina los archivos reales que ya nadie referencia. Es como vaciar la papelera de reciclaje.</p>
-            </div>
-
-            <div class="info-box">
-                <p>La generación actual (la que estás usando ahora) <strong>NUNCA</strong> se elimina. Siempre puedes hacer rollback.</p>
-            </div>
-
-            <div class="warning-box">
-                <p><strong>IMPORTANTE:</strong> <span class="warn-tip">No tener compilaciones o descargas activas<span class="warn-tooltip">Aplica a: <code>nix-collect-garbage</code>, <code>-d</code> y <code>--delete-older-than</code>. Si <code>nixos-rebuild</code> está descargando/compilando y el GC borra esas referencias, falla con "path does not exist".</span></span> al ejecutar el GC.</p>
-            </div>
-
-            <div class="gc-grid">
-                <div class="gc-card recommended">
-                    <div class="gc-label safe">RECOMENDADO</div>
-                    <div class="gc-title">GC conservador (30 días)<span class="tooltip">Borra generaciones con +30 días de TODOS los perfiles y ejecuta GC. Mantiene la generación actual y las de los últimos 30 días. Ideal para uso semanal sin perder rollback.<span class="tip_example">Ej: rebuild de hace 35 días ▶ se borra</span></span></div>
-                    <div class="gc-desc">Generaciones viejas + espacio liberado en un paso.</div>
-                    <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span> <span class="flag">--delete-older-than</span> <span class="arg">30d</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                </div>
-                <div class="gc-card">
-                    <div class="gc-label moderate">MODERADO</div>
-                    <div class="gc-title">GC simple<span class="tooltip">Solo elimina archivos del store sin referencias. No borra generaciones. Útil cuando ya borraste generaciones a mano y quieres liberar el espacio. ⚠️ No actualiza el menú de systemd-boot: ejecuta nixos-rebuild boot después para sincronizar las entradas.<span class="tip_example">Ej: tras borrar generaciones manualmente, libera GB</span></span></div>
-                    <div class="gc-desc">Libera espacio sin borrar generaciones. Requiere <code>nixos-rebuild boot</code> después para actualizar el bootloader.</div>
-                    <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                </div>
-                <div class="gc-card">
-                    <div class="gc-label aggressive">AGRESIVO</div>
-                    <div class="gc-title">Limpieza profunda (-d)<span class="tooltip">Borra TODAS las generaciones antiguas de TODOS los perfiles + GC. Pierdes rollback a versiones antiguas. Úsalo solo cuando estés seguro de que todo funciona.<span class="tip_example">Ej: tras confirmar que todo funciona bien</span></span></div>
-                    <div class="gc-desc">Elimina generaciones de todos los perfiles + GC.</div>
-                    <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span> <span class="flag">-d</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                </div>
-                <div class="gc-card recommended">
-                    <div class="gc-label safe">SEGURO</div>
-                    <div class="gc-title">Optimizar store<span class="tooltip">Deduplica archivos idénticos usando hardlinks. No borra nada, solo optimiza el espacio. Puede tardar un poco pero es seguro.<span class="tip_example">Ej: 3 versiones de glibc ▶ ocupa una</span></span></div>
-                    <div class="gc-desc">Deduplica archivos (no borra, solo optimiza).</div>
-                    <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-store</span> <span class="flag">--optimise</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                </div>
-            </div>
-
-            <h3>¿Cuál usar?</h3>
-            <table class="risk-table">
-                <thead><tr><th>Situación</th><th>Comando</th><th>Riesgo</th></tr></thead>
-                <tbody>
-                    <tr><td>Limpieza semanal</td><td><span class="inline-code">--delete-older-than 30d</span></td><td><span class="risk-badge safe">SEGURO</span></td></tr>
-                    <tr><td>Tras borrar generaciones a mano</td><td><span class="inline-code">nix-collect-garbage</span></td><td><span class="risk-badge safe">SEGURO</span></td></tr>
-                    <tr><td>Limpieza profunda</td><td><span class="inline-code">-d</span></td><td><span class="risk-badge aggressive">AGRESIVO</span></td></tr>
-                    <tr><td>Espacio extra sin borrar</td><td><span class="inline-code">nix-store --optimise</span></td><td><span class="risk-badge safe">SEGURO</span></td></tr>
-                </tbody>
-            </table>
-
-            <div class="page-nav">
-                <div class="page-nav-btn disabled"><span class="arrow">◀</span> </div>
-                <div class="page-dots"></div>
-                <button class="page-nav-btn" data-next="generaciones"><span class="arrow">▶</span></button>
-            </div>
         </div>
 
-        <!-- PAGE 2: Generaciones -->
-        <div class="page" id="generaciones">
-            <h2><span class="icon">🗑️</span> Gestionar generaciones</h2>
-
-            <div class="intro-box">
-                <p><strong>¿Qué es una generación?</strong> Cada vez que ejecutas <span class="inline-code">nixos-rebuild switch</span>, NixOS crea una nueva generación: una "foto" completa de tu sistema en ese momento con todos los paquetes, configuraciones y versiones exactas.</p>
-                <p>Esto te permite <strong>volver atrás</strong> si algo se rompe. Pero cada generación ocupa espacio. Gestionar generaciones significa decidir cuántas conservar y borrar las que ya no necesitas.</p>
-            </div>
-
-            <div class="info-box">
-                <p>Generaciones ≠ espacio liberado. Borrar generaciones solo quita los "punteros". Para liberar GB reales necesitas ejecutar el GC (pestaña <strong>GC</strong>).</p>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Ver generaciones del sistema<span class="tooltip">Muestra todas las generaciones del perfil system con su número, fecha y si es la actual (current). Útil para saber cuántas tienes y cuáles borrar.</span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-env</span> <span class="flag">-p</span> <span class="path">/nix/var/nix/profiles/system</span> <span class="flag">--list-generations</span></code></pre>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Eliminar excepto las últimas 5<span class="tooltip">Mantiene las 5 generaciones más recientes del perfil system. Borra el resto. Ideal si haces rebuild frecuentemente y quieres un balance entre espacio y rollback.<span class="tip_example">Ej: 20 generaciones ▶ borra 15</span></span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-env</span> <span class="flag">-p</span> <span class="path">/nix/var/nix/profiles/system</span> <span class="flag">--delete-generations</span> <span class="arg">+5</span></code></pre>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Eliminar las de más de 30 días<span class="tooltip">Borra generaciones del perfil system con +30 días. Más conservador que <code>+5</code>.</span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-env</span> <span class="flag">-p</span> <span class="path">/nix/var/nix/profiles/system</span> <span class="flag">--delete-generations</span> <span class="arg">30d</span></code></pre>
-                </div>
-            </div>
-
-            <h3>Riesgo de --delete-generations</h3>
-            <table class="risk-table">
-                <thead><tr><th>Nivel</th><th>Comando</th><th>Descripción</th></tr></thead>
-                <tbody>
-                    <tr><td><span class="risk-badge safe">SEGURO</span></td><td><span class="inline-code">30d</span></td><td>Conserva el último mes</td></tr>
-                    <tr><td><span class="risk-badge moderate">MODERADO</span></td><td><span class="inline-code">+5</span></td><td>Conserva las 5 últimas</td></tr>
-                    <tr><td><span class="risk-badge aggressive">AGRESIVO</span></td><td><span class="inline-code">old</span></td><td>Solo deja la actual</td></tr>
-                </tbody>
-            </table>
-
-            <div class="info-box">
-                <p>Para los comandos de <strong>GC</strong> (que liberan espacio real), consulta la pestaña <strong>GC</strong> arriba.</p>
-            </div>
-
-            <div class="page-nav">
-                <button class="page-nav-btn" data-prev="gc"><span class="arrow">◀</span> </button>
-                <div class="page-dots"></div>
-                <button class="page-nav-btn" data-next="bootloader"><span class="arrow">▶</span></button>
-            </div>
-        </div>
-
-        <!-- PAGE 3: Bootloader -->
-        <div class="page" id="bootloader">
-            <h2><span class="icon">🔧</span> Limpiar bootloader</h2>
-
-            <div class="intro-box">
-                <p><strong>¿Qué es el bootloader?</strong> Es el menú que ves al encender el ordenador donde eliges qué generación de NixOS arrancar. Cada generación crea una entrada en ese menú.</p>
-                <p>Cuando borras generaciones, los archivos de esas entradas desaparecen pero las <strong>entradas en el menú pueden quedar huérfanas</strong>. Esta sección es para limpiarlas.</p>
-            </div>
-
-<div class="critical-box">
-<div class="critical-title">⚠️ ADVERTENCIA — Plasma Desktop</div>
-<p><strong>Limpiar generaciones + GC puede romper los iconos anclados de Plasma.</strong></p>
-<p>Los launchers guardan rutas absolutas del Nix Store. Al ejecutar GC, esas rutas desaparecen.</p>
-<ul>
-<li>Afecta a TODAS las apps ancladas (Discord, Telegram, KeePassXC...)</li>
-<li>La solución: editar <code>~/.config/plasma-org.kde.plasma.desktop-appletsrc</code> y usar <code>applications:nombre.desktop</code></li>
-</ul>
-</div>
-
-<div class="info-box">
-<p><strong>Limitación de generaciones en systemd-boot:</strong> Para limitar el número de entradas en el menú de arranque a 3-4, añade esta opción en <code>configuration.nix</code>:</p>
-<p><code>boot.loader.systemd-boot.configurationLimit = 3;</code></p>
-<p>Esto reemplaza la necesidad de ejecutar <code>nixos-rebuild boot</code> después del GC. El menú mostrará solo las últimas 3 generaciones.</p>
-</div>
-
-<div class="card recommended">
-                <div class="recommended-badge">✓ Recomendado</div>
-                <div class="card-title">Opción B — Regenerar bootloader<span class="tooltip">Ejecuta nixos-rebuild boot para reconstruir el menú de arranque desde cero. Solo aparecen las generaciones válidas. No deja entradas fantasma.<span class="tip_example">Ej: 5 generaciones válidas ▶ el menú solo muestra esas 5</span></span></div>
-                <div class="card-desc">Reconstruye el menú desde cero con solo las generaciones vigentes.</div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">boot</span></code></pre>
-                </div>
-            </div>
-
-<div class="info-box">
-<p>Las entradas <code>reported/absent</code> en <code>bootctl list</code> son variables EFI inofensivas que se borran al reiniciar. <span class="inline-code">nixos-rebuild boot</span> reconstruye el menú desde cero con solo las generaciones válidas.</p>
-</div>
-
-            <div class="page-nav">
-                <button class="page-nav-btn" data-prev="generaciones"><span class="arrow">◀</span> </button>
-                <div class="page-dots"></div>
-                <button class="page-nav-btn" data-next="flakes"><span class="arrow">▶</span></button>
-            </div>
-        </div>
-
-        <!-- PAGE 4: Flakes -->
-        <div class="page" id="flakes">
-            <h2><span class="icon">❄️</span> Flakes</h2>
-
-            <div class="intro-box">
-                <p><strong>¿Qué son los Flakes?</strong> Son la forma moderna de gestionar tu configuración de NixOS. Imagina que tu configuración es un "proyecto" con sus propias dependencias versionadas, como un proyecto de programación con su <span class="inline-code">package.json</span>.</p>
-                <p>El archivo <span class="inline-code">flake.nix</span> declara qué usar y el <span class="inline-code">flake.lock</span> "congela" las versiones exactas para que la compilación sea siempre idéntica. Esto hace que tu sistema sea <strong>reproducible</strong>: si copias los archivos a otro ordenador, obtienes exactamente lo mismo.</p>
-            </div>
-
-            <div class="info-box">
-                <p><strong>Canales vs Flakes:</strong> Los canales son como un "apt update" global (simple pero menos control). Los flakes son proyectos independientes con dependencias versionadas (más control, más reproducible).</p>
-            </div>
-
-            <div class="critical-box">
-                <div class="critical-title">⚠️ REQUISITO — Experimental Features</div>
-                <p>Para usar flakes necesitas añadir esta línea en tu <code>configuration.nix</code>:</p>
-<pre><code>nix.settings.experimental-features = [ "nix-command" "flakes" ];</code></pre>
-                <p>Sin esto, los comandos de flakes <strong>no funcionarán</strong>.</p>
-            </div>
-
-            <div class="card">
-                <div class="card-title">¿Uso Flakes o Canales?<span class="tooltip">Comando para verificar tu configuración actual. Si usa canales (nixos-channel), cada rebuild puede cambiar versiones. Si usa flakes, las versiones están "congeladas" en flake.lock.<span class="tip_example">nix-channel --list ▶ muestra canales activos</span></span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">nix-channel</span> <span class="flag">--list</span></code></pre>
-                </div>
-                <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Si muestra <span class="inline-code">nixos https://nixos.org/channels/...</span> ▶ <strong>Canales</strong>. Si no ▶ <strong>Flakes</strong>.</p>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Estructura típica<span class="tooltip">Organización de un proyecto con flakes. flake.nix declara qué dependencias usar (nixpkgs, home-manager). flake.lock guarda las versiones exactas (como package-lock.json). nixos/ contiene la configuración del sistema.<span class="tip_example">├── flake.nix ▶ define inputs y outputs
-├── flake.lock ▶ versiones exactas
-└── nixos/ ▶ tu config</span></span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>tree</span></div>
-                    <pre><code>mi-config/
-├── <span class="path">flake.nix</span>        <span class="comment"># Dependencias y outputs</span>
-├── <span class="path">flake.lock</span>       <span class="comment"># Versiones congeladas</span>
-└── <span class="path">nixos/</span>
-    ├── <span class="path">configuration.nix</span>
-    └── <span class="path">hardware-configuration.nix</span></code></pre>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Actualizar dependencias<span class="tooltip">Equivalente a nix-channel --update pero con flakes.</span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">update</span></code></pre>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Actualizar solo un input<span class="tooltip">Actualiza un input específico sin tocar los demás. Usa nix flake lock --update-input en lugar de flake update.<span class="tip_example">nix flake lock --update-input nixpkgs-unstable</span></span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">lock</span> <span class="flag">--update-input</span> <span class="arg">nixpkgs-unstable</span></code></pre>
-                </div>
-            </div>
-
-            <div class="page-nav">
-                <button class="page-nav-btn" data-prev="bootloader"><span class="arrow">◀</span> </button>
-                <div class="page-dots"></div>
-                <button class="page-nav-btn" data-next="hibrida"><span class="arrow">▶</span></button>
-            </div>
-        </div>
-
-        <!-- PAGE 5: Config Híbrida -->
-        <div class="page" id="hibrida">
-            <h2><span class="icon">🔀</span> Configuración Híbrida</h2>
-
-            <div class="intro-box">
-                <p><strong>¿Qué es una config híbrida?</strong> Es un punto medio entre canales y flakes. Usas <strong>canales</strong> para el sistema base pero importas <strong>paquetes inestables</strong> con <span class="inline-code">fetchTarball</span> sin necesidad de flakes. Es lo que usa tu config actual.</p>
-            </div>
-
-            <div class="info-box">
-                <p><strong>¿Por qué?</strong> Algunos paquetes (Neovim, Brave, Git, etc.) se actualizan más rápido en <code>unstable</code>. Con este método tienes un sistema estable pero apps siempre al día.</p>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Importar nixpkgs-unstable<span class="tooltip">Crea una variable "unstable" que contiene nixpkgs de la rama inestable. Se descarga en cada rebuild (no está congelado). Permite usar paquetes más nuevos sin cambiar todo el sistema.<span class="tip_example">let unstable = import (fetchTarball "https://...") {};</span></span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="kw">let</span>
-  <span class="kw">unstable</span> <span class="punct">=</span> <span class="kw">import</span> <span class="punct">(</span><span class="kw">fetchTarball</span> <span class="str">"https://nixos.org/channels/nixpkgs-unstable/nixexprs.tar.xz"</span><span class="punct">)</span> <span class="punct">{</span>
-      <span class="kw">config.allowUnfree</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
-  <span class="punct">};</span>
-<span class="kw">in</span></code></pre>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Usar paquetes unstable en user packages<span class="tooltip">Puedes mezclar paquetes de ambas ramas. pkgs.* usa la estable, unstable.* usa la inestable. Ideal para tener el sistema estable pero apps actualizadas (Neovim, Brave, Git).<span class="tip_example">pkgs.firefox (estable) + unstable.neovim (nuevo)</span></span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="kw">users.users.zebus3d</span> <span class="punct">=</span> <span class="punct">{</span>
-    <span class="kw">packages</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
-        <span class="arg">kdePackages.kate</span>          <span class="comment"># ◀ estable</span>
-        <span class="kw">unstable</span><span class="punct">.</span><span class="arg">neovim</span>           <span class="comment"># ◀ inestable</span>
-        <span class="kw">unstable</span><span class="punct">.</span><span class="arg">brave</span>            <span class="comment"># ◀ inestable</span>
-        <span class="kw">unstable</span><span class="punct">.</span><span class="arg">git</span>              <span class="comment"># ◀ inestable</span>
-        <span class="arg">direnv</span>                     <span class="comment"># ◀ estable</span>
-    <span class="punct">];</span>
-<span class="punct">};</span></code></pre>
-                </div>
-            </div>
-
-            <div class="warning-box">
-                <p><strong>fetchTarball vs flakes:</strong> <span class="warn-tip">fetchTarball descarga cada vez<span class="warn-tooltip">Cada <code>nixos-rebuild</code> verifica si hay nueva versión. Más lento pero siempre actual. Flakes usa <code>flake.lock</code> para versiones fijas.</span></span> — no congela versiones. Si quieres reproducibilidad total, migra a <strong>flakes</strong>.</p>
-            </div>
-
-            <h3>Comparación de enfoques</h3>
-            <table class="risk-table">
-                <thead><tr><th>Enfoque</th><th>Reproducible</th><th>Velocidad</th><th>Complejidad</th></tr></thead>
-                <tbody>
-                    <tr><td>Canales puros</td><td><span class="risk-badge moderate">Parcial</span></td><td><span class="risk-badge safe">Rápido</span></td><td><span class="risk-badge safe">Baja</span></td></tr>
-                    <tr><td>Híbrido (fetchTarball)</td><td><span class="risk-badge aggressive">No</span></td><td><span class="risk-badge moderate">Medio</span></td><td><span class="risk-badge safe">Baja</span></td></tr>
-                    <tr><td>Flakes</td><td><span class="risk-badge safe">Sí</span></td><td><span class="risk-badge safe">Rápido</span></td><td><span class="risk-badge moderate">Media</span></td></tr>
-                </tbody>
-            </table>
-
-            <div class="page-nav">
-                <button class="page-nav-btn" data-prev="flakes"><span class="arrow">◀</span> </button>
-                <div class="page-dots"></div>
-                <button class="page-nav-btn" data-next="actualizar"><span class="arrow">▶</span></button>
-            </div>
-        </div>
-
-        <!-- PAGE 6: Actualizar -->
-        <div class="page" id="actualizar">
-            <h2><span class="icon">🔄</span> Actualizar el sistema</h2>
-
-            <div class="intro-box">
-                <p><strong>¿Qué significa actualizar en NixOS?</strong> A diferencia de otras distros donde "actualizar paquetes" es un comando separado, aquí actualizar significa: (1) descargar las últimas versiones del canal o flake, y (2) reconstruir todo el sistema con esas versiones. Kernel, apps, librerías — todo se actualiza de golpe.</p>
-                <p><strong>¿Cada cuánto?</strong> Cada <strong>1-2 semanas</strong> es lo ideal. Diario genera demasiadas generaciones. Esperar meses aumenta el riesgo de romper algo. Usuario casual ▶ una vez al mes.</p>
-            </div>
-
-            <h3>Canales</h3>
-
-            <div class="card">
-                <div class="card-title">Actualizar y aplicar en un paso<span class="tooltip">Combina nix-channel --update + nixos-rebuild switch en un solo comando. Actualiza el canal y reconstruye el sistema inmediatamente. Rápido pero no permite revisar qué cambió.<span class="tip_example">sudo nixos-rebuild switch --upgrade</span></span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--upgrade</span></code></pre>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">En dos pasos (revisar antes)<span class="tooltip">Útil si quieres ver qué cambió antes de aplicar.</span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-channel</span> <span class="flag">--update</span>
-<span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span></code></pre>
-                </div>
-            </div>
-
-            <h3>Flakes</h3>
-
-            <div class="card">
-                <div class="card-title">1. Actualizar flake.lock</div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">update</span></code></pre>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">2. Aplicar configuración</div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">.#nixos</span></code></pre>
-                </div>
-                <p style="color: #64748b; font-size: 0.82rem; margin-top: 8px;">El formato es <code>.#nombre-de-config</code> donde el nombre debe coincidir con el definido en <code>flake.nix</code> (ej: <code>nixosConfigurations.nixos</code>).</p>
-            </div>
-                <p style="color: #64748b; font-size: 0.82rem; margin-top: 8px;">Con host específico:</p>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">.#nombre-de-host</span></code></pre>
-                </div>
-            </div>
-
-            <h3>Config Híbrida (fetchTarball)</h3>
-
-            <div class="info-box">
-                <p>si usas el enfoque híbrido como tu config actual, <strong>no necesitas actualizar nada manualmente</strong>. <code>fetchTarball</code> descarga la última versión de nixpkgs-unstable en cada <code>nixos-rebuild</code>.</p>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Reconstruir con config híbrida<span class="tooltip">El fetchTarball se actualiza solo al hacer rebuild. No hay paso extra.</span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span></code></pre>
-                </div>
-            </div>
-
-            <div class="warning-box">
-                <p><strong>FetchTarball vs flakes:</strong> <span class="warn-tip">fetchTarball siempre descarga lo último<span class="warn-tooltip">Cada rebuild verifica si hay nueva versión de nixpkgs-unstable. Más lento pero siempre actual. Flakes usa flake.lock para versiones fijas y es más rápido.</span></span> — cada rebuild descarga. Si quieres velocidad, migra a <strong>flakes</strong>.</p>
-            </div>
-
-            <div class="page-nav">
-                <button class="page-nav-btn" data-prev="hibrida"><span class="arrow">◀</span> </button>
-                <div class="page-dots"></div>
-                <button class="page-nav-btn" data-next="paquetes"><span class="arrow">▶</span></button>
-            </div>
-        </div>
-
-        <!-- PAGE 7: Paquetes (nueva) -->
-        <div class="page" id="paquetes">
-            <h2><span class="icon">📦</span> Instalar y buscar paquetes</h2>
-
-            <div class="intro-box">
-                <p><strong>¿Cómo se instala software en NixOS?</strong> Hay dos formas: <strong>declarativa</strong> (añades el paquete a <span class="inline-code">configuration.nix</span> y se instala al hacer rebuild) o <strong>imperativa</strong> (lo instalas al momento con <span class="inline-code">nix-env</span>). La declarativa es la recomendada porque es reproducible y persistente.</p>
-                <p><strong>📜 La carta a los Reyes Magos</strong> — La configuración declarativa es como escribir la carta a los Reyes Magos: <strong>escribes todos tus deseos en un papel</strong> (el archivo <span class="inline-code">configuration.nix</span>), describes exactamente qué quieres tener en tu sistema, y cuando ejecutas <span class="inline-code">nixos-rebuild switch</span> <em>"llegan los Reyes"</em> y te traen todos los regalos de golpe. Si quieres algo nuevo, lo añades a la carta y listo. <em>Así de fácil: escribes lo que quieres y ¡voilà!, ya lo tienes.</em></p>
-                <p><strong>¿Dónde está mi configuración?</strong> El archivo principal es <span class="inline-code">/etc/nixos/configuration.nix</span>. Ahí se define TODO: paquetes, servicios, usuarios, red, etc.</p>
-            </div>
-
-            <h3>Buscar paquetes</h3>
-
-            <div class="card">
-                <div class="card-title">Buscar en la web<span class="tooltip">Buscador oficial de paquetes de NixOS. Puedes filtrar por categoría, sistema y ver información detallada. Ideal para explorar cuando no sabes el nombre exacto.<span class="tip_example">search.nixos.org/packages?query=blender</span></span></div>
-                <div class="card-desc"><a href="https://search.nixos.org/packages" style="color: #7dd3fc;" target="_blank">search.nixos.org/packages</a></div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Buscar desde la terminal<span class="tooltip">Busca paquetes sin salir de la terminal. Muestra nombre, versión y descripción. Requiere tener nix-command activado en experimental-features.<span class="tip_example">nix search nixpkgs blender</span></span></div>
-                <div class="card-desc">Busca paquetes sin abrir el navegador:</div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">nix</span> <span class="arg">search</span> <span class="arg">nixpkgs</span> <span class="arg">firefox</span></code></pre>
-                </div>
-                <div class="info-box" style="margin-top: 10px;">
-                    <p>Requiere tener en <span class="inline-code">configuration.nix</span>: <code>nix.settings.experimental-features = [ "nix-command" "flakes" ];</code></p>
-                </div>
-            </div>
-
-            <h3>Instalar (declarativo — recomendado)</h3>
-
-            <div class="card recommended">
-                <div class="recommended-badge">✓ Recomendado</div>
-                <div class="card-title">Añadir a configuration.nix<span class="tooltip">Método principal y recomendado. Edita /etc/nixos/configuration.nix, añade los paquetes a environment.systemPackages, y ejecuta sudo nixos-rebuild switch. Los paquetes quedan en la config y sobreviven reinicios.<span class="tip_example">environment.systemPackages = [ pkgs.firefox pkgs.git ];</span></span></div>
-                <div class="card-desc">Edita <span class="inline-code">/etc/nixos/configuration.nix</span>:</div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="kw">environment.systemPackages</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
-    <span class="arg">firefox</span>
-    <span class="arg">git</span>
-    <span class="arg">vlc</span>
-<span class="punct">];</span></code></pre>
-                </div>
-                <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Luego reconstruye:</p>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span></code></pre>
-                </div>
-            </div>
-
-            <h3>Instalar (imperativo — rápido)</h3>
-
-            <div class="card">
-                <div class="card-title">Instalar para el usuario actual<span class="tooltip">Instala solo para tu usuario. No requiere sudo ni rebuild. Se pierde si no está en la config.<span class="tip_example">Ej: nix-env -iA nixpkgs.firefox</span></span></div>
-                <div class="card-desc">Rápido pero no declarativo: no queda en tu <code>configuration.nix</code> y puede perderse con limpiezas agresivas del GC.</div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">nix-env</span> <span class="flag">-iA</span> <span class="arg">nixpkgs.firefox</span></code></pre>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Probar un paquete sin instalar<span class="tooltip">Descarga y ejecuta un paquete temporalmente sin instalarlo. No deja rastro en el sistema.<span class="tip_example">Ej: nix-shell -p python3 --run "python --version"</span></span></div>
-                <div class="card-desc">Ejecuta algo una sola vez sin instalarlo.</div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">nix-shell</span> <span class="flag">-p</span> <span class="arg">python3</span> <span class="flag">--run</span> <span class="str">"python --version"</span></code></pre>
-                </div>
-            </div>
-
-            <h3>Rollback — Deshacer cambios</h3>
-
-            <div class="card recommended">
-                <div class="recommended-badge">✓ Salva-vidas</div>
-                <div class="card-title">Volver a la generación anterior<span class="tooltip">Rollback rápido: vuelve a la generación anterior (la anterior a la actual). Si algo se rompió tras actualizar, esto te salva. No borra la generación problemática, solo cambia el enlace simbólico.<span class="tip_example">sudo nixos-rebuild switch --rollback</span></span></div>
-                <div class="card-desc">¿Algo se rompió tras actualizar? Vuelve atrás:</div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--rollback</span></code></pre>
-                </div>
-            </div>
-
-            <div class="page-nav">
-                <button class="page-nav-btn" data-prev="actualizar"><span class="arrow">◀</span> </button>
-                <div class="page-dots"></div>
-                <button class="page-nav-btn" data-next="automatizacion"><span class="arrow">▶</span></button>
-            </div>
-        </div>
-
-        <!-- PAGE 8: Automatización -->
-        <div class="page" id="automatizacion">
-            <h2><span class="icon">⚙️</span> Automatización</h2>
-
-            <div class="intro-box">
-                <p><strong>¿Por qué automatizar?</strong> NixOS acumula espacio y generaciones con cada actualización. En lugar de limpiar manualmente, puedes configurar timers que lo hagan solos. Todo se configura en <span class="inline-code">/etc/nixos/configuration.nix</span>.</p>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Limpieza automática semanal<span class="tooltip">Timer de systemd que ejecuta GC automáticamente. "weekly" = una vez por semana.<span class="tip_example">Ej: cada domingo limpia generaciones viejas</span></span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="kw">nix.gc</span> <span class="punct">=</span> <span class="punct">{</span>
-    <span class="kw">automatic</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
-    <span class="kw">dates</span> <span class="punct">=</span> <span class="str">"weekly"</span><span class="punct">;</span>
-    <span class="kw">options</span> <span class="punct">=</span> <span class="str">"--delete-older-than 30d"</span><span class="punct">;</span>
-<span class="punct">};</span></code></pre>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Optimización automática del store<span class="tooltip">Deduplica archivos idénticos automáticamente al añadir algo al store.</span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="kw">nix.settings.auto-optimise-store</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span></code></pre>
-                </div>
-            </div>
-
-            <div class="card recommended">
-                <div class="recommended-badge">✓ Recomendado</div>
-                <div class="card-title">Limitar generaciones en el menú de arranque<span class="tooltip">Configura systemd-boot para que solo muestre las últimas N generaciones en el menú. Esto elimina entradas huérfanas automáticamente. Valor recomendado: 3-4.<span class="tip_example">Ej: configurationLimit = 3 ▶ tras rebuild, solo quedan 3 entradas reales en /boot</span></span></div>
-                <div class="card-desc">Añadir a <code>configuration.nix</code>:</div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="kw">boot.loader.systemd-boot.configurationLimit</span> <span class="punct">=</span> <span class="num">3</span><span class="punct">;</span></code></pre>
-                </div>
-                <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Esto le dice a systemd-boot que solo muestre las últimas 3 generaciones. Las entradas antiguas se eliminan automáticamente en cada <code>nixos-rebuild</code>.</p>
-            </div>
-
-            <div class="page-nav">
-                <button class="page-nav-btn" data-prev="paquetes"><span class="arrow">◀</span> </button>
-                <div class="page-dots"></div>
-                <button class="page-nav-btn" data-next="extras"><span class="arrow">▶</span></button>
-            </div>
-        </div>
-
-        <!-- PAGE 9: Extras -->
-        <div class="page" id="extras">
-            <h2><span class="icon">🧩</span> Extras</h2>
-
-            <div class="intro-box">
-                <p><strong>Herramientas adicionales</strong> para desarrolladores y usuarios avanzados: nix-shell para entornos aislados, nix-ld y wrappers para binarios externos, y más.</p>
-            </div>
-
-            <h3>nix-shell — Entornos aislados</h3>
-
-            <div class="intro-box">
-                <p><strong>¿Qué es nix-shell?</strong> Crea un entorno temporal con las dependencias que necesites. Es como un <strong>virtualenv de Python</strong> pero para cualquier lenguaje o herramienta. Dentro del shell tienes acceso a esos paquetes; afuera, no existen.</p>
-                <p>Es ideal para: no ensuciar el sistema con dependencias de un proyecto, probar herramientas rápido, o tener versiones distintas de un mismo paquete según el proyecto.</p>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Shell interactivo con paquetes<span class="tooltip">Abre un shell temporal donde los paquetes especificados están disponibles. Al salir (exit), el entorno desaparece. Ideal para probar algo rápido sin ensuciar el sistema.<span class="tip_example">nix-shell -p python3 nodejs gcc</span></span></div>
-                <div class="card-desc">Entra a un shell con las herramientas que necesites:</div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">nix-shell</span> <span class="flag">-p</span> <span class="arg">python3</span> <span class="arg">nodejs</span> <span class="arg">gcc</span></code></pre>
-                </div>
-                <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Dentro del shell puedes usar <code>python3</code>, <code>node</code>, <code>gcc</code>. Al escribir <code>exit</code>, desaparecen.</p>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Ejecutar un comando y salir<span class="tooltip">Ejecuta un comando con los paquetes especificados y sale automáticamente. Sin entrar a un shell interactivo. Útil para scripts o pruebas rápidas.<span class="tip_example">nix-shell -p python3 --run "python --version"</span></span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">nix-shell</span> <span class="flag">-p</span> <span class="arg">python3</span> <span class="flag">--run</span> <span class="str">"python --version"</span></code></pre>
-                </div>
-            </div>
-
-            <div class="card recommended">
-                <div class="recommended-badge">✓ Recomendado</div>
-                <div class="card-title">shell.nix — Entorno reproducible<span class="tooltip">Crea un archivo shell.nix en tu proyecto. Cualquiera que ejecute "nix-shell" obtiene el mismo entorno.<span class="tip_example">{ pkgs ? import <nixpkgs> {} }: pkgs.mkShell { buildInputs = [ pkgs.python3 pkgs.python3Packages.pip ]; }</span></span></div>
-                <div class="card-desc">Crea un <span class="inline-code">shell.nix</span> en tu proyecto para definir el entorno:</div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="punct">{</span> <span class="kw">pkgs</span> <span class="punct">?</span> <span class="kw">import</span> <span class="str">&lt;nixpkgs&gt;</span> <span class="punct">{} }</span><span class="punct">:</span>
-
-<span class="kw">pkgs.mkShell</span> <span class="punct">{</span>
-    <span class="kw">buildInputs</span> <span class="punct">=</span> <span class="punct">[</span>
-        <span class="kw">pkgs</span><span class="punct">.</span><span class="arg">python3</span>
-        <span class="kw">pkgs</span><span class="punct">.</span><span class="arg">python3Packages</span><span class="punct">.</span><span class="arg">pip</span>
-        <span class="kw">pkgs</span><span class="punct">.</span><span class="arg">nodejs</span>
-    <span class="punct">];</span>
-<span class="punct">}</span></code></pre>
-                </div>
-                <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Luego simplemente ejecuta <span class="inline-code">nix-shell</span> en esa carpeta.</p>
-            </div>
-
-            <div class="info-box">
-                <p><strong>nix-shell vs venv/pip/venv de Node:</strong> nix-shell maneja <strong>cualquier dependencia</strong> (compiladores, librerías C, herramientas del sistema), no solo paquetes del lenguaje. Es un entorno completo del sistema, no solo de paquetes.</p>
-            </div>
-
-            <h3>nix-ld — Binarios externos</h3>
-
-            <div class="intro-box">
-                <p><strong>¿Qué es nix-ld?</strong> Permite ejecutar binarios que no fueron compilados para NixOS (como Blender descargado de la web). Proporciona las librerías del sistema que estos programas esperan encontrar en <span class="inline-code">/lib</span> o <span class="inline-code">/usr/lib</span>.</p>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Configurar nix-ld<span class="tooltip">Permite ejecutar binarios externos (no compilados para NixOS). Añade las librerías que tu app necesite. Ej: Blender → librerías gráficas + CUDA, Steam → steam-libs.<span class="tip_example">Blender: libx11, libglvnd, cuda_cudart</span></span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="kw">programs.nix-ld</span> <span class="punct">=</span> <span class="punct">{</span>
-    <span class="kw">enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
-    <span class="kw">libraries</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
-        <span class="arg">libx11</span> <span class="arg">libxext</span> <span class="arg">libxrender</span>
-        <span class="arg">libglvnd</span> <span class="arg">fontconfig</span> <span class="arg">freetype</span>
-        <span class="arg">libjpeg_turbo</span> <span class="arg">libpng</span> <span class="arg">zlib</span>
-        <span class="arg">libxkbcommon</span> <span class="arg">wayland</span>
-        <span class="comment"># Para Blender con CUDA:</span>
-        <span class="arg">linuxPackages.nvidia_x11</span>
-        <span class="arg">cudaPackages.cuda_cudart</span>
-    <span class="punct">];</span>
-<span class="punct">};</span></code></pre>
-                </div>
-            </div>
-
-            <div class="warning-box">
-                <p><strong>¿Cuándo usar nix-ld?</strong> Cuando descargas un binario precompilado de su web oficial (Blender, OBS, Spotify, Discord, Steam) y no hay una versión en nixpkgs o necesitas la última versión.</p>
-            </div>
-
-            <h3>Wrappers con mkWrapper</h3>
-
-            <div class="intro-box">
-                <p><strong>Wrappers</strong> son "envoltorios" que ejecutan un binario con las librerías de Nix. Es más flexible que nix-ld porque puedes tener wrappers distintos por aplicación.</p>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Crear un wrapper con writeShellScriptBin<span class="tooltip">Envuelve un binario para que use las librerías de Nix. Útil para apps que necesitas aislar.</span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="kw">pkgs</span><span class="punct">.</span><span class="arg">writeShellScriptBin</span> <span class="str">"mi-app"</span> <span class="str">''
-    export LD_LIBRARY_PATH=${pkgs.libgl}/lib:$LD_LIBRARY_PATH
-    exec /ruta/a/binario "$@"
-  ''</span></code></pre>
-                </div>
-            </div>
-
-            <div class="info-box">
-                <p><strong>¿nix-ld vs mkWrapper?</strong> <code>nix-ld</code> es global (todos los binarios lo usan). <code>mkWrapper</code> es por-app. Para apps que descargas de internet y quieres que funcione "solo", usa <code>nix-ld</code>. Para personalización fina, usa wrappers.</p>
-            </div>
-
-            <h3>Steam y Proton</h3>
-
-            <div class="card">
-                <div class="card-title">steam-run para juegos de Windows<span class="tooltip">Wrapper que proporciona el entorno necesario para ejecutar juegos de Windows via Proton/Steam Play. Necesario porque los juegos no fueron compilados para NixOS.<span class="tip_example">steam-run /ruta/al/juego.exe</span></span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">steam-run</span> <span class="arg">/ruta/al/juego.exe</span></code></pre>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Steam en el sistema<span class="tooltip">Instalación declarativa de Steam via configuration.nix. Añade las librerías necesarias a nix-ld para que Steam y Proton funcionen correctamente.<span class="tip_example">programs.steam.enable = true;</span></span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="kw">programs.steam</span> <span class="punct">=</span> <span class="punct">{</span>
-    <span class="kw">enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
-    <span class="kw">remotePlay.openFirewall</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
-<span class="punct">};</span>
-<span class="kw">programs.nix-ld.libraries</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
-    <span class="arg">steam</span>
-<span class="punct">];</span></code></pre>
-                </div>
-            </div>
-
-            <div class="page-nav">
-                <button class="page-nav-btn" data-prev="automatizacion"><span class="arrow">◀</span> </button>
-                <div class="page-dots"></div>
-                <button class="page-nav-btn" data-next="hardware"><span class="arrow">▶</span></button>
-            </div>
-        </div>
-
-        <!-- PAGE 10: Hardware -->
-        <div class="page" id="hardware">
-            <h2><span class="icon">🖥️</span> Hardware y Drivers</h2>
-
-            <div class="intro-box">
-                <p><strong>Configurar hardware en NixOS</strong> es 100% declarativo. Todo va en <span class="inline-code">configuration.nix</span>: drivers de GPU, virtualización, audio, fuentes, y apps que necesitan librerías del sistema.</p>
-            </div>
-
-            <h3>NVIDIA — GPU dual (Prime)</h3>
-
-            <div class="info-box">
-                <p><strong>hardware.opengl ▶ hardware.graphics:</strong> Desde NixOS 24.11 (diciembre 2024), <code>hardware.opengl</code> fue renombrado a <code>hardware.graphics</code>. Si tu config aún usa <code>opengl</code>, cámbialo.</p>
-            </div>
-
-            <div class="card recommended">
-                <div class="recommended-badge">✓ Recomendado</div>
-                <div class="card-title">Configuración NVIDIA con Prime<span class="tooltip">Para portátiles con Intel + NVIDIA. Sync: ambas GPUs siempre activas (máx rendimiento, mayor consumo). Offload: solo la NVIDIA se activa cuando la necesitas (ahorro de batería). Necesitas los Bus IDs de tus GPUs.<span class="tip_example">Sync: gaming/escritorio. Offload: portátil con batería.</span></span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="comment"># OpenGL</span>
-<span class="kw">hardware.graphics</span> <span class="punct">=</span> <span class="punct">{</span>
-    <span class="kw">enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
-    <span class="kw">enable32Bit</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
-<span class="punct">};</span>
-
-<span class="comment"># NVIDIA driver</span>
-<span class="kw">services.xserver.videoDrivers</span> <span class="punct">=</span> <span class="punct">[</span> <span class="str">"nvidia"</span> <span class="punct">];</span>
-<span class="kw">hardware.nvidia</span> <span class="punct">=</span> <span class="punct">{</span>
-    <span class="kw">modesetting.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
-    <span class="kw">open</span> <span class="punct">=</span> <span class="kw">false</span><span class="punct">;</span>
-    <span class="kw">package</span> <span class="punct">=</span> <span class="kw">config.boot.kernelPackages.nvidiaPackages.stable</span><span class="punct">;</span>
-    <span class="kw">prime</span> <span class="punct">=</span> <span class="punct">{</span>
-        <span class="kw">sync.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
-        <span class="kw">intelBusId</span> <span class="punct">=</span> <span class="str">"PCI:5:0:0"</span><span class="punct">;</span>
-        <span class="kw">nvidiaBusId</span> <span class="punct">=</span> <span class="str">"PCI:1:0:0"</span><span class="punct">;</span>
-    <span class="punct">};</span>
-<span class="punct">};</span></code></pre>
-                </div>
-            </div>
-
-            <div class="warning-box">
-                <p><strong>Sync vs Offload:</strong> <span class="warn-tip">sync = rendimiento máximo<span class="warn-tooltip">Ambas GPUs siempre activas. Ideal para escritorio o si no te importa la batería.</span></span> — para portátiles con batería, usa <code>offload.enable = true</code> y lanza apps con <code>__NV_PRIME_RENDER_OFFLOAD=1</code>.</p>
-            </div>
-
-            <div class="info-box">
-                <p><strong>Cómo obtener tus Bus IDs:</strong> Ejecuta <code>lspci | grep -E "VGA|3D"</code> para ver tus GPUs. Luego convierte los números de hexadecimal a decimal (ej: 01:00.0 → PCI:1:0:0, 05:00.0 → PCI:5:0:0).</p>
-            </div>
-
-            <h3>nix-ld — Apps externas (Blender, Steam, etc.)</h3>
-
-            <div class="intro-box">
-                <p><strong>¿Qué es nix-ld?</strong> Permite ejecutar binarios que no fueron compilados para NixOS (como Blender descargado de la web). Proporciona las librerías del sistema que estos programas esperan encontrar en <span class="inline-code">/lib</span> o <span class="inline-code">/usr/lib</span>.</p>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Configurar nix-ld<span class="tooltip">Permite ejecutar binarios externos (no compilados para NixOS). Añade las librerías que tu app necesite. Ej: Blender → librerías gráficas + CUDA, Steam → steam-libs.<span class="tip_example">Blender: libx11, libglvnd, cuda_cudart</span></span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="kw">programs.nix-ld</span> <span class="punct">=</span> <span class="punct">{</span>
-    <span class="kw">enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
-    <span class="kw">libraries</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
-        <span class="arg">libx11</span> <span class="arg">libxext</span> <span class="arg">libxrender</span>
-        <span class="arg">libglvnd</span> <span class="arg">fontconfig</span> <span class="arg">freetype</span>
-        <span class="arg">libjpeg_turbo</span> <span class="arg">libpng</span> <span class="arg">zlib</span>
-        <span class="arg">libxkbcommon</span> <span class="arg">wayland</span>
-        <span class="comment"># Para Blender con CUDA:</span>
-        <span class="arg">linuxPackages.nvidia_x11</span>
-        <span class="arg">cudaPackages.cuda_cudart</span>
-    <span class="punct">];</span>
-<span class="punct">};</span></code></pre>
-                </div>
-            </div>
-
-            <div class="warning-box">
-                <p><strong>¿Cuándo usar nix-ld?</strong> Cuando descargas un binario precompilado de su web oficial (Blender, OBS, Spotify, Discord, Steam) y no hay una versión en nixpkgs o necesitas la última versión.</p>
-            </div>
-
-            <h3>Blender descargado (binario precompilado)</h3>
-
-            <div class="intro-box">
-                <p><strong>Blender descargado de la web</strong> requiere configuración extra para Vulkan y OpenGL en NixOS. Se usa un wrapper bash + un archivo .desktop para el launcher.</p>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Launcher script<span class="tooltip">Script que configura las variables de entorno necesarias para GPU Nvidia y ejecuta Blender.</span></div>
-                <div class="card-desc" style="color: #94a3b8; font-size: 0.82rem; margin-bottom: 10px;">Guardar en: <span class="inline-code">~/.scripts/blender_launcher.sh</span></div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="kw">#!/usr/bin/env bash</span>
-<span class="comment"># Blender launcher script for NixOS (Reforzado)</span>
-<span class="kw">BLENDER_PATH</span>=<span class="str">"$1"</span>
-<span class="kw">shift</span>
-
-<span class="kw">if</span> <span class="punct">[[</span> <span class="arg">-z</span> <span class="str">"$BLENDER_PATH"</span> <span class="punct">]];</span> <span class="kw">then</span>
-    <span class="cmd">echo</span> <span class="str">"Error: No blender path provided"</span>
-    <span class="cmd">exit</span> <span class="num">1</span>
-<span class="kw">fi</span>
-
-<span class="kw">BLENDER_DIR</span>=<span class="str">"$(dirname "$BLENDER_PATH")"</span>
-
-<span class="comment"># Soporte para NixOS: Búsqueda dinámica de librerías críticas en el Store</span>
-<span class="cmd">_find_lib64()</span> <span class="punct">{</span>
-    <span class="kw">local</span> <span class="arg">libname</span>=<span class="str">"$1"</span> <span class="arg">pattern</span>=<span class="str">"$2"</span>
-    <span class="kw">for</span> <span class="arg">dir</span> <span class="kw">in</span> /nix/store/<span class="arg">$pattern</span>/lib; <span class="kw">do</span>
-        <span class="punct">[</span> <span class="arg">-f</span> <span class="str">"$dir/$libname"</span> <span class="punct">]</span> <span class="punct">&amp;&amp;</span> <span class="cmd">echo</span> <span class="str">"$dir"</span> <span class="punct">&amp;&amp;</span> <span class="kw">return</span>
-    <span class="kw">done</span>
-<span class="punct">}</span>
-
-<span class="comment"># Buscar glib y dbus (vitales para PySide6/Qt en NixOS)</span>
-<span class="kw">export</span> <span class="arg">LD_LIBRARY_PATH</span>=<span class="cmd">$(_find_lib64 "libglib-2.0.so.0" "*-glib-[0-9]*")</span>:<span class="arg">$LD_LIBRARY_PATH</span>
-<span class="kw">export</span> <span class="arg">LD_LIBRARY_PATH</span>=<span class="cmd">$(_find_lib64 "libdbus-1.so.3" "*-dbus-[0-9]*-lib")</span>:<span class="arg">$LD_LIBRARY_PATH</span>
-
-<span class="comment"># Soporte para nix-ld y Drivers</span>
-<span class="punct">[</span> <span class="arg">-n</span> <span class="str">"$NIX_LD_LIBRARY_PATH"</span> <span class="punct">]</span> <span class="punct">&amp;&amp;</span> <span class="kw">export</span> <span class="arg">LD_LIBRARY_PATH</span>=<span class="str">"$NIX_LD_LIBRARY_PATH:$LD_LIBRARY_PATH"</span>
-<span class="kw">export</span> <span class="arg">VK_ICD_FILENAMES</span>=/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json
-<span class="kw">export</span> <span class="arg">LD_LIBRARY_PATH</span>=/run/opengl-driver/lib:<span class="arg">$LD_LIBRARY_PATH</span>
-
-<span class="cmd">exec</span> <span class="str">"$BLENDER_PATH"</span> <span class="str">"$@"</span></code></pre>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">KDE Plasma 6 + SDDM<span class="tooltip">Entorno de escritorio Plasma 6 con el gestor de inicio SDDM. Los paquetes de KDE (kate, konsole, etc.) están en kdePackages, no en pkgs.<span class="tip_example">kdePackages.kate, kdePackages.filelight, kdePackages.dolphin</span></span></div>
-                <div class="card-desc">Entorno de escritorio Plasma 6 con el gestor de inicio SDDM.</div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2-2v1"></path></svg></button></div>
-                    <pre><code><span class="kw">services.displayManager.sddm.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
-<span class="kw">services.desktopManager.plasma6.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
-
-<span class="comment"># Iconos de KDE (Kate, Filelight):</span>
-<span class="kw">users.users.zebus3d.packages</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
-    <span class="arg">kdePackages.kate</span>
-    <span class="arg">kdePackages.filelight</span>
-<span class="punct">];</span></code></pre>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Activar Numlock en SDDM<span class="tooltip">Activa el bloqueo numérico automáticamente al iniciar SDDM. En Plasma también puedes configurarlo desde: Settings > Keyboard > Numlock on startup = On.</span></div>
-                <div class="card-desc">Activa el teclado numérico al iniciar sesión en SDDM.</div>
-                <div class="code-block">
-                    <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2-2v1"></path></svg></button></div>
-                    <pre><code><span class="kw">services.displayManager.sddm.autoNumlock</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span></code></pre>
-                </div>
-                <div class="info-box" style="margin-top: 10px;">
-                    <p>En Plasma también: <strong>Settings > Keyboard > Numlock on startup = On</strong></p>
-                </div>
-            </div>
-
-            <div class="page-nav">
-                <button class="page-nav-btn" data-prev="automatizacion"><span class="arrow">◀</span> </button>
-                <div class="page-dots"></div>
-                <div class="page-nav-btn disabled"><span class="arrow">▶</span></div>
-            </div>
-        </div>
+        <main id="content"></main>
+
+        <nav class="page-nav" id="pageNav">
+            <button class="page-nav-btn" id="prevBtn"><span class="arrow">‹</span> <span>Anterior</span></button>
+            <div class="page-dots" id="pageDots"></div>
+            <button class="page-nav-btn" id="nextBtn"><span>Siguiente</span> <span class="arrow">›</span></button>
+        </nav>
 
         <footer>
             <p>Apuntes de NixOS</p>
@@ -1633,147 +734,169 @@
     </div>
 
     <script>
-        const pages = document.querySelectorAll('.page');
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const pageIds = Array.from(pages).map(p => p.id);
+        const pageIds = ['primeros', 'gc', 'generaciones', 'bootloader', 'flakes', 'hibrida', 'actualizar', 'paquetes', 'automatizacion', 'extras', 'hardware'];
+        const pageIcons = { primeros: '🚀', gc: '🧹', generaciones: '🗑️', bootloader: '🔧', flakes: '❄️', hibrida: '🔀', actualizar: '🔄', paquetes: '📦', automatizacion: '⚙️', extras: '🧩', hardware: '🖥️' };
+        const pageLabels = { primeros: 'Primeros Pasos', gc: 'GC', generaciones: 'Generaciones', bootloader: 'Bootloader', flakes: 'Flakes', hibrida: 'Config Híbrida', actualizar: 'Actualizar', paquetes: 'Paquetes', automatizacion: 'Automatizar', extras: 'Extras', hardware: 'Hardware' };
+
+        let currentPage = 'primeros';
+        let pageCache = {};
+        let searchIndex = [];
 
         function showPage(id) {
-            pages.forEach(p => p.classList.remove('active'));
-            tabBtns.forEach(b => b.classList.remove('active'));
-            const page = document.getElementById(id);
-            if (page) {
-                page.classList.add('active');
-                page.style.animation = 'none';
-                page.offsetHeight;
-                page.style.animation = '';
+            if (!pageIds.includes(id)) id = 'primeros';
+            currentPage = id;
+
+            const content = document.getElementById('content');
+            content.style.animation = 'none';
+            content.offsetHeight;
+            content.style.animation = 'page-in 0.3s ease';
+
+            if (pageCache[id]) {
+                content.innerHTML = pageCache[id];
+                initPageEvents();
+            } else {
+                fetch(`pages/${id}.html`)
+                    .then(r => r.text())
+                    .then(html => {
+                        pageCache[id] = html;
+                        content.innerHTML = html;
+                        initPageEvents();
+                    });
             }
-            const tab = document.querySelector(`.tab-btn[data-page="${id}"]`);
-            if (tab) tab.classList.add('active');
+
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.page === id);
+            });
+
             updateDots();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Tab clicks
-        tabBtns.forEach(btn => {
+        function initPageEvents() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const dotsContainer = document.getElementById('pageDots');
+            
+            if (dotsContainer && dotsContainer.children.length === 0) {
+                pageIds.forEach(id => {
+                    const dot = document.createElement('button');
+                    dot.className = 'page-dot';
+                    dot.dataset.page = id;
+                    dot.title = pageLabels[id] || id;
+                    dot.addEventListener('click', () => showPage(id));
+                    dotsContainer.appendChild(dot);
+                });
+            }
+            
+            updateNavButtons();
+            initCopyButtons();
+        }
+
+        function updateNavButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const idx = pageIds.indexOf(currentPage);
+            
+            if (prevBtn) {
+                prevBtn.onclick = () => idx > 0 && showPage(pageIds[idx - 1]);
+                prevBtn.classList.toggle('disabled', idx <= 0);
+            }
+            if (nextBtn) {
+                nextBtn.onclick = () => idx < pageIds.length - 1 && showPage(pageIds[idx + 1]);
+                nextBtn.classList.toggle('disabled', idx >= pageIds.length - 1);
+            }
+        }
+
+        document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => showPage(btn.dataset.page));
         });
 
-        // Prev/Next buttons
-        document.querySelectorAll('.page-nav-btn[data-prev]').forEach(btn => {
-            btn.addEventListener('click', () => showPage(btn.dataset.prev));
-        });
-        document.querySelectorAll('.page-nav-btn[data-next]').forEach(btn => {
-            btn.addEventListener('click', () => showPage(btn.dataset.next));
-        });
-
-        // Generate dots
-        document.querySelectorAll('.page-dots').forEach(container => {
-            pageIds.forEach(id => {
-                const dot = document.createElement('button');
-                dot.className = 'page-dot';
-                dot.dataset.page = id;
-                dot.title = id.charAt(0).toUpperCase() + id.slice(1);
-                dot.addEventListener('click', () => showPage(id));
-                container.appendChild(dot);
-            });
-        });
-
         function updateDots() {
-            const activePage = document.querySelector('.page.active');
-            if (!activePage) return;
             document.querySelectorAll('.page-dot').forEach(dot => {
-                dot.classList.toggle('active', dot.dataset.page === activePage.id);
+                dot.classList.toggle('active', dot.dataset.page === currentPage);
             });
-        }
-        updateDots();
-
-        // Copy code
-        function copyCode(btn) {
-            const block = btn.closest('.code-block, .gc-code');
-            const text = block.querySelector('code, pre').textContent.trim();
-            navigator.clipboard.writeText(text).then(() => {
-                const originalHTML = btn.innerHTML;
-                btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-                btn.classList.add('copied');
-                setTimeout(() => {
-                    btn.innerHTML = originalHTML;
-                    btn.classList.remove('copied');
-                }, 2000);
-            });
+            updateNavButtons();
         }
 
-        // Position tooltip next to button
-        document.querySelectorAll('.copy-btn').forEach(btn => {
-            const tooltip = document.createElement('div');
-            tooltip.className = 'copy-tooltip';
-            tooltip.textContent = 'Copiar al portapapeles';
-            document.body.appendChild(tooltip);
-            
-            btn.addEventListener('mouseenter', (e) => {
-                const rect = btn.getBoundingClientRect();
-                const tooltipHeight = 35;
-                const btnCenter = rect.top + (rect.height / 2);
-                tooltip.style.left = (rect.left + (rect.width / 2)) + 'px';
-                tooltip.style.top = (btnCenter - (tooltipHeight / 2) - 25) + 'px';
-                tooltip.classList.add('visible');
-            });
-            
-            btn.addEventListener('mouseleave', () => {
-                tooltip.classList.remove('visible');
-            });
-            
-            btn.addEventListener('click', () => {
-                tooltip.classList.remove('visible');
-            });
-        });
+        function initCopyButtons() {
+            document.querySelectorAll('.copy-btn').forEach(btn => {
+                const existing = btn.querySelector('svg');
+                if (existing) return;
 
+                const tooltip = document.createElement('div');
+                tooltip.className = 'copy-tooltip';
+                tooltip.textContent = 'Copiar al portapapeles';
+                document.body.appendChild(tooltip);
 
-        // Keyboard navigation
+                btn.addEventListener('mouseenter', (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const tooltipHeight = 35;
+                    const btnCenter = rect.top + (rect.height / 2);
+                    tooltip.style.left = (rect.left + (rect.width / 2)) + 'px';
+                    tooltip.style.top = (btnCenter - (tooltipHeight / 2) - 25) + 'px';
+                    tooltip.classList.add('visible');
+                });
+
+                btn.addEventListener('mouseleave', () => {
+                    tooltip.classList.remove('visible');
+                });
+
+                btn.onclick = () => {
+                    const block = btn.closest('.code-block, .gc-code');
+                    const codeEl = block.querySelector('code, pre');
+                    const text = codeEl.textContent.trim();
+                    navigator.clipboard.writeText(text).then(() => {
+                        const originalHTML = btn.innerHTML;
+                        btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                        btn.classList.add('copied');
+                        setTimeout(() => {
+                            btn.innerHTML = originalHTML;
+                            btn.classList.remove('copied');
+                        }, 2000);
+                    });
+                    tooltip.classList.remove('visible');
+                };
+            });
+        }
+
         document.addEventListener('keydown', (e) => {
-            const currentPage = document.querySelector('.page.active');
-            if (!currentPage) return;
-            const idx = pageIds.indexOf(currentPage.id);
+            const idx = pageIds.indexOf(currentPage);
             if (e.key === 'ArrowRight' && idx < pageIds.length - 1) showPage(pageIds[idx + 1]);
             if (e.key === 'ArrowLeft' && idx > 0) showPage(pageIds[idx - 1]);
         });
 
-        // ===== STICKY NAV BORDER RADIUS =====
         const stickyNav = document.querySelector('.sticky-nav');
-        let lastScroll = 0;
         window.addEventListener('scroll', () => {
-            const currentScroll = window.scrollY;
-            if (currentScroll > 10) {
-                stickyNav.classList.add('stuck');
-            } else {
-                stickyNav.classList.remove('stuck');
-            }
-            lastScroll = currentScroll;
+            stickyNav.classList.toggle('stuck', window.scrollY > 10);
         });
 
-        // ===== SEARCH =====
-const pageIcons = { primeros: '🚀', gc: '🧹', generaciones: '🗑️', bootloader: '🔧', flakes: '❄️', hibrida: '🔀', actualizar: '🔄', paquetes: '📦', automatizacion: '⚙️', extras: '🧩', hardware: '🖥️' };
-const pageLabels = { primeros: 'Primeros Pasos', gc: 'GC', generaciones: 'Generaciones', bootloader: 'Bootloader', flakes: 'Flakes', hibrida: 'Config Híbrida', actualizar: 'Actualizar', paquetes: 'Paquetes', automatizacion: 'Automatizar', extras: 'Extras', hardware: 'Hardware' };
-
-        // Build search index from page content
-        const searchIndex = [];
-        pages.forEach(page => {
-            const id = page.id;
-            const textContent = page.textContent.toLowerCase();
-            // Also grab individual searchable blocks
-            const blocks = page.querySelectorAll('h2, h3, .card-title, .card-desc, .gc-title, .gc-desc, .gc-code, .gc-label, .intro-box p, .info-box p, .warning-box p, .critical-box p, code, pre');
-            blocks.forEach(block => {
-                const text = block.textContent.trim();
-                if (text.length > 3) {
-                    searchIndex.push({ pageId: id, text: text.toLowerCase(), original: text });
-                }
+        function buildSearchIndex() {
+            pageIds.forEach(id => {
+                if (!pageCache[id]) return;
+                const div = document.createElement('div');
+                div.innerHTML = pageCache[id];
+                const blocks = div.querySelectorAll('h2, h3, .card-title, .card-desc, .gc-title, .gc-desc, .gc-label, .intro-box p, .info-box p, .warning-box p, .critical-box p, code, pre');
+                blocks.forEach(block => {
+                    const text = block.textContent.trim();
+                    if (text.length > 3) {
+                        searchIndex.push({ pageId: id, text: text.toLowerCase(), original: text });
+                    }
+                });
             });
-        });
+        }
+
+        function ensureIndexBuilt() {
+            if (searchIndex.length > 0) return;
+            if (Object.keys(pageCache).length < pageIds.length) return;
+            buildSearchIndex();
+        }
 
         const searchInput = document.getElementById('searchInput');
         const searchResults = document.getElementById('searchResults');
         let selectedIndex = -1;
 
         searchInput.addEventListener('input', () => {
+            ensureIndexBuilt();
             const query = searchInput.value.trim().toLowerCase();
             selectedIndex = -1;
             if (!query) { searchResults.classList.remove('open'); return; }
@@ -1786,7 +909,6 @@ const pageLabels = { primeros: 'Primeros Pasos', gc: 'GC', generaciones: 'Genera
                 const allMatch = words.every(w => entry.text.includes(w));
                 if (allMatch && !seen.has(entry.pageId + '|' + entry.text.substring(0, 60))) {
                     seen.add(entry.pageId + '|' + entry.text.substring(0, 60));
-                    // Calculate relevance: count total word matches
                     let score = 0;
                     words.forEach(w => { const idx = entry.text.indexOf(w); if (idx !== -1) score += w.length; });
                     matches.push({ ...entry, score });
@@ -1817,14 +939,13 @@ const pageLabels = { primeros: 'Primeros Pasos', gc: 'GC', generaciones: 'Genera
             searchResults.classList.add('open');
 
             searchResults.querySelectorAll('.search-result').forEach(el => {
-                el.addEventListener('click', () => {
-                    const pageId = el.dataset.page;
+                el.onclick = () => {
                     clearHighlights();
-                    showPage(pageId);
+                    showPage(el.dataset.page);
                     highlightText(searchInput.value.trim());
                     searchResults.classList.remove('open');
                     searchInput.blur();
-                });
+                };
                 el.addEventListener('mouseenter', () => {
                     searchResults.querySelectorAll('.search-result').forEach(r => r.classList.remove('selected'));
                     el.classList.add('selected');
@@ -1850,15 +971,13 @@ const pageLabels = { primeros: 'Primeros Pasos', gc: 'GC', generaciones: 'Genera
                 items[selectedIndex]?.scrollIntoView({ block: 'nearest' });
             } else if (e.key === 'Enter' && selectedIndex >= 0) {
                 e.preventDefault();
-                const el = items[selectedIndex];
-                if (el) el.click();
+                items[selectedIndex]?.click();
             } else if (e.key === 'Escape') {
                 searchResults.classList.remove('open');
                 searchInput.blur();
             }
         });
 
-        // Ctrl+K to focus search
         document.addEventListener('keydown', (e) => {
             if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
                 e.preventDefault();
@@ -1867,17 +986,15 @@ const pageLabels = { primeros: 'Primeros Pasos', gc: 'GC', generaciones: 'Genera
             }
         });
 
-        // Close search on outside click
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.search-bar')) {
                 searchResults.classList.remove('open');
             }
         });
 
-        // Highlight matching text on page
         function highlightText(query) {
             if (!query) return;
-            const page = document.querySelector('.page.active');
+            const page = document.getElementById('content');
             if (!page) return;
             const words = query.split(/\s+/).filter(w => w.length > 1);
             if (!words.length) return;
@@ -1907,7 +1024,6 @@ const pageLabels = { primeros: 'Primeros Pasos', gc: 'GC', generaciones: 'Genera
                 }
             });
 
-            // Scroll to first highlight
             const first = page.querySelector('.search-highlight');
             if (first) {
                 setTimeout(() => first.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
@@ -1929,6 +1045,8 @@ const pageLabels = { primeros: 'Primeros Pasos', gc: 'GC', generaciones: 'Genera
         function escapeRegex(str) {
             return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         }
+
+        showPage('primeros');
     </script>
 </body>
 </html>

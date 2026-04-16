@@ -1,0 +1,61 @@
+<h2><span class="icon">🔀</span> Configuración Híbrida</h2>
+
+<div class="intro-box">
+    <p><strong>¿Qué es una config híbrida?</strong> Es un punto medio entre canales y flakes. Usas <strong>canales</strong> para el sistema base pero importas <strong>paquetes inestables</strong> con <span class="inline-code">fetchTarball</span> sin necesidad de flakes. Es lo que usa tu config actual.</p>
+    <p><strong>¿Por qué?</strong> Algunos paquetes (Neovim, Brave, Git, etc.) se actualizan más rápido en <code>unstable</code>. Con este método tienes un sistema estable pero apps siempre al día.</p>
+</div>
+
+<div class="info-box">
+    <p><strong>Ventaja:</strong> Tienes un sistema/base estable con las apps que quieras actualizadas.</p>
+</div>
+
+<h3>Cómo usar paquetes inestables</h3>
+
+<div class="card">
+    <div class="card-title">Declarar repositorio inestable<span class="tooltip">Importa nixpkgs-unstable sin crear un canal adicional. fetchTarball descarga la expresión nix actual.<span class="tip_example">Se actualiza cada rebuild</span></span></div>
+    <div class="card-desc">Agregar nixpkgs-unstable como variable.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="kw">let</span>
+  <span class="kw">unstable</span> <span class="punct">=</span> <span class="kw">import</span> <span class="punct">(</span><span class="kw">fetchTarball</span> <span class="str">"https://nixos.org/channels/nixpkgs-unstable/nixexprs.tar.xz"</span><span class="punct">)</span> <span class="punct">{</span>
+      <span class="kw">config.allowUnfree</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+  <span class="punct">};</span>
+<span class="kw">in</span></code></pre>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-title">Usar paquetes mezclados<span class="tooltip">Puedes mezclar paquetes de stable (pkgs) y unstable en el mismo usuario.</span></div>
+    <div class="card-desc">Ejemplo de configuración mixta.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="kw">users.users.zebus3d</span> <span class="punct">=</span> <span class="punct">{</span>
+    <span class="kw">packages</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
+        <span class="arg">kdePackages.kate</span>          <span class="comment"># ◀ estable</span>
+        <span class="kw">unstable</span><span class="punct">.</span><span class="arg">neovim</span>           <span class="comment"># ◀ inestable</span>
+        <span class="kw">unstable</span><span class="punct">.</span><span class="arg">brave</span>            <span class="comment"># ◀ inestable</span>
+        <span class="kw">unstable</span><span class="punct">.</span><span class="arg">git</span>              <span class="comment"># ◀ inestable</span>
+        <span class="arg">direnv</span>                     <span class="comment"># ◀ estable</span>
+    <span class="punct">];</span>
+<span class="punct">};</span></code></pre>
+    </div>
+</div>
+
+<div class="warning-box">
+    <p><strong>fetchTarball vs flakes:</strong> <span class="warn-tip">fetchTarball descarga cada vez<span class="warn-tooltip">Cada <code>nixos-rebuild</code> verifica si hay nueva versión. Más lento pero siempre actual. Flakes usa <code>flake.lock</code> para versiones fijas.</span></span> — no congela versiones. Si quieres reproducibilidad total, migra a <strong>flakes</strong>.</p>
+</div>
+
+<h3>Comparación de enfoques</h3>
+
+<table class="risk-table">
+    <thead><tr><th>Enfoque</th><th>Reproducible</th><th>Velocidad</th><th>Complejidad</th></tr></thead>
+    <tbody>
+        <tr><td>Canales puros</td><td><span class="risk-badge moderate">Parcial</span></td><td><span class="risk-badge safe">Rápido</span></td><td><span class="risk-badge safe">Baja</span></td></tr>
+        <tr><td>Híbrido (fetchTarball)</td><td><span class="risk-badge aggressive">No</span></td><td><span class="risk-badge moderate">Medio</span></td><td><span class="risk-badge safe">Baja</span></td></tr>
+        <tr><td>Flakes</td><td><span class="risk-badge safe">Sí</span></td><td><span class="risk-badge safe">Rápido</span></td><td><span class="risk-badge moderate">Media</span></td></tr>
+    </tbody>
+</table>

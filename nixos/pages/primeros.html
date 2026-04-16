@@ -1,0 +1,100 @@
+<h2><span class="icon">🚀</span> Primeros pasos en NixOS</h2>
+
+<div class="intro-box">
+<p><strong>¿Qué es NixOS?</strong> Es una distribución de Linux donde <strong>todo se configura desde un archivo</strong>: servicios, paquetes, usuarios, red, bootloader... No usas comandos como <code>apt install</code> ni modificas archivos a mano. Escribes tu configuración y NixOS la hace realidad.</p>
+<p>Esto se llama modelo <strong>declarativo</strong>: escribes lo que quieres y NixOS se encarga de traerte lo que pediste. Es como escribir la carta a los Reyes Magos: solo escribes tus deseos y alguien se encarga de traerte todo.</p>
+</div>
+
+<div class="info-box">
+<p><strong>¿Qué es <code>nixpkgs</code>?</strong> Es el repositorio gigante con miles de programas para Nix/NixOS. Cuando dices <code>pkgs.firefox</code>, está diciendo "del repositorio nixpkgs, tráeme Firefox". Puedes buscar paquetes en <a href="https://search.nixos.org/packages" style="color: #7dd3fc;" target="_blank">search.nixos.org/packages</a>.</p>
+</div>
+
+<h3>Conceptos fundamentales</h3>
+
+<div class="card">
+    <div class="card-title">El Nix Store — /nix/store<span class="tooltip">Es la carpeta donde Nix guarda TODOS los archivos del sistema: programas, librerías, configuraciones. Cada versión de cada paquete tiene su propia carpeta con un hash único.</span></div>
+    <div class="card-desc">Donde Nix guarda todo. Cada paquete/version tiene su carpeta única.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="comment"># Ejemplo:</span>
+<span class="path">/nix/store/abc123-firefox-120.0/</span>      <span class="comment"># Firefox</span>
+<span class="path">/nix/store/def456-glibc-2.38/</span>        <span class="comment"># Librería C</span></code></pre>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-title">configuration.nix — tu configuración<span class="tooltip">El archivo principal. Aquí defines TODO: paquetes, servicios, usuarios, red, bootloader. Está en /etc/nixos/configuration.nix</span></div>
+    <div class="card-desc">El archivo principal del sistema. Editas → reconstruyes → listo.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="comment"># Editar:</span>
+<span class="cmd">sudo</span> <span class="cmd">vim</span> <span class="path">/etc/nixos/configuration.nix</span>
+<span class="comment"># Aplicar:</span>
+<span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span></code></pre>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-title">pkgs — la colección de paquetes<span class="tooltip">Es la variable que contiene todos los paquetes disponibles. Cuando escribes pkgs.firefox, dices "del repositorio, quiero firefox".</span></div>
+    <div class="card-desc"><code>pkgs</code> es una variable con miles de programas.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="kw">environment.systemPackages</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span> <span class="arg">firefox</span> <span class="arg">git</span> <span class="arg">vlc</span> <span class="punct">];</span></code></pre>
+    </div>
+    <div class="card-desc" style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;"><code>with pkgs;</code> es un atajo: en lugar de escribir <code>pkgs.firefox pkgs.git</code>, solo escribes <code>firefox git</code></div>
+</div>
+
+<div class="card">
+    <div class="card-title">Perfil y generaciones — tu sistema versionado<span class="tooltip">Un perfil apunta a la generación actual. Cada rebuild crea una nueva generación. Podés volver atrás (rollback).</span></div>
+    <div class="card-desc">Cada rebuild crea una "generación". Podés volver atrás si algo falla.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="comment"># Ver generaciones:</span>
+<span class="cmd">sudo</span> <span class="cmd">nix-env</span> <span class="flag">-p</span> <span class="path">/nix/var/nix/profiles/system</span> <span class="flag">--list-generations</span>
+<span class="comment"># Volver atrás:</span>
+<span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--rollback</span></code></pre>
+    </div>
+</div>
+
+<h3>El flujo de trabajo</h3>
+
+<div class="steps">
+<li><strong>Editas</strong> tu configuración
+<div class="step-desc"><code>sudo vim /etc/nixos/configuration.nix</code></div></li>
+<li><strong>Reconstruyes</strong> el sistema
+<div class="step-desc"><code>sudo nixos-rebuild switch</code></div></li>
+<li><strong>Listo</strong> — tu sistema refleja la config
+<div class="step-desc">Si algo falla: <code>--rollback</code> te salva</div></li>
+</div>
+
+<div class="safe-box">
+<p><strong>Editor recomendado:</strong> Usa <code>vim</code> si empiezas. Ejemplo: <code>sudo vim /etc/nixos/configuration.nix</code>. Para salir: <code>Esc</code>, luego <code>:wq</code>, luego <code>Enter</code>.</p>
+</div>
+
+<div class="info-box">
+<p><strong>💡 Dato importante:</strong> El archivo <code>/etc/nixos/hardware-configuration.nix</code> se genera automáticamente y contiene la config de tu hardware (discos, particiones, etc.). <strong>No lo edites a mano</strong>, se regenera cada vez que ejecutas <code>nixos-generate-config</code>. Tu config principal solo necesita tener <code>imports = [ ./hardware-configuration.nix ];</code> al principio.</p>
+</div>
+
+<h3>Comandos esenciales</h3>
+
+<table class="risk-table">
+<thead><tr><th>Comando</th><th>Para qué</th></tr></thead>
+<tbody>
+<tr><td><span class="inline-code">sudo vim /etc/nixos/configuration.nix</span></td><td>Editar la configuración</td></tr>
+<tr><td><span class="inline-code">sudo nixos-rebuild switch</span></td><td>Aplicar los cambios</td></tr>
+<tr><td><span class="inline-code">sudo nixos-rebuild switch --rollback</span></td><td>Volver a la generación anterior</td></tr>
+<tr><td><span class="inline-code">sudo nix-collect-garbage</span></td><td>Liberar espacio de paquetes huérfanos</td></tr>
+</tbody>
+</table>
+
+<div class="info-box">
+<p><strong>Sobre Flakes:</strong> Esta guía cubre canales e híbrido (fetchTarball) que son más simples para empezar.</p>
+</div>

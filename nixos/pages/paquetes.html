@@ -1,0 +1,84 @@
+<h2><span class="icon">📦</span> Instalar y buscar paquetes</h2>
+
+<div class="intro-box">
+    <p><strong>¿Cómo se instala software en NixOS?</strong> Hay dos formas: <strong>declarativa</strong> (añades el paquete a <span class="inline-code">configuration.nix</span> y se instala al hacer rebuild) o <strong>imperativa</strong> (lo instalas al momento con <span class="inline-code">nix-env</span>). La declarativa es la recomendada porque es reproducible y persistente.</p>
+    <p><strong>📜 La carta a los Reyes Magos</strong> — La configuración declarativa es como escribir la carta a los Reyes Magos: <strong>escribes todos tus deseos en un papel</strong> (el archivo <span class="inline-code">configuration.nix</span>), describes exactamente qué quieres tener en tu sistema, y cuando ejecutas <span class="inline-code">nixos-rebuild switch</span> <em>"llegan los Reyes"</em> y te traen todos los regalos de golpe. Si quieres algo nuevo, lo añades a la carta y listo. <em>Así de fácil: escribes lo que quieres y ¡voilà!, ya lo tienes.</em></p>
+    <p><strong>¿Dónde está mi configuración?</strong> El archivo principal es <span class="inline-code">/etc/nixos/configuration.nix</span>. Ahí se define TODO: paquetes, servicios, usuarios, red, etc.</p>
+</div>
+
+<h3>Buscar paquetes</h3>
+
+<div class="card">
+    <div class="card-title">Buscar en nixpkgs<span class="tooltip">Busca paquetes en el repositorio oficial. Requiereexperimental-features configurado.</span></div>
+    <div class="card-desc">Buscar paquetes por nombre.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="cmd">nix</span> <span class="arg">search</span> <span class="arg">nixpkgs</span> <span class="arg">firefox</span></code></pre>
+    </div>
+    <div class="info-box" style="margin-top: 10px;">
+        <p>Requiere tener en <span class="inline-code">configuration.nix</code>: <code>nix.settings.experimental-features = [ "nix-command" "flakes" ];</code></p>
+    </div>
+</div>
+
+<h3>Instalar (declarativo — recomendado)</h3>
+
+<div class="card recommended">
+    <div class="card-title">Instalar paquetes del sistema<span class="tooltip">Añade paquetes a environment.systemPackages. Se instalan al hacer rebuild y persisten.</span></div>
+    <div class="card-desc">El método recomendado.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="kw">environment.systemPackages</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
+    <span class="arg">firefox</span>
+    <span class="arg">git</span>
+    <span class="arg">vlc</span>
+<span class="punct">];</span></code></pre>
+    </div>
+    <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Luego reconstruye:</p>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span></code></pre>
+    </div>
+</div>
+
+<h3>Instalar (imperativo — rápido)</h3>
+
+<div class="card">
+    <div class="card-title">Instalar para el usuario actual<span class="tooltip">Instala el paquete solo para el usuario actual. No requiere sudo, no persiste tras reboot.</span></div>
+    <div class="card-desc">Instala temporalmente.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="cmd">nix-env</span> <span class="flag">-iA</span> <span class="arg">nixpkgs.firefox</span></code></pre>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-title">Entorno temporal (nix-shell)<span class="tooltip">Crea un entorno con paquetes sin instalarlos permanentemente. Cierra la shell y desaparecen.</span></div>
+    <div class="card-desc">Ambiente temporal.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="cmd">nix-shell</span> <span class="flag">-p</span> <span class="arg">python3</span> <span class="flag">--run</span> <span class="str">"python --version"</span></code></pre>
+    </div>
+</div>
+
+<h3>Rollback — Deshacer cambios</h3>
+
+<div class="card recommended">
+    <div class="card-title">Volver a la generación anterior<span class="tooltip">Deshace el último rebuild. Si algo no funciona, esto te salva.</span></div>
+    <div class="card-desc">Si algo falla, esto lo arregla.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--rollback</span></code></pre>
+    </div>
+</div>

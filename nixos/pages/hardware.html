@@ -1,0 +1,145 @@
+<h2><span class="icon">🖥️</span> Hardware y Drivers</h2>
+
+<div class="intro-box">
+    <p><strong>Configurar hardware en NixOS</strong> es 100% declarativo. Todo va en <span class="inline-code">configuration.nix</span>: drivers de GPU, virtualización, audio, fuentes, y apps que necesitan librerías del sistema.</p>
+</div>
+
+<h3>NVIDIA — GPU dual (Prime)</h3>
+
+<div class="info-box">
+    <p><strong>hardware.opengl ▶ hardware.graphics:</strong> Desde NixOS 24.11 (diciembre 2024), <code>hardware.opengl</code> fue renombrado a <code>hardware.graphics</code>. Si tu config aún usa <code>opengl</code>, cámbialo.</p>
+</div>
+
+<div class="card recommended">
+    <div class="card-title">Configuración NVIDIA Prime<span class="tooltip">Activa gráfica NVIDIA para rendering y configura soporte para Prime (dos GPUs).<span class="tip_example">Para portátiles con NVIDIA+Intel</span></span></div>
+    <div class="card-desc">GPU dual config.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="comment"># OpenGL</span>
+<span class="kw">hardware.graphics</span> <span class="punct">=</span> <span class="punct">{</span>
+    <span class="kw">enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+    <span class="kw">enable32Bit</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+<span class="punct">};</span>
+
+<span class="comment"># NVIDIA driver</span>
+<span class="kw">services.xserver.videoDrivers</span> <span class="punct">=</span> <span class="punct">[</span> <span class="str">"nvidia"</span> <span class="punct">];</span>
+<span class="kw">hardware.nvidia</span> <span class="punct">=</span> <span class="punct">{</span>
+    <span class="kw">modesetting.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+    <span class="kw">open</span> <span class="punct">=</span> <span class="kw">false</span><span class="punct">;</span>
+    <span class="kw">package</span> <span class="punct">=</span> <span class="kw">config.boot.kernelPackages.nvidiaPackages.stable</span><span class="punct">;</span>
+    <span class="kw">prime</span> <span class="punct">=</span> <span class="punct">{</span>
+        <span class="kw">sync.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+        <span class="kw">intelBusId</span> <span class="punct">=</span> <span class="str">"PCI:5:0:0"</span><span class="punct">;</span>
+        <span class="kw">nvidiaBusId</span> <span class="punct">=</span> <span class="str">"PCI:1:0:0"</span><span class="punct">;</span>
+    <span class="punct">};</span>
+<span class="punct">};</span></code></pre>
+    </div>
+</div>
+
+<div class="warning-box">
+    <p><strong>Sync vs Offload:</strong> <span class="warn-tip">sync = rendimiento máximo<span class="warn-tooltip">Ambas GPUs siempre activas. Ideal para escritorio o si no te importa la batería.</span></span> — para portátiles con batería, usa <code>offload.enable = true</code> y lanza apps con <code>__NV_PRIME_RENDER_OFFLOAD=1</code>.</p>
+</div>
+
+<div class="info-box">
+    <p><strong>Cómo obtener tus Bus IDs:</strong> Ejecuta <code>lspci | grep -E "VGA|3D"</code> para ver tus GPUs. Luego convierte los números de hexadecimal a decimal (ej: 01:00.0 → PCI:1:0:0, 05:00.0 → PCI:5:0:0).</p>
+</div>
+
+<h3>nix-ld — Apps externas</h3>
+
+<div class="intro-box">
+    <p><strong>¿Qué es nix-ld?</strong> Permite ejecutar binarios que no fueron compilados para NixOS (como Blender descargado de la web). Proporciona las librerías del sistema que estos programas esperan.</p>
+</div>
+
+<div class="card">
+    <div class="card-title">Configurar nix-ld<span class="tooltip">Habilita el wrapper global para binarios externos.</span></div>
+    <div class="card-desc">Binarios no NixOS.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="kw">programs.nix-ld</span> <span class="punct">=</span> <span class="punct">{</span>
+    <span class="kw">enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+    <span class="kw">libraries</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
+        <span class="arg">libx11</span> <span class="arg">libxext</span> <span class="arg">libxrender</span>
+        <span class="arg">libglvnd</span> <span class="arg">fontconfig</span> <span class="arg">freetype</span>
+        <span class="arg">libjpeg_turbo</span> <span class="arg">libpng</span> <span class="arg">zlib</span>
+        <span class="arg">libxkbcommon</span> <span class="arg">wayland</span>
+        <span class="comment"># Para Blender con CUDA:</span>
+        <span class="arg">linuxPackages.nvidia_x11</span>
+        <span class="arg">cudaPackages.cuda_cudart</span>
+    <span class="punct">];</span>
+<span class="punct">};</span></code></pre>
+    </div>
+</div>
+
+<div class="warning-box">
+    <p><strong>¿Cuándo usar nix-ld?</strong> Cuando descargas un binario precompilado de su web oficial (Blender, OBS, Spotify, Discord, Steam).</p>
+</div>
+
+<h3>Blender binario precompilado</h3>
+
+<div class="intro-box">
+    <p><strong>Blender descargado de la web</strong> requiere configuración extra para Vulkan y OpenGL en NixOS.</p>
+</div>
+
+<div class="card">
+    <div class="card-title">Wrapper para Blender<span class="tooltip">Script que busca librerías dinámicamente y configura Vulkan/OpenGL.</span></div>
+    <div class="card-desc"> launcher.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="kw">#!/usr/bin/env bash</span>
+<span class="comment"># Blender launcher script for NixOS</span>
+<span class="kw">BLENDER_PATH</span>=<span class="str">"$1"</span>
+<span class="kw">shift</span>
+
+<span class="kw">if</span> <span class="punct">[[</span> <span class="arg">-z</span> <span class="str">"$BLENDER_PATH"</span> <span class="punct">]];</span> <span class="kw">then</span>
+    <span class="cmd">echo</span> <span class="str">"Error: No blender path provided"</span>
+    <span class="cmd">exit</span> <span class="num">1</span>
+<span class="kw">fi</span>
+
+<span class="comment"># Soporte para NixOS</span>
+<span class="punct">[</span> <span class="arg">-n</span> <span class="str">"$NIX_LD_LIBRARY_PATH"</span> <span class="punct">]</span> <span class="punct">&amp;&amp;</span> <span class="kw">export</span> <span class="arg">LD_LIBRARY_PATH</span>=<span class="str">"$NIX_LD_LIBRARY_PATH:$LD_LIBRARY_PATH"</span>
+<span class="kw">export</span> <span class="arg">VK_ICD_FILENAMES</span>=/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json
+<span class="kw">export</span> <span class="arg">LD_LIBRARY_PATH</span>=/run/opengl-driver/lib:<span class="arg">$LD_LIBRARY_PATH</span>
+
+<span class="cmd">exec</span> <span class="str">"$BLENDER_PATH"</span> <span class="str">"$@"</span></code></pre>
+    </div>
+</div>
+
+<h3>KDE Plasma</h3>
+
+<div class="card">
+    <div class="card-title">Habilitar Plasma 6<span class="tooltip">Configura SDDM y Plasma 6 como escritorio.</span></div>
+    <div class="card-desc">Entorno gráfico.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="kw">services.displayManager.sddm.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+<span class="kw">services.desktopManager.plasma6.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+
+<span class="comment"># Iconos de KDE:</span>
+<span class="kw">users.users.zebus3d.packages</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
+    <span class="arg">kdePackages.kate</span>
+    <span class="arg">kdePackages.filelight</span>
+<span class="punct">];</span></code></pre>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-title">NumLock automático<span class="tooltip">Activa el teclado numérico al iniciar sesión SDDM.</span></div>
+    <div class="card-desc">En SDDM.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="kw">services.displayManager.sddm.autoNumlock</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span></code></pre>
+    </div>
+    <div class="info-box" style="margin-top: 10px;">
+        <p>En Plasma también: <strong>Settings > Keyboard > Numlock on startup = On</strong></p>
+    </div>
+</div>

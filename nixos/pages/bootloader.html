@@ -1,0 +1,61 @@
+<h2><span class="icon">🔧</span> Bootloader</h2>
+
+<div class="intro-box">
+    <p><strong>¿Qué es el bootloader?</strong> Es el menú que ves al encender el ordenador donde eliges qué generación de NixOS arrancar. Cada generación crea una entrada en ese menú.</p>
+    <p>Cuando borras generaciones, los archivos de esas entradas desaparecen pero las <strong>entradas en el menú pueden quedar huérfanas</strong>. Esta sección es para limpiarlas.</p>
+</div>
+
+<div class="critical-box">
+    <div class="critical-title">⚠️ Cuidado con Plasma</div>
+    <p><strong>Limpiar generaciones + GC puede romper los iconos anclados de Plasma.</strong></p>
+    <p>Los launchers guardan rutas absolutas del Nix Store. Al ejecutar GC, esas rutas desaparecen.</p>
+    <ul>
+    <li>Afecta a TODAS las apps ancladas (Discord, Telegram, KeePassXC...)</li>
+    <li>La solución: editar <code>~/.config/plasma-org.kde.plasma.desktop-appletsrc</code> y usar <code>applications:nombre.desktop</code></li>
+    </ul>
+</div>
+
+<h3>Limpiar entradas huérfanas</h3>
+
+<div class="info-box">
+    <p><strong>Método principal:</strong> Ejecutar <code>nixos-rebuild boot</code> reconstruye el menú del bootloader con solo las generaciones válidas.</p>
+</div>
+
+<div class="card">
+    <div class="card-title">Limpiar menú de systemd-boot<span class="tooltip">Regenera todas las entradas del menú de arranque basándose en las generaciones existentes. Elimina las huérfanas automáticamente.<span class="tip_example">Tras GC: ejecutarlo limpia el menú</span></span></div>
+    <div class="card-desc">Reconstruir el menú del bootloader.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">boot</span></code></pre>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-title">Ver entradas actuales<span class="tooltip">Lista todas las entradas del menú de arranque con su estado.</span></div>
+    <div class="card-desc">Ver qué hay en el menú.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+        </div>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">bootctl</span> <span class="arg">list</span></code></pre>
+    </div>
+</div>
+
+<h3>Limitar entradas</h3>
+
+<div class="info-box">
+    <p><strong>Limitación de generaciones en systemd-boot:</strong> Para limitar el número de entradas en el menú de arranque a 3-4, añade esta opción en <code>configuration.nix</code>:</p>
+</div>
+
+<div class="code-block">
+    <div class="code-header">
+        <span class="dots"><span class="dot">● ● ●</span></span>
+    </div>
+    <pre><code><span class="kw">boot</span.<span class="kw">loader</span.<span class="kw">systemd-boot</span.<span class="kw">configurationLimit</span> <span class="punct">=</span> <span class="num">3</span>;</code></pre>
+</div>
+
+<div class="info-box">
+    <p>Las entradas <code>reported/absent</code> en <code>bootctl list</code> son variables EFI inofensivas que se borran al reiniciar. <span class="inline-code">nixos-rebuild boot</span> reconstruye el menú desde cero con solo las generaciones válidas.</p>
+</div>
