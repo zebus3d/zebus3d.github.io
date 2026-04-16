@@ -9,7 +9,7 @@
     <p><strong>Ventaja:</strong> Tienes un sistema/base estable con las apps que quieras actualizadas.</p>
 </div>
 
-<h3>Cómo usar paquetes inestables</h3>
+<h3 id="cmo-usar-paquetes-inestables">Cómo usar paquetes inestables</h3>
 
 <div class="card">
     <div class="card-title">Declarar repositorio inestable<span class="tooltip">Importa nixpkgs-unstable sin crear un canal adicional. fetchTarball descarga la expresión nix actual.<span class="tip_example">Se actualiza cada rebuild</span></span></div>
@@ -49,7 +49,7 @@
     <p><strong>fetchTarball vs flakes:</strong> <span class="warn-tip">fetchTarball descarga cada vez<span class="warn-tooltip">Cada <code>nixos-rebuild</code> verifica si hay nueva versión. Más lento pero siempre actual. Flakes usa <code>flake.lock</code> para versiones fijas.</span></span> — no congela versiones. Si quieres reproducibilidad total, migra a <strong>flakes</strong>.</p>
 </div>
 
-<h3>Comparación de enfoques</h3>
+<h3 id="comparacin-de-enfoques">Comparación de enfoques</h3>
 
 <table class="risk-table">
     <thead><tr><th>Enfoque</th><th>Reproducible</th><th>Velocidad</th><th>Complejidad</th></tr></thead>

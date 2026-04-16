@@ -9,7 +9,7 @@
 <p><strong>¿Qué es <code>nixpkgs</code>?</strong> Es el repositorio gigante con miles de programas para Nix/NixOS. Cuando dices <code>pkgs.firefox</code>, está diciendo "del repositorio nixpkgs, tráeme Firefox". Puedes buscar paquetes en <a href="https://search.nixos.org/packages" style="color: #7dd3fc;" target="_blank">search.nixos.org/packages</a>.</p>
 </div>
 
-<h3>Conceptos fundamentales</h3>
+<h3 id="conceptos-fundamentales">Conceptos fundamentales</h3>
 
 <div class="card">
     <div class="card-title">El Nix Store — /nix/store<span class="tooltip">Es la carpeta donde Nix guarda TODOS los archivos del sistema: programas, librerías, configuraciones. Cada versión de cada paquete tiene su propia carpeta con un hash único.</span></div>
@@ -64,7 +64,7 @@
     </div>
 </div>
 
-<h3>El flujo de trabajo</h3>
+<h3 id="el-flujo-de-trabajo">El flujo de trabajo</h3>
 
 <div class="steps">
 <li><strong>Editas</strong> tu configuración
@@ -83,7 +83,7 @@
 <p><strong>💡 Dato importante:</strong> El archivo <code>/etc/nixos/hardware-configuration.nix</code> se genera automáticamente y contiene la config de tu hardware (discos, particiones, etc.). <strong>No lo edites a mano</strong>, se regenera cada vez que ejecutas <code>nixos-generate-config</code>. Tu config principal solo necesita tener <code>imports = [ ./hardware-configuration.nix ];</code> al principio.</p>
 </div>
 
-<h3>Comandos esenciales</h3>
+<h3 id="comandos-esenciales">Comandos esenciales</h3>
 
 <table class="risk-table">
 <thead><tr><th>Comando</th><th>Para qué</th></tr></thead>

@@ -6,7 +6,7 @@
     <p><strong>¿Dónde está mi configuración?</strong> El archivo principal es <span class="inline-code">/etc/nixos/configuration.nix</span>. Ahí se define TODO: paquetes, servicios, usuarios, red, etc.</p>
 </div>
 
-<h3>Buscar paquetes</h3>
+<h3 id="buscar-paquetes">Buscar paquetes</h3>
 
 <div class="card">
     <div class="card-title">Buscar en nixpkgs<span class="tooltip">Busca paquetes en el repositorio oficial. Requiereexperimental-features configurado.</span></div>
@@ -22,7 +22,7 @@
     </div>
 </div>
 
-<h3>Instalar (declarativo — recomendado)</h3>
+<h3 id="instalar-declarativo">Instalar (declarativo — recomendado)</h3>
 
 <div class="card recommended">
     <div class="card-title">Instalar paquetes del sistema<span class="tooltip">Añade paquetes a environment.systemPackages. Se instalan al hacer rebuild y persisten.</span></div>
@@ -46,7 +46,7 @@
     </div>
 </div>
 
-<h3>Instalar (imperativo — rápido)</h3>
+<h3 id="instalar-imperativo">Instalar (imperativo — rápido)</h3>
 
 <div class="card">
     <div class="card-title">Instalar para el usuario actual<span class="tooltip">Instala el paquete solo para el usuario actual. No requiere sudo, no persiste tras reboot.</span></div>
@@ -70,7 +70,7 @@
     </div>
 </div>
 
-<h3>Rollback — Deshacer cambios</h3>
+<h3 id="rollback-deshacer-cambios">Rollback — Deshacer cambios</h3>
 
 <div class="card recommended">
     <div class="card-title">Volver a la generación anterior<span class="tooltip">Deshace el último rebuild. Si algo no funciona, esto te salva.</span></div>

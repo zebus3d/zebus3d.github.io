@@ -4,7 +4,7 @@
     <p><strong>Configurar hardware en NixOS</strong> es 100% declarativo. Todo va en <span class="inline-code">configuration.nix</span>: drivers de GPU, virtualización, audio, fuentes, y apps que necesitan librerías del sistema.</p>
 </div>
 
-<h3>NVIDIA — GPU dual (Prime)</h3>
+<h3 id="nvidia-gpu-dual">NVIDIA — GPU dual (Prime)</h3>
 
 <div class="info-box">
     <p><strong>hardware.opengl ▶ hardware.graphics:</strong> Desde NixOS 24.11 (diciembre 2024), <code>hardware.opengl</code> fue renombrado a <code>hardware.graphics</code>. Si tu config aún usa <code>opengl</code>, cámbialo.</p>
@@ -46,7 +46,7 @@
     <p><strong>Cómo obtener tus Bus IDs:</strong> Ejecuta <code>lspci | grep -E "VGA|3D"</code> para ver tus GPUs. Luego convierte los números de hexadecimal a decimal (ej: 01:00.0 → PCI:1:0:0, 05:00.0 → PCI:5:0:0).</p>
 </div>
 
-<h3>nix-ld — Apps externas</h3>
+<h3 id="nix-ld-apps-externas">nix-ld — Apps externas</h3>
 
 <div class="intro-box">
     <p><strong>¿Qué es nix-ld?</strong> Permite ejecutar binarios que no fueron compilados para NixOS (como Blender descargado de la web). Proporciona las librerías del sistema que estos programas esperan.</p>
@@ -78,7 +78,7 @@
     <p><strong>¿Cuándo usar nix-ld?</strong> Cuando descargas un binario precompilado de su web oficial (Blender, OBS, Spotify, Discord, Steam).</p>
 </div>
 
-<h3>Blender binario precompilado</h3>
+<h3 id="blender-binario-precompilado">Blender binario precompilado</h3>
 
 <div class="intro-box">
     <p><strong>Blender descargado de la web</strong> requiere configuración extra para Vulkan y OpenGL en NixOS.</p>
@@ -110,7 +110,7 @@
     </div>
 </div>
 
-<h3>KDE Plasma</h3>
+<h3 id="kde-plasma">KDE Plasma</h3>
 
 <div class="card">
     <div class="card-title">Habilitar Plasma 6<span class="tooltip">Configura SDDM y Plasma 6 como escritorio.</span></div>

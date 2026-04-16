@@ -6,11 +6,12 @@ let currentPage = 'primeros';
 let pageCache = {};
 let searchIndex = [];
 
-function showPage(id) {
+function showPage(id, anchor) {
     if (!pageIds.includes(id)) id = 'primeros';
     currentPage = id;
 
-    window.location.hash = id;
+    const hash = anchor ? `${id}.${anchor}` : id;
+    window.location.hash = hash;
 
     const content = document.getElementById('content');
     content.style.animation = 'none';
@@ -312,5 +313,25 @@ function escapeRegex(str) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-const initHash = window.location.hash.slice(1);
-showPage(pageIds.includes(initHash) ? initHash : 'primeros');
+function initFromHash() {
+    const hash = window.location.hash.slice(1);
+    if (!hash) {
+        showPage('primeros');
+        return;
+    }
+    const parts = hash.split('.');
+    const page = parts[0];
+    const anchor = parts[1];
+    
+    showPage(pageIds.includes(page) ? page : 'primeros', anchor);
+    
+    if (anchor) {
+        setTimeout(() => {
+            const el = document.getElementById(anchor);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+    }
+}
+
+initFromHash();
+window.addEventListener('hashchange', initFromHash);

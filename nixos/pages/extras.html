@@ -4,7 +4,7 @@
     <p><strong>Herramientas adicionales</strong> para desarrolladores y usuarios avanzados: nix-shell para entornos aislados, nix-ld y wrappers para binarios externos, y más.</p>
 </div>
 
-<h3>nix-shell — Entornos aislados</h3>
+<h3 id="nix-shell">nix-shell — Entornos aislados</h3>
 
 <div class="intro-box">
     <p><strong>¿Qué es nix-shell?</strong> Crea un entorno temporal con las dependencias que necesites. Es como un <strong>virtualenv de Python</strong> pero para cualquier lenguaje o herramienta. Dentro del shell tienes acceso a esos paquetes; afuera, no existen.</p>
@@ -58,7 +58,7 @@
     <p><strong>nix-shell vs venv/pip/venv de Node:</strong> nix-shell maneja <strong>cualquier dependencia</strong> (compiladores, librerías C, herramientas del sistema), no solo paquetes del lenguaje. Es un entorno completo del sistema, no solo de paquetes.</p>
 </div>
 
-<h3>nix-ld — Binarios externos</h3>
+<h3 id="nix-ld-binarios-externos">nix-ld — Binarios externos</h3>
 
 <div class="intro-box">
     <p><strong>¿Qué es nix-ld?</strong> Permite ejecutar binarios que no fueron compilados para NixOS (como Blender descargado de la web). Proporciona las librerías del sistema que estos programas esperan encontrar en <span class="inline-code">/lib</span> o <span class="inline-code">/usr/lib</span>.</p>
@@ -90,7 +90,7 @@
     <p><strong>¿Cuándo usar nix-ld?</strong> Cuando descargas un binario precompilado de su web oficial (Blender, OBS, Spotify, Discord, Steam) y no hay una versión en nixpkgs o necesitas la última versión.</p>
 </div>
 
-<h3>Wrappers con mkWrapper</h3>
+<h3 id="wrappers-con-mkwrapper">Wrappers con mkWrapper</h3>
 
 <div class="intro-box">
     <p><strong>Wrappers</strong> son "envoltorios" que ejecutan un binario con las librerías de Nix. Es más flexible que nix-ld porque puedes tener wrappers distintos por aplicación.</p>
@@ -114,7 +114,7 @@
     <p><strong>¿nix-ld vs mkWrapper?</strong> <code>nix-ld</code> es global (todos los binarios lo usan). <code>mkWrapper</code> es por-app. Para apps que descargas de internet y quieres que funcione "solo", usa <code>nix-ld</code>. Para personalización fina, usa wrappers.</p>
 </div>
 
-<h3>Steam y Proton</h3>
+<h3 id="steam-y-proton">Steam y Proton</h3>
 
 <div class="card">
     <div class="card-title">Ejecutar con steam-run<span class="tooltip">Envuelve el ejecutable del juego con las librerías de Steam.</span></div>
@@ -144,7 +144,7 @@
     </div>
 </div>
 
-<h3>Optimizar arranque de Plasma</h3>
+<h3 id="optimizar-plasma">Optimizar arranque de Plasma</h3>
 
 <div class="intro-box">
     <p><strong>¿El panel de Plasma tarda en aparecer?</strong> Cada widget (reloj, lanzador, notificaciones) tiene un valor <code>PreloadWeight</code> que determina cuándo carga. Valores altos = carga inmediata = tarda más en arrancar.</p>
@@ -185,7 +185,7 @@
     <p><strong>Más info:</strong> Los valores van de 0 (Nunca cargar) a 100 (Cargar primero). 30 es un buen equilibrio: carga rápido pero los widgets aparecen enseguida.</p>
 </div>
 
-<h3>Restaurar si hay problemas</h3>
+<h3 id="restaurar-plasma">Restaurar si hay problemas</h3>
 
 <div class="intro-box">
     <p>Si algo sale mal, <strong>restaurar el backup es instantáneo</strong>.</p>
