@@ -7,12 +7,8 @@ let pageCache = {};
 let searchIndex = [];
 
 function showPage(id, anchor) {
-    console.log('showPage called with id:', id, 'anchor:', anchor);
     return new Promise((resolve) => {
-        if (!pageIds.includes(id)) {
-            console.log('id not in pageIds, defaulting to primeros');
-            id = 'primeros';
-        }
+        if (!pageIds.includes(id)) id = 'primeros';
         currentPage = id;
 
         const newHash = anchor ? `${id}.${anchor}` : id;
@@ -329,19 +325,14 @@ function escapeRegex(str) {
 }
 
 async function initFromHash() {
-    console.log('initFromHash called, hash:', window.location.hash);
     const hash = window.location.hash.slice(1);
-    console.log('hash after slice:', hash);
     if (!hash) {
-        console.log('No hash, showing primeros');
         await showPage('primeros');
         return;
     }
     const parts = hash.split('.');
-    console.log('parts:', parts);
     const page = parts[0].trim().toLowerCase();
     const anchor = parts[1] ? parts[1].trim().toLowerCase() : undefined;
-    console.log('page:', page, 'anchor:', anchor, 'pageIds includes page?', pageIds.includes(page));
     
     await showPage(pageIds.includes(page) ? page : 'primeros', anchor);
     
