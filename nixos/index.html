@@ -851,8 +851,8 @@
                 </div>
                 <div class="gc-card">
                     <div class="gc-label moderate">MODERADO</div>
-                    <div class="gc-title">GC simple<span class="tooltip">Solo elimina archivos del store sin referencias. No borra generaciones. Útil cuando ya borraste generaciones a mano y quieres liberar el espacio.<span class="tip_example">Ej: tras borrar generaciones manualmente, libera GB</span></span></div>
-                    <div class="gc-desc">Libera espacio sin borrar generaciones.</div>
+                    <div class="gc-title">GC simple<span class="tooltip">Solo elimina archivos del store sin referencias. No borra generaciones. Útil cuando ya borraste generaciones a mano y quieres liberar el espacio. ⚠️ No actualiza el menú de systemd-boot: ejecuta nixos-rebuild boot después para sincronizar las entradas.<span class="tip_example">Ej: tras borrar generaciones manualmente, libera GB</span></span></div>
+                    <div class="gc-desc">Libera espacio sin borrar generaciones. Requiere <code>nixos-rebuild boot</code> después para actualizar el bootloader.</div>
                     <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
                 </div>
                 <div class="gc-card">
@@ -962,8 +962,12 @@
 <li>Afecta a TODAS las apps ancladas (Discord, Telegram, KeePassXC...)</li>
 <li>La solución: editar <code>~/.config/plasma-org.kde.plasma.desktop-appletsrc</code> y usar <code>applications:nombre.desktop</code></li>
 </ul>
-<p><strong>Orden seguro:</strong></p>
-<p>1. <code>sudo nixos-rebuild switch</code><br>2. <code>sudo nix-collect-garbage -d</code><br>3. <code>sudo nixos-rebuild boot</code></p>
+</div>
+
+<div class="info-box">
+<p><strong>Limitación de generaciones en systemd-boot:</strong> Para limitar el número de entradas en el menú de arranque a 3-4, añade esta opción en <code>configuration.nix</code>:</p>
+<p><code>boot.loader.systemd-boot.configurationLimit = 3;</code></p>
+<p>Esto reemplaza la necesidad de ejecutar <code>nixos-rebuild boot</code> después del GC. El menú mostrará solo las últimas 3 generaciones.</p>
 </div>
 
 <div class="card recommended">
@@ -1301,12 +1305,15 @@
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-title">Limitar generaciones en el menú de arranque<span class="tooltip">Systemd-boot solo muestra las N generaciones más recientes. No borra, solo oculta del menú.</span></div>
+            <div class="card recommended">
+                <div class="recommended-badge">✓ Recomendado</div>
+                <div class="card-title">Limitar generaciones en el menú de arranque<span class="tooltip">Configura systemd-boot para que solo muestre las últimas N generaciones en el menú. Esto elimina entradas huérfanas automáticamente. Valor recomendado: 3-4.<span class="tip_example">Ej: configurationLimit = 3 ▶ tras rebuild, solo quedan 3 entradas reales en /boot</span></span></div>
+                <div class="card-desc">Añadir a <code>configuration.nix</code>:</div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>nix</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="kw">boot.loader.systemd-boot.configurationLimit</span> <span class="punct">=</span> <span class="num">10</span><span class="punct">;</span></code></pre>
+                    <pre><code><span class="kw">boot.loader.systemd-boot.configurationLimit</span> <span class="punct">=</span> <span class="num">3</span><span class="punct">;</span></code></pre>
                 </div>
+                <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Esto le dice a systemd-boot que solo muestre las últimas 3 generaciones. Las entradas antiguas se eliminan automáticamente en cada <code>nixos-rebuild</code>.</p>
             </div>
 
             <div class="page-nav">
