@@ -200,7 +200,26 @@ h3.recommended { color: #4ade80; }
     font-size: 0.72rem; color: #64748b;
 }
 .code-header .dots { display: flex; gap: 6px; align-items: center; }
-.code-header .dot { font-size: 0.85rem; color: #a78bfa; font-family: 'JetBrains Mono', monospace; font-weight: 700; letter-spacing: 2px; }
+        .code-header .dot { 
+            font-size: 0; 
+            color: transparent; 
+            font-family: 'JetBrains Mono', monospace; 
+            font-weight: 700; 
+            letter-spacing: 0; 
+            position: relative;
+            display: inline-block;
+            width: 2em;
+            height: 1em;
+        }
+        .code-header .dot::before { 
+            content: "</>"; 
+            color: #a78bfa;
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 0.85rem;
+            line-height: 1;
+        }
 
 .copy-btn { position: relative; }
 

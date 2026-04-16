@@ -98,9 +98,9 @@ function updateDots() {
 
 function initCopyButtons() {
     document.querySelectorAll('.copy-btn').forEach(btn => {
-        const existing = btn.querySelector('svg');
-        if (existing) return;
-
+        if (btn.dataset.tooltipAdded) return;
+        btn.dataset.tooltipAdded = true;
+        
         const tooltip = document.createElement('div');
         tooltip.className = 'copy-tooltip';
         tooltip.textContent = 'Copiar al portapapeles';
@@ -119,20 +119,74 @@ function initCopyButtons() {
             tooltip.classList.remove('visible');
         });
 
-        btn.onclick = () => {
+        btn.onclick = async (e) => {
+            e.preventDefault();
             const block = btn.closest('.code-block, .gc-code');
-            const codeEl = block.querySelector('code, pre');
-            const text = codeEl.textContent.trim();
-            navigator.clipboard.writeText(text).then(() => {
+            if (!block) return;
+            
+            let text = '';
+            
+            if (block.classList.contains('code-block')) {
+                const codeEl = block.querySelector('code, pre');
+                if (!codeEl) return;
+                text = codeEl.textContent.trim();
+            } else if (block.classList.contains('gc-code')) {
+                // Para .gc-code, obtenemos todo el texto excepto el botón
+                const clone = block.cloneNode(true);
+                const btnClone = clone.querySelector('.copy-btn');
+                if (btnClone) btnClone.remove();
+                text = clone.textContent.trim();
+            }
+            
+            if (!text) return;
+            
+            // Ocultar tooltip original
+            tooltip.classList.remove('visible');
+            
+            try {
+                // Método moderno con navigator.clipboard
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    await navigator.clipboard.writeText(text);
+                } else {
+                    // Fallback para navegadores antiguos o contextos no seguros
+                    const textArea = document.createElement('textarea');
+                    textArea.value = text;
+                    textArea.style.position = 'fixed';
+                    textArea.style.opacity = '0';
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    const successful = document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    if (!successful) throw new Error('Fallback copy failed');
+                }
+                
+                // Éxito: cambiar icono y mostrar tooltip de confirmación
                 const originalHTML = btn.innerHTML;
                 btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
                 btn.classList.add('copied');
+                
+                // Mostrar tooltip de confirmación
+                tooltip.textContent = '¡Copiado!';
+                tooltip.classList.add('visible');
+                
                 setTimeout(() => {
                     btn.innerHTML = originalHTML;
                     btn.classList.remove('copied');
+                    tooltip.classList.remove('visible');
+                    tooltip.textContent = 'Copiar al portapapeles';
                 }, 2000);
-            });
-            tooltip.classList.remove('visible');
+                
+            } catch (err) {
+                console.error('Error al copiar:', err);
+                // Mostrar mensaje de error en tooltip
+                tooltip.textContent = 'Error al copiar';
+                tooltip.classList.add('visible');
+                setTimeout(() => {
+                    tooltip.classList.remove('visible');
+                    tooltip.textContent = 'Copiar al portapapeles';
+                }, 2000);
+            }
         };
     });
 }

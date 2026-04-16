@@ -27,6 +27,8 @@
     <div class="code-block">
         <div class="code-header">
             <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
         </div>
         <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">boot</span></code></pre>
     </div>
@@ -38,6 +40,8 @@
     <div class="code-block">
         <div class="code-header">
             <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
         </div>
         <pre><code><span class="cmd">sudo</span> <span class="cmd">bootctl</span> <span class="arg">list</span></code></pre>
     </div>
@@ -49,12 +53,14 @@
     <p><strong>Limitación de generaciones en systemd-boot:</strong> Para limitar el número de entradas en el menú de arranque a 3-4, añade esta opción en <code>configuration.nix</code>:</p>
 </div>
 
-<div class="code-block">
-    <div class="code-header">
-        <span class="dots"><span class="dot">● ● ●</span></span>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="kw">boot</span.<span class="kw">loader</span.<span class="kw">systemd-boot</span.<span class="kw">configurationLimit</span> <span class="punct">=</span> <span class="num">3</span>;</code></pre>
     </div>
-    <pre><code><span class="kw">boot</span.<span class="kw">loader</span.<span class="kw">systemd-boot</span.<span class="kw">configurationLimit</span> <span class="punct">=</span> <span class="num">3</span>;</code></pre>
-</div>
 
 <div class="info-box">
     <p>Las entradas <code>reported/absent</code> en <code>bootctl list</code> son variables EFI inofensivas que se borran al reiniciar. <span class="inline-code">nixos-rebuild boot</span> reconstruye el menú desde cero con solo las generaciones válidas.</p>

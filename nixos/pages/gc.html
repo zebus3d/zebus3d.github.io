@@ -18,25 +18,25 @@
         <div class="gc-label safe">RECOMENDADO</div>
         <div class="gc-title">GC conservador (30 días)<span class="tooltip">Borra generaciones con +30 días de TODOS los perfiles y ejecuta GC. Mantiene la generación actual y las de los últimos 30 días. Ideal para uso semanal sin perder rollback.<span class="tip_example">Ej: rebuild de hace 35 días ▶ se borra</span></span></div>
         <div class="gc-desc">Generaciones viejas + espacio liberado en un paso.</div>
-        <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span> <span class="flag">--delete-older-than</span> <span class="arg">30d</span></div>
+        <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span> <span class="flag">--delete-older-than</span> <span class="arg">30d</span><button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
     </div>
     <div class="gc-card">
         <div class="gc-label moderate">MODERADO</div>
         <div class="gc-title">GC simple<span class="tooltip">Solo elimina archivos del store sin referencias. No borra generaciones. Útil cuando ya borraste generaciones a mano y quieres liberar el espacio. ⚠️ No actualiza el menú de systemd-boot: ejecuta nixos-rebuild boot después para sincronizar las entradas.<span class="tip_example">Ej: tras borrar generaciones manualmente, libera GB</span></span></div>
         <div class="gc-desc">Libera espacio sin borrar generaciones. Requiere <code>nixos-rebuild boot</code> después para actualizar el bootloader.</div>
-        <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span></div>
+        <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span><button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
     </div>
     <div class="gc-card">
         <div class="gc-label aggressive">AGRESIVO</div>
         <div class="gc-title">GC agresivo (-d)<span class="tooltip">Borra TODAS las generaciones excepto la actual. Úsalo con precaución si necesitas espacio. ⚠️ Elimina TODOS los rollbacks.<span class="tip_example">Ej: solo queda la generación actual</span></span></div>
         <div class="gc-desc">Borra todas las generaciones anteriores.</div>
-        <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span> <span class="flag">-d</span></div>
+        <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-collect-garbage</span> <span class="flag">-d</span><button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
     </div>
     <div class="gc-card">
         <div class="gc-label safe">SEGURO</div>
         <div class="gc-title">Optimizar store<span class="tooltip">Deduplica archivos iguales en el store. No borra nada, solo organiza para ahorrar espacio.<span class="tip_example">Ej: misma librería en 50 programas ▶ 1 copia</span></span></div>
         <div class="gc-desc">Deduplica archivos en el store.</div>
-        <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-store</span> <span class="flag">--optimise</span></div>
+        <div class="gc-code"><span class="cmd">sudo</span> <span class="cmd">nix-store</span> <span class="flag">--optimise</span><button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
     </div>
 </div>
 
