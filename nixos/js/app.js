@@ -339,8 +339,8 @@ async function initFromHash() {
     }
     const parts = hash.split('.');
     console.log('parts:', parts);
-    const page = parts[0];
-    const anchor = parts[1];
+    const page = parts[0].trim().toLowerCase();
+    const anchor = parts[1] ? parts[1].trim().toLowerCase() : undefined;
     console.log('page:', page, 'anchor:', anchor, 'pageIds includes page?', pageIds.includes(page));
     
     await showPage(pageIds.includes(page) ? page : 'primeros', anchor);
