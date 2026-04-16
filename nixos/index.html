@@ -1004,6 +1004,13 @@
                 <p><strong>Canales vs Flakes:</strong> Los canales son como un "apt update" global (simple pero menos control). Los flakes son proyectos independientes con dependencias versionadas (más control, más reproducible).</p>
             </div>
 
+            <div class="critical-box">
+                <div class="critical-title">⚠️ REQUISITO — Experimental Features</div>
+                <p>Para usar flakes necesitas añadir esta línea en tu <code>configuration.nix</code>:</p>
+<pre><code>nix.settings.experimental-features = [ "nix-command" "flakes" ];</code></pre>
+                <p>Sin esto, los comandos de flakes <strong>no funcionarán</strong>.</p>
+            </div>
+
             <div class="card">
                 <div class="card-title">¿Uso Flakes o Canales?<span class="tooltip">Comando para verificar tu configuración actual. Si usa canales (nixos-channel), cada rebuild puede cambiar versiones. Si usa flakes, las versiones están "congeladas" en flake.lock.<span class="tip_example">nix-channel --list ▶ muestra canales activos</span></span></div>
                 <div class="code-block">
@@ -1037,10 +1044,10 @@
             </div>
 
             <div class="card">
-                <div class="card-title">Actualizar solo un input<span class="tooltip">Actualiza un input específico sin tocar los demás. Útil cuando solo necesitas actualizar una dependencia (ej: home-manager) sin riesgo de romper otras.<span class="tip_example">nix flake update home-manager</span></span></div>
+                <div class="card-title">Actualizar solo un input<span class="tooltip">Actualiza un input específico sin tocar los demás. Usa nix flake lock --update-input en lugar de flake update.<span class="tip_example">nix flake lock --update-input nixpkgs-unstable</span></span></div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">update</span> <span class="arg">nixpkgs</span></code></pre>
+                    <pre><code><span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">lock</span> <span class="flag">--update-input</span> <span class="arg">nixpkgs-unstable</span></code></pre>
                 </div>
             </div>
 
@@ -1154,8 +1161,10 @@
                 <div class="card-title">2. Aplicar configuración</div>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
-                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">.</span></code></pre>
+                    <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">.#nixos</span></code></pre>
                 </div>
+                <p style="color: #64748b; font-size: 0.82rem; margin-top: 8px;">El formato es <code>.#nombre-de-config</code> donde el nombre debe coincidir con el definido en <code>flake.nix</code> (ej: <code>nixosConfigurations.nixos</code>).</p>
+            </div>
                 <p style="color: #64748b; font-size: 0.82rem; margin-top: 8px;">Con host específico:</p>
                 <div class="code-block">
                     <div class="code-header"><span class="dots"><span class="dot">&lt;/&gt;</span></span><span>bash</span><button class="copy-btn" onclick="copyCode(this)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button></div>
