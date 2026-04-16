@@ -10,10 +10,18 @@
 </div>
 
 <div class="critical-box">
-    <div class="critical-title">⚠️ Requiere configuración</div>
-    <p>Para usar flakes necesitas añadir esta línea en tu <code>configuration.nix</code>:</p>
+    <div class="critical-title">⚠️ Configuración necesaria y error común</div>
+    <p><strong>Habilitar flakes:</strong> Para usar flakes necesitas añadir esta línea en tu <code>configuration.nix</code>:</p>
     <pre><code>nix.settings.experimental-features = [ "nix-command" "flakes" ];</code></pre>
     <p>Sin esto, los comandos de flakes <strong>no funcionarán</strong>.</p>
+    
+    <p><strong>Error común durante la migración:</strong><br>
+    Aún después de añadir la línea anterior, puedes encontrar este error:<br>
+    <code>error: experimental Nix feature 'nix-command' is disabled; add '--extra-experimental-features nix-command' to enable it</code></p>
+    <p><strong>Causa:</strong> El daemon de Nix no tiene habilitados los features experimentales hasta que se reinicie (lo que ocurre al aplicar la nueva configuración con flakes).</p>
+    <p><strong>Solución temporal:</strong> Usa el flag <code>--extra-experimental-features</code>:</p>
+    <pre><code>sudo nix --extra-experimental-features 'nix-command flakes' flake update</code></pre>
+    <p>Una vez que se aplique la configuración con flakes, el error desaparecerá porque el daemon se reiniciará con los features habilitados.</p>
 </div>
 
 <h3 id="verificar-tipo-de-configuracin">Verificar tipo de configuración</h3>
@@ -221,14 +229,7 @@ Done. The new configuration is /nix/store/ky3ivn1l7ikv5lqf081fkzp47mqxjsr3-nixos
     </div>
 </div>
 
-<div class="critical-box">
-    <div class="critical-title">⚠️ Error común durante la migración</div>
-    <p><strong>Problema:</strong> <code>error: experimental Nix feature 'nix-command' is disabled; add '--extra-experimental-features nix-command' to enable it</code></p>
-    <p><strong>Causa:</strong> El daemon de Nix no tiene habilitados los features experimentales aunque tu <code>configuration.nix</code> ya los incluya (<code>nix.settings.experimental-features = [ "nix-command" "flakes" ];</code>).</p>
-    <p><strong>Solución:</strong> Usa el flag <code>--extra-experimental-features</code> en el comando:</p>
-    <pre><code>sudo nix --extra-experimental-features 'nix-command flakes' flake update</code></pre>
-    <p>Una vez que se aplique la configuración con flakes, este error desaparecerá porque el daemon se reiniciará con los features habilitados.</p>
-</div>
+
 
 <div class="info-box">
     <p><strong>¿Por qué usar rutas absolutas?</strong></p>
@@ -482,6 +483,39 @@ Done. The new configuration is /nix/store/ky3ivn1l7ikv5lqf081fkzp47mqxjsr3-nixos
     color: #fbbf24;
     font-style: italic;
 }
+
+@media (max-width: 640px) {
+  .file-summary {
+    padding: 8px 40px 8px 12px; /* más espacio a la derecha para el ícono */
+    gap: 8px;
+  }
+  .file-summary .file-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    width: 100%;
+  }
+  .file-summary .file-name,
+  .file-summary .file-desc {
+    white-space: normal;
+    word-break: break-word;
+  }
+  .file-summary .file-name {
+    font-size: 0.95rem;
+  }
+  .file-summary .file-desc {
+    font-size: 0.8rem;
+    color: #94a3b8;
+  }
+  .file-summary .file-tooltip {
+    display: none;
+  }
+  .file-summary .file-icon {
+    font-size: 18px;
+    width: 24px;
+  }
+}
+
 </style>
 
 
