@@ -10,6 +10,8 @@ function showPage(id) {
     if (!pageIds.includes(id)) id = 'primeros';
     currentPage = id;
 
+    history.replaceState(null, null, '#' + id);
+
     const content = document.getElementById('content');
     content.style.animation = 'none';
     content.offsetHeight;
@@ -310,4 +312,5 @@ function escapeRegex(str) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-showPage('primeros');
+const initHash = window.location.hash.slice(1);
+showPage(pageIds.includes(initHash) ? initHash : 'primeros');
