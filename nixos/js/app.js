@@ -7,36 +7,47 @@ let pageCache = {};
 let searchIndex = [];
 
 function showPage(id, anchor) {
-    if (!pageIds.includes(id)) id = 'primeros';
-    currentPage = id;
+    return new Promise((resolve) => {
+        if (!pageIds.includes(id)) id = 'primeros';
+        currentPage = id;
 
-    const hash = anchor ? `${id}.${anchor}` : id;
-    window.location.hash = hash;
+        const newHash = anchor ? `${id}.${anchor}` : id;
+        const currentHash = window.location.hash.slice(1);
+        if (currentHash !== newHash) {
+            window.location.hash = newHash;
+        }
 
-    const content = document.getElementById('content');
-    content.style.animation = 'none';
-    content.offsetHeight;
-    content.style.animation = 'page-in 0.3s ease';
+        const content = document.getElementById('content');
+        content.style.animation = 'none';
+        content.offsetHeight;
+        content.style.animation = 'page-in 0.3s ease';
 
-    if (pageCache[id]) {
-        content.innerHTML = pageCache[id];
-        initPageEvents();
-    } else {
-        fetch(`pages/${id}.html`)
-            .then(r => r.text())
-            .then(html => {
-                pageCache[id] = html;
-                content.innerHTML = html;
-                initPageEvents();
+        const afterLoad = () => {
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.page === id);
             });
-    }
+            updateDots();
+            if (!anchor) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            resolve();
+        };
 
-    document.querySelectorAll('.tab-btn').forEach(b => {
-        b.classList.toggle('active', b.dataset.page === id);
+        if (pageCache[id]) {
+            content.innerHTML = pageCache[id];
+            initPageEvents();
+            afterLoad();
+        } else {
+            fetch(`pages/${id}.html`)
+                .then(r => r.text())
+                .then(html => {
+                    pageCache[id] = html;
+                    content.innerHTML = html;
+                    initPageEvents();
+                    afterLoad();
+                });
+        }
     });
-
-    updateDots();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function initPageEvents() {
@@ -313,23 +324,37 @@ function escapeRegex(str) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-function initFromHash() {
+async function initFromHash() {
     const hash = window.location.hash.slice(1);
     if (!hash) {
-        showPage('primeros');
+        await showPage('primeros');
         return;
     }
     const parts = hash.split('.');
     const page = parts[0];
     const anchor = parts[1];
     
-    showPage(pageIds.includes(page) ? page : 'primeros', anchor);
+    await showPage(pageIds.includes(page) ? page : 'primeros', anchor);
     
     if (anchor) {
-        setTimeout(() => {
-            const el = document.getElementById(anchor);
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
+        const el = document.getElementById(anchor);
+        if (el) {
+            // Esperar a que el layout se estabilice
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    const stickyNav = document.querySelector('.sticky-nav');
+                    const stickyHeight = stickyNav ? stickyNav.offsetHeight : 0;
+                    const offset = stickyHeight + 20; // margen adicional
+                    const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+                    const offsetPosition = elementPosition - offset;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        }
     }
 }
 
