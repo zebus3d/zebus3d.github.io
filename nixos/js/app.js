@@ -10,7 +10,7 @@ function showPage(id) {
     if (!pageIds.includes(id)) id = 'primeros';
     currentPage = id;
 
-    history.replaceState(null, null, '#' + id);
+    window.location.hash = id;
 
     const content = document.getElementById('content');
     content.style.animation = 'none';
