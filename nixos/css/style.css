@@ -208,7 +208,7 @@ h3.recommended { color: #4ade80; }
             letter-spacing: 0; 
             position: relative;
             display: inline-block;
-            width: 3.5em;
+            min-width: 50px;
             height: 1em;
         }
         .code-header .dot::before { 
@@ -217,8 +217,11 @@ h3.recommended { color: #4ade80; }
             position: absolute;
             left: 0;
             top: 0;
-            font-size: 0.85rem;
+            font-size: 0.7rem;
             line-height: 1;
+            min-width: 50px;
+            font-weight: bold;
+            white-space: nowrap;
         }
 
 .copy-btn { position: relative; }
