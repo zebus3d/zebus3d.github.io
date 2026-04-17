@@ -5,6 +5,12 @@ const pageLabels = { primeros: 'Primeros Pasos', gc: 'GC', generaciones: 'Genera
 let currentPage = 'primeros';
 let pageCache = {};
 let searchIndex = [];
+let isInitialLoad = true;
+
+// Deshabilitar restauración de scroll automática del navegador
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
 
 function showPage(id, anchor) {
     return new Promise((resolve) => {
@@ -27,7 +33,7 @@ function showPage(id, anchor) {
                 b.classList.toggle('active', b.dataset.page === id);
             });
             updateDots();
-            if (!anchor) {
+            if (!anchor && !isInitialLoad) {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
             resolve();
@@ -61,7 +67,10 @@ function initPageEvents() {
             dot.className = 'page-dot';
             dot.dataset.page = id;
             dot.title = pageLabels[id] || id;
-            dot.addEventListener('click', () => showPage(id));
+            dot.addEventListener('click', () => {
+                isInitialLoad = false;
+                showPage(id);
+            });
             dotsContainer.appendChild(dot);
         });
     }
@@ -82,6 +91,9 @@ function initPageEvents() {
     if (currentPage === 'flakes') {
         initFlakesFileLoaders();
     }
+    
+    // Configurar scroll spy para actualizar hash al navegar
+    setupScrollSpy();
 }
 
 function updateNavButtons() {
@@ -90,17 +102,30 @@ function updateNavButtons() {
     const idx = pageIds.indexOf(currentPage);
     
     if (prevBtn) {
-        prevBtn.onclick = () => idx > 0 && showPage(pageIds[idx - 1]);
+        prevBtn.onclick = () => {
+            if (idx > 0) {
+                isInitialLoad = false;
+                showPage(pageIds[idx - 1]);
+            }
+        };
         prevBtn.classList.toggle('disabled', idx <= 0);
     }
     if (nextBtn) {
-        nextBtn.onclick = () => idx < pageIds.length - 1 && showPage(pageIds[idx + 1]);
+        nextBtn.onclick = () => {
+            if (idx < pageIds.length - 1) {
+                isInitialLoad = false;
+                showPage(pageIds[idx + 1]);
+            }
+        };
         nextBtn.classList.toggle('disabled', idx >= pageIds.length - 1);
     }
 }
 
 document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => showPage(btn.dataset.page));
+    btn.addEventListener('click', () => {
+        isInitialLoad = false;
+        showPage(btn.dataset.page);
+    });
 });
 
 function updateDots() {
@@ -320,8 +345,14 @@ function initFlakesFileLoaders() {
 
 document.addEventListener('keydown', (e) => {
     const idx = pageIds.indexOf(currentPage);
-    if (e.key === 'ArrowRight' && idx < pageIds.length - 1) showPage(pageIds[idx + 1]);
-    if (e.key === 'ArrowLeft' && idx > 0) showPage(pageIds[idx - 1]);
+    if (e.key === 'ArrowRight' && idx < pageIds.length - 1) {
+        isInitialLoad = false;
+        showPage(pageIds[idx + 1]);
+    }
+    if (e.key === 'ArrowLeft' && idx > 0) {
+        isInitialLoad = false;
+        showPage(pageIds[idx - 1]);
+    }
 });
 
 const stickyNav = document.querySelector('.sticky-nav');
@@ -505,10 +536,63 @@ function escapeRegex(str) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+let scrollObserver = null;
+let updatingHashFromScroll = false;
+
+function setupScrollSpy() {
+    if (scrollObserver) {
+        scrollObserver.disconnect();
+    }
+    
+    const content = document.getElementById('content');
+    if (!content) return;
+    
+    const elementsWithId = content.querySelectorAll('[id]');
+    if (elementsWithId.length === 0) return;
+    
+    const options = {
+        root: null, // viewport
+        rootMargin: '-20% 0px -70% 0px', // reduce zona activa para que solo se active cuando el elemento esté cerca de la parte superior
+        threshold: 0
+    };
+    
+    scrollObserver = new IntersectionObserver((entries) => {
+        if (updatingHashFromScroll) return;
+        
+        const visibleEntries = entries.filter(entry => entry.isIntersecting);
+        if (visibleEntries.length === 0) return;
+        
+        // Ordenar por posición vertical (más cercano al top)
+        visibleEntries.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        const closestEntry = visibleEntries[0];
+        const id = closestEntry.target.id;
+        
+        if (id && id !== 'content') {
+            const newHash = `${currentPage}.${id}`;
+            const currentHash = window.location.hash.slice(1);
+            if (currentHash !== newHash) {
+                updatingHashFromScroll = true;
+                window.location.hash = newHash;
+                setTimeout(() => { updatingHashFromScroll = false; }, 100);
+            }
+        }
+    }, options);
+    
+    elementsWithId.forEach(el => {
+        if (el.id !== 'content') {
+            scrollObserver.observe(el);
+        }
+    });
+}
+
 async function initFromHash() {
     const hash = window.location.hash.slice(1);
+    const skipScroll = updatingHashFromScroll; // Si el hash cambió por scroll spy, no hacer scroll
+    
     if (!hash) {
         await showPage('primeros');
+        isInitialLoad = false;
+        updatingHashFromScroll = false;
         return;
     }
     const parts = hash.split('.');
@@ -516,14 +600,16 @@ async function initFromHash() {
     const anchor = parts[1] ? parts[1].trim().toLowerCase() : undefined;
     
     await showPage(pageIds.includes(page) ? page : 'primeros', anchor);
+    isInitialLoad = false;
+    updatingHashFromScroll = false;
     
     if (anchor) {
         // Función para intentar scroll con reintentos
         const attemptScroll = (retryCount = 0) => {
             const el = document.getElementById(anchor);
             if (!el) {
-                if (retryCount < 5) {
-                    setTimeout(() => attemptScroll(retryCount + 1), 50);
+                if (retryCount < 10) {
+                    setTimeout(() => attemptScroll(retryCount + 1), 100);
                     return;
                 }
                 console.warn(`Elemento con id "${anchor}" no encontrado después de ${retryCount} intentos`);
@@ -548,7 +634,9 @@ async function initFromHash() {
         };
         
         // Comenzar intento
-        attemptScroll();
+        if (!skipScroll) {
+            attemptScroll();
+        }
     }
 }
 
