@@ -20,7 +20,7 @@
     <code>error: experimental Nix feature 'nix-command' is disabled; add '--extra-experimental-features nix-command' to enable it</code></p>
     <p><strong>Causa:</strong> El daemon de Nix no tiene habilitados los features experimentales hasta que se reinicie (lo que ocurre al aplicar la nueva configuración con flakes).</p>
     <p><strong>Solución temporal:</strong> Usa el flag <code>--extra-experimental-features</code>:</p>
-    <pre><code>sudo nix --extra-experimental-features 'nix-command flakes' flake update</code></pre>
+    <pre><code>cd /etc/nixos && sudo nix --extra-experimental-features 'nix-command flakes' flake update</code></pre>
     <p>Una vez que se aplique la configuración con flakes, el error desaparecerá porque el daemon se reiniciará con los features habilitados.</p>
 </div>
 
@@ -35,8 +35,7 @@
             <span>bash</span>
             <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
         </div>
-        <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">dry-build</span> <span class="flag">--flake</span> <span class="path">/etc/nixos#mi-hostname</span>  <span class="comment"># preferido (ruta absoluta, sin cd)</span>
-<span class="comment"># sudo nixos-rebuild dry-build --flake .#mi-hostname   # requiere cd /etc/nixos primero</span></code></pre>
+        <pre><code><span class="cmd">cd</span> <span class="path">/etc/nixos</span> <span class="cmd">&&</span> <span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">dry-build</span> <span class="flag">--flake</span> <span class="path">.#mi-hostname</span></code></pre>
     </div>
 </div>
 
@@ -64,10 +63,8 @@
             <span>bash</span>
             <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
         </div>
-        <pre><code><span class="cmd">sudo</span> <span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">update</span> <span class="path">/etc/nixos</span>
-<span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">/etc/nixos#mi-hostname</span>  <span class="comment"># preferido (ruta absoluta, sin cd)</span>
-<span class="comment"># Alternativa con cd:</span>
-<span class="comment"># cd /etc/nixos && sudo nix flake update && sudo nixos-rebuild switch --flake .#mi-hostname</span></code></pre>
+        <pre><code><span class="cmd">cd</span> <span class="path">/etc/nixos</span> <span class="cmd">&&</span> <span class="cmd">sudo</span> <span class="cmd">nix</span> <span class="flag">--extra-experimental-features</span> <span class="arg">'nix-command flakes'</span> <span class="cmd">flake</span> <span class="arg">update</span>
+<span class="cmd">cd</span> <span class="path">/etc/nixos</span> <span class="cmd">&&</span> <span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">.#mi-hostname</span></code></pre>
     </div>
 </div>
 
@@ -80,10 +77,8 @@
             <span>bash</span>
             <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
         </div>
-        <pre><code><span class="cmd">sudo</span> <span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">lock</span> <span class="path">/etc/nixos</span> <span class="flag">--update-input</span> <span class="arg">nixpkgs-unstable</span>
-<span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">/etc/nixos#mi-hostname</span>  <span class="comment"># preferido (ruta absoluta, sin cd)</span>
-<span class="comment"># Alternativa con cd:</span>
-<span class="comment"># cd /etc/nixos && sudo nix flake lock --update-input nixpkgs-unstable && sudo nixos-rebuild switch --flake .#mi-hostname</span></code></pre>
+        <pre><code><span class="cmd">cd</span> <span class="path">/etc/nixos</span> <span class="cmd">&&</span> <span class="cmd">sudo</span> <span class="cmd">nix</span> <span class="flag">--extra-experimental-features</span> <span class="arg">'nix-command flakes'</span> <span class="cmd">flake</span> <span class="arg">lock</span> <span class="flag">--update-input</span> <span class="arg">nixpkgs-unstable</span>
+<span class="cmd">cd</span> <span class="path">/etc/nixos</span> <span class="cmd">&&</span> <span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">.#mi-hostname</span></code></pre>
     </div>
 </div>
 
@@ -96,8 +91,7 @@
             <span>bash</span>
             <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
         </div>
-        <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">dry-build</span> <span class="flag">--flake</span> <span class="path">/etc/nixos#mi-hostname</span>  <span class="comment"># preferido (ruta absoluta)</span>
-<span class="comment"># sudo nixos-rebuild dry-build --flake .#mi-hostname   # requiere cd /etc/nixos</span></code></pre>
+        <pre><code><span class="cmd">cd</span> <span class="path">/etc/nixos</span> <span class="cmd">&&</span> <span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">dry-build</span> <span class="flag">--flake</span> <span class="path">.#mi-hostname</span></code></pre>
     </div>
 </div>
 
@@ -146,9 +140,7 @@
             <span>bash</span>
             <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
         </div>
-        <pre><code><span class="cmd">cd</span> <span class="path">/etc/nixos</span> <span class="cmd">&&</span> <span class="cmd">sudo</span> <span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">update</span>  <span class="comment"># Error esperado: 'experimental Nix feature...'</span>
-<span class="comment"># Solución:</span>
-<span class="cmd">sudo</span> <span class="cmd">nix</span> <span class="flag">--extra-experimental-features</span> <span class="arg">'nix-command flakes'</span> <span class="cmd">flake</span> <span class="arg">update</span></code></pre>
+        <pre><code><span class="cmd">cd</span> <span class="path">/etc/nixos</span> <span class="cmd">&&</span> <span class="cmd">sudo</span> <span class="cmd">nix</span> <span class="flag">--extra-experimental-features</span> <span class="arg">'nix-command flakes'</span> <span class="cmd">flake</span> <span class="arg">update</span>  <span class="comment"># Solución al error 'experimental Nix feature...'</span></code></pre>
     </div>
     <div class="card-desc">Salida real obtenida:</div>
     <div class="code-block">
@@ -167,14 +159,15 @@
 
 <div class="card">
     <div class="card-title">Paso 3: Aplicar la configuración con flakes<span class="tooltip">Compila y cambia al nuevo sistema usando flakes.</span></div>
-    <div class="card-desc">Usando ruta absoluta (recomendado) para no tener que hacer <span class="inline-code">cd /etc/nixos</span> primero.</div>
+      <div class="card-desc">Usando <span class="inline-code">cd</span> primero (más confiable) para evitar errores de búsqueda de flake.nix.</div>
+    </div>
     <div class="code-block">
         <div class="code-header">
             <span class="dots"><span class="dot">● ● ●</span></span>
             <span>bash</span>
             <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
         </div>
-        <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">/etc/nixos#mi-hostname</span></code></pre>
+        <pre><code><span class="cmd">cd</span> <span class="path">/etc/nixos</span> <span class="cmd">&&</span> <span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">.#mi-hostname</span></code></pre>
     </div>
     <div class="card-desc">Salida real obtenida (resumida):</div>
     <div class="code-block">
@@ -206,7 +199,7 @@ Done. The new configuration is /nix/store/ky3ivn1l7ikv5lqf081fkzp47mqxjsr3-nixos
             <span>bash</span>
             <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
         </div>
-        <pre><code><span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">show</span></code></pre>
+        <pre><code><span class="cmd">cd</span> <span class="path">/etc/nixos</span> <span class="cmd">&&</span> <span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">show</span></code></pre>
     </div>
     <div class="card-desc">Deberías ver algo similar a:</div>
     <div class="tree-view">
@@ -232,8 +225,8 @@ Done. The new configuration is /nix/store/ky3ivn1l7ikv5lqf081fkzp47mqxjsr3-nixos
 
 
 <div class="info-box">
-    <p><strong>¿Por qué usar rutas absolutas?</strong></p>
-    <p>El usuario prefiere comandos con rutas absolutas como <span class="inline-code">sudo nixos-rebuild switch --flake /etc/nixos#mi-hostname</span> en lugar de tener que hacer <span class="inline-code">cd /etc/nixos</span> primero. Esto hace que los comandos sean más explícitos y fáciles de copiar/pegar.</p>
+    <p><strong>¿Por qué usar <code>cd</code> primero?</strong></p>
+    <p>Los comandos <span class="inline-code">nix flake update</span> y <span class="inline-code">nix flake lock</span> buscan <code>flake.nix</code> desde el directorio actual. Usar <span class="inline-code">cd /etc/nixos && ...</span> evita errores de "could not find a flake.nix file". <span class="inline-code">nixos-rebuild</span> sí acepta rutas absolutas, pero para consistencia es mejor usar <code>cd</code> primero en todos los comandos.</p>
 </div>
 
 <div class="info-box">
@@ -334,8 +327,19 @@ Done. The new configuration is /nix/store/ky3ivn1l7ikv5lqf081fkzp47mqxjsr3-nixos
         <li>El UUID de la partición <span class="inline-code">/home</span> es específico de este sistema. Obtén el tuyo con <span class="inline-code">lsblk -f</span>.</li>
         <li>Las IDs de bus PCI para NVIDIA (líneas 205-206) son específicas de esta máquina. Usa <span class="inline-code">lspci | grep -i nvidia</span> para encontrar las tuyas.</li>
         <li>Reemplaza <span class="inline-code">usuario</span> por tu nombre de usuario en todo el archivo.</li>
-        <li>Los archivos se expanden/contraen al hacer clic en los iconos o en los títulos.</li>
+        <li>Los archivos se expanden/contraer al hacer clic en los iconos o en los títulos.</li>
     </ul>
+    
+    <p><strong>Ejemplo de cómo obtener el UUID:</strong></p>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code>lsblk -f</code></pre>
+    </div>
+    <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Busca la línea de tu partición /home y copia el valor de la columna UUID.</p>
 </div>
 
 <style>

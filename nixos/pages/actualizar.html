@@ -37,15 +37,15 @@
 <h3 id="con-flakes">Con Flakes</h3>
 
 <div class="card">
-    <div class="card-title">Actualizar dependencias<span class="tooltip">Actualiza todas las dependencias según flake.nix. Equivalente a npm update.</span></div>
-    <div class="card-desc">Actualizar flakes.</div>
+    <div class="card-title">Actualizar dependencias<span class="tooltip">Actualiza todas las dependencias según flake.nix. Equivalente a actualizar repositorios en Arch (pacman -Sy).</span></div>
+    <div class="card-desc">Actualiza las versiones de nixpkgs en flake.lock.</div>
     <div class="code-block">
         <div class="code-header">
             <span class="dots"><span class="dot">● ● ●</span></span>
             <span>bash</span>
             <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
         </div>
-        <pre><code><span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">update</span></code></pre>
+        <pre><code><span class="cmd">cd</span> <span class="path">/etc/nixos</span> <span class="cmd">&&</span> <span class="cmd">sudo</span> <span class="cmd">nix</span> <span class="flag">--extra-experimental-features</span> <span class="arg">'nix-command flakes'</span> <span class="cmd">flake</span> <span class="arg">update</span></code></pre>
     </div>
 </div>
 
@@ -58,11 +58,25 @@
             <span>bash</span>
             <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
         </div>
-        <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">/etc/nixos#mi-hostname</span></code></pre>
+        <pre><code><span class="cmd">cd</span> <span class="path">/etc/nixos</span> <span class="cmd">&&</span> <span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">.#mi-hostname</span></code></pre>
     </div>
-    <div class="card-desc" style="color: #64748b; font-size: 0.82rem; margin-top: 8px;">El formato es <code>.#nombre-de-config</code> donde el nombre debe coincidir con el definido en <code>flake.nix</code> (ej: <code>nixosConfigurations.mi-hostname</code>).</div>
+    <div class="card-desc" style="color: #64748b; font-size: 0.82rem; margin-top: 8px;">El formato es <code>.#nombre-de-config</code> cuando se usa <code>cd /etc/nixos</code> primero. El nombre debe coincidir con el definido en <code>flake.nix</code> (ej: <code>nixosConfigurations.mi-hostname</code>).</div>
 </div>
 
 <div class="info-box">
-    <p><strong>Recordatorio:</strong> Usa ruta absoluta para no tener que hacer <code>cd /etc/nixos</code>. El nombre después de <code>#</code> debe coincidir con <code>nixosConfigurations.mi-hostname</code> en tu <code>flake.nix</code>.</p>
+    <p><strong>Recordatorio:</strong> Usa <code>cd /etc/nixos</code> primero para evitar errores de "could not find a flake.nix file". El nombre después de <code>#</code> debe coincidir con <code>nixosConfigurations.mi-hostname</code> en tu <code>flake.nix</code>.</p>
+</div>
+
+<div class="info-box">
+    <p><strong>¿Reiniciar después de actualizar el kernel?</strong> Sí, el kernel se carga durante el arranque. Después de <code>nixos-rebuild switch</code>, reinicia para usar la nueva versión.</p>
+    <p><strong>Verificar kernels:</strong></p>
+    <div class="code-block" style="margin: 10px 0;">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+        </div>
+        <pre><code>uname -r                          # Kernel actual (en ejecución)
+ls -la /run/booted-system/kernel  # Kernel que se cargará en el próximo reinicio</code></pre>
+    </div>
+    <p><strong>Comandos:</strong> <code>sudo reboot</code> para reiniciar, o <code>sudo nixos-rebuild boot</code> para solo configurar kernel sin aplicar cambios inmediatos.</p>
 </div>

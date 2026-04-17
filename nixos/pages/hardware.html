@@ -48,6 +48,26 @@
     <p><strong>Cómo obtener tus Bus IDs:</strong> Ejecuta <code>lspci | grep -E "VGA|3D"</code> para ver tus GPUs. Luego convierte los números de hexadecimal a decimal (ej: 01:00.0 → PCI:1:0:0, 05:00.0 → PCI:5:0:0).</p>
 </div>
 
+<div class="warning-box">
+    <p><strong>Actualizar kernel con NVIDIA:</strong> En NixOS, los drivers NVIDIA (<code>config.boot.kernelPackages.nvidiaPackages.stable</code>) se recompilan automáticamente para el kernel actual. <strong>Siempre prueba primero:</strong></p>
+    <div class="code-block" style="margin: 10px 0;">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+        </div>
+        <pre><code>cd /etc/nixos && sudo nixos-rebuild dry-build --flake .#mi-hostname</code></pre>
+    </div>
+    <p>Si <strong>compila sin errores</strong> → es seguro actualizar. Si falla → kernel/driver no compatibles.</p>
+    <p><strong>Estrategias seguras:</strong></p>
+    <ul>
+        <li><strong>Actualizar solo paquetes unstable</strong> (mantiene kernel estable):<br>
+            <code>cd /etc/nixos && sudo nix --extra-experimental-features 'nix-command flakes' flake lock --update-input nixpkgs-unstable</code></li>
+        <li><strong>Actualizar kernel (nixpkgs estable)</strong> cada 2-3 meses después de verificar con <code>dry-build</code></li>
+        <li><strong>Usar generaciones</strong> como red de seguridad: <code>sudo nixos-rebuild switch --rollback</code> si falla</li>
+    </ul>
+    <p><strong>Reiniciar:</strong> Después de actualizar el kernel, reinicia para usar la nueva versión. Verifica con <code>uname -r</code>.</p>
+</div>
+
 <h3 id="nix-ld-apps-externas">nix-ld — Apps externas</h3>
 
 <div class="intro-box">
