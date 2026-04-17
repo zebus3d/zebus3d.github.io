@@ -149,11 +149,11 @@
             <span>bash</span>
             <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
         </div>
-        <pre><code>warning: creating lock file "/etc/nixos/flake.lock": 
+        <pre>warning: creating lock file "/etc/nixos/flake.lock": 
 • Added input 'nixpkgs':
     'github:NixOS/nixpkgs/7e495b747b51f95ae15e74377c5ce1fe69c1765f?narHash=sha256-B35lpsqnSZwn1Lmz06BpwF7atPgFmUgw1l8KAV3zpVQ%3D' (2026-04-13)
 • Added input 'nixpkgs-unstable':
-    'github:NixOS/nixpkgs/4bd9165a9165d7b5e33ae57f3eecbcb28fb231c9?narHash=sha256-l/iNYDZ4bGOAFQY2q8y5OAfBBtrDAaPuRQqWaFHVRXM%3D' (2026-04-14)</code></pre>
+    'github:NixOS/nixpkgs/4bd9165a9165d7b5e33ae57f3eecbcb28fb231c9?narHash=sha256-l/iNYDZ4bGOAFQY2q8y5OAfBBtrDAaPuRQqWaFHVRXM%3D' (2026-04-14)</pre>
     </div>
 </div>
 
@@ -176,7 +176,7 @@
             <span>bash</span>
             <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
         </div>
-        <pre><code>building the system configuration...
+        <pre>building the system configuration...
 stopping the following units: accounts-daemon.service
 activating the configuration...
 setting up /etc...
@@ -186,7 +186,7 @@ reloading the following units: dbus.service
 restarting the following units: polkit.service
 starting the following units: accounts-daemon.service
 the following new units were started: libvirtd.service, NetworkManager-dispatcher.service, sysinit-reactivation.target, systemd-tmpfiles-resetup.service
-Done. The new configuration is /nix/store/ky3ivn1l7ikv5lqf081fkzp47mqxjsr3-nixos-system-nixos-25.11.20260413.7e495b7</code></pre>
+Done. The new configuration is /nix/store/ky3ivn1l7ikv5lqf081fkzp47mqxjsr3-nixos-system-nixos-25.11.20260413.7e495b7</pre>
     </div>
 </div>
 
@@ -202,23 +202,15 @@ Done. The new configuration is /nix/store/ky3ivn1l7ikv5lqf081fkzp47mqxjsr3-nixos
         <pre><code><span class="cmd">cd</span> <span class="path">/etc/nixos</span> <span class="cmd">&&</span> <span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">show</span></code></pre>
     </div>
     <div class="card-desc">Deberías ver algo similar a:</div>
-    <div class="tree-view">
-        <div class="tree-line tree-path">
-            <span class="tree-icon">📁</span>
-            <span class="tree-text">path:/etc/nixos?lastModified=1776364370&narHash=sha256-QvCG2nFNZTBfg9wwhR7oVrMK2Sj6PpvGx67Oh4lgHHY%3D</span>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
         </div>
-        <div class="tree-line tree-branch">
-            <span class="tree-connector">└───</span>
-            <span class="tree-icon">📦</span>
-            <span class="tree-label">nixosConfigurations</span>
-        </div>
-        <div class="tree-line tree-leaf">
-            <span class="tree-connector">    └───</span>
-            <span class="tree-icon">🖥️</span>
-            <span class="tree-hostname">mi-hostname</span>
-            <span class="tree-colon">:</span>
-            <span class="tree-type">NixOS configuration</span>
-        </div>
+        <pre>path:/etc/nixos?lastModified=1776364370&narHash=sha256-QvCG2nFNZTBfg9wwhR7oVrMK2Sj6PpvGx67Oh4lgHHY%3D
+└─── nixosConfigurations
+     └─── mi-hostname: NixOS configuration</pre>
     </div>
 </div>
 
@@ -328,17 +320,7 @@ Done. The new configuration is /nix/store/ky3ivn1l7ikv5lqf081fkzp47mqxjsr3-nixos
         <li>Las IDs de bus PCI para NVIDIA (líneas 205-206) son específicas de esta máquina. Usa <span class="inline-code">lspci | grep -i nvidia</span> para encontrar las tuyas.</li>
         <li>Reemplaza <span class="inline-code">your-user-name</span> por tu nombre de usuario en todo el archivo.</li>
     </ul>
-    
-    <p><strong>Ejemplo de cómo obtener el UUID:</strong></p>
-    <div class="code-block">
-        <div class="code-header">
-            <span class="dots"><span class="dot">● ● ●</span></span>
-            <span>bash</span>
-            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
-        </div>
-        <pre><code>lsblk -f</code></pre>
-    </div>
-    <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Busca la línea de tu partición /home y copia el valor de la columna UUID.</p>
+
 </div>
 
 <style>
