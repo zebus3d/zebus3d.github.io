@@ -262,13 +262,12 @@ Done. The new configuration is /nix/store/ky3ivn1l7ikv5lqf081fkzp47mqxjsr3-nixos
 
 
 <details id="flake-nix" class="file-details">
-    <summary class="file-summary">
+    <summary class="file-summary" title="Haz clic para expandir/contraer">
         <span class="file-icon">📄</span>
         <div class="file-info">
             <div class="file-name">flake.nix</div>
             <div class="file-desc">Define inputs y outputs</div>
         </div>
-        <div class="file-tooltip">Haz clic para expandir/contraer el contenido completo</div>
     </summary>
     <div class="card">
         <div class="card-title">flake.nix<span class="tooltip">Define las dependencias (inputs) y cómo construir el sistema (outputs).</span></div>
@@ -285,13 +284,12 @@ Done. The new configuration is /nix/store/ky3ivn1l7ikv5lqf081fkzp47mqxjsr3-nixos
 </details>
 
 <details id="configuration-nix" class="file-details">
-    <summary class="file-summary">
+    <summary class="file-summary" title="Haz clic para expandir/contraer">
         <span class="file-icon">📄</span>
         <div class="file-info">
             <div class="file-name">configuration.nix</div>
             <div class="file-desc">Configuración del sistema</div>
         </div>
-        <div class="file-tooltip">Haz clic para expandir/contraer el contenido completo</div>
     </summary>
     <div class="card">
         <div class="card-title">configuration.nix<span class="tooltip">Configuración completa del sistema. Nota: requiere hardware-configuration.nix generado automáticamente.</span></div>
@@ -308,13 +306,12 @@ Done. The new configuration is /nix/store/ky3ivn1l7ikv5lqf081fkzp47mqxjsr3-nixos
 </details>
 
 <details id="flake-lock" class="file-details">
-    <summary class="file-summary">
+    <summary class="file-summary" title="Haz clic para ver ejemplo">
         <span class="file-icon">🔒</span>
         <div class="file-info">
             <div class="file-name">flake.lock</div>
             <div class="file-desc">Versiones exactas (generado)</div>
         </div>
-        <div class="file-tooltip">Archivo generado automáticamente - haz clic para ver ejemplo</div>
     </summary>
     <div class="card">
         <div class="card-title">flake.lock<span class="tooltip">Archivo generado automáticamente con las versiones exactas de los inputs.</span></div>
@@ -376,14 +373,7 @@ Done. The new configuration is /nix/store/ky3ivn1l7ikv5lqf081fkzp47mqxjsr3-nixos
     color: #94a3b8;
     white-space: nowrap;
 }
-.file-summary .file-tooltip {
-    font-size: 0.7rem;
-    color: #60a5fa;
-    font-style: italic;
-    white-space: nowrap;
-    flex-shrink: 0;
-    padding-right: 30px;
-}
+
 .file-details {
     margin: 20px 0;
     border: 1px solid #475569;
@@ -393,18 +383,26 @@ Done. The new configuration is /nix/store/ky3ivn1l7ikv5lqf081fkzp47mqxjsr3-nixos
 .file-details summary {
     list-style: none;
     position: relative;
+    cursor: pointer;
 }
 .file-details summary::-webkit-details-marker {
     display: none;
 }
 .file-details summary:after {
-    content: '▶';
+    content: '+';
     position: absolute;
     right: 10px;
-    transition: transform 0.3s;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #60a5fa;
+    transition: transform 0.3s, color 0.3s;
 }
 .file-details[open] summary:after {
-    transform: rotate(90deg);
+    content: '-';
+    transform: translateY(-50%) rotate(0deg);
+    color: #f87171;
 }
 .file-details .card {
     margin: 0;
