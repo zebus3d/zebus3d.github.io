@@ -15,6 +15,7 @@ if ('scrollRestoration' in history) {
 function showPage(id, anchor) {
     return new Promise((resolve) => {
         if (!pageIds.includes(id)) id = 'primeros';
+        const samePage = id === currentPage;
         currentPage = id;
 
         const newHash = anchor ? `${id}.${anchor}` : id;
@@ -24,22 +25,30 @@ function showPage(id, anchor) {
         }
 
         const content = document.getElementById('content');
-        content.style.animation = 'none';
-        content.offsetHeight;
-        content.style.animation = 'page-in 0.3s ease';
+        
+        // Solo aplicar animación si es una página diferente
+        if (!samePage) {
+            content.style.animation = 'none';
+            content.offsetHeight;
+            content.style.animation = 'page-in 0.3s ease';
+        }
 
         const afterLoad = () => {
             document.querySelectorAll('.tab-btn').forEach(b => {
                 b.classList.toggle('active', b.dataset.page === id);
             });
             updateDots();
-            if (!anchor && !isInitialLoad) {
+            if (!anchor && !isInitialLoad && !samePage) {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
             resolve();
         };
 
-        if (pageCache[id]) {
+        if (samePage && pageCache[id]) {
+            // Misma página, solo actualizar UI y manejar anchor
+            afterLoad();
+            // Scroll al anchor si existe (se hará desde initFromHash si es necesario)
+        } else if (pageCache[id]) {
             content.innerHTML = pageCache[id];
             initPageEvents();
             afterLoad();
@@ -536,8 +545,43 @@ function escapeRegex(str) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+function scrollToAnchor(anchor, skipAnimation = false) {
+    return new Promise((resolve) => {
+        const attemptScroll = (retryCount = 0) => {
+            const el = document.getElementById(anchor);
+            if (!el) {
+                if (retryCount < 10) {
+                    setTimeout(() => attemptScroll(retryCount + 1), 100);
+                    return;
+                }
+                console.warn(`Elemento con id "${anchor}" no encontrado después de ${retryCount} intentos`);
+                resolve();
+                return;
+            }
+            
+            // Esperar a que el layout se estabilice
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    const stickyNav = document.querySelector('.sticky-nav');
+                    const stickyHeight = stickyNav ? stickyNav.offsetHeight : 0;
+                    const offset = stickyHeight + 20; // margen adicional
+                    const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+                    const offsetPosition = Math.max(0, elementPosition - offset);
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: skipAnimation ? 'auto' : 'smooth'
+                    });
+                    resolve();
+                });
+            });
+        };
+        
+        attemptScroll();
+    });
+}
+
 let scrollObserver = null;
-let updatingHashFromScroll = false;
 
 function setupScrollSpy() {
     if (scrollObserver) {
@@ -557,8 +601,6 @@ function setupScrollSpy() {
     };
     
     scrollObserver = new IntersectionObserver((entries) => {
-        if (updatingHashFromScroll) return;
-        
         const visibleEntries = entries.filter(entry => entry.isIntersecting);
         if (visibleEntries.length === 0) return;
         
@@ -571,9 +613,7 @@ function setupScrollSpy() {
             const newHash = `${currentPage}.${id}`;
             const currentHash = window.location.hash.slice(1);
             if (currentHash !== newHash) {
-                updatingHashFromScroll = true;
-                window.location.hash = newHash;
-                setTimeout(() => { updatingHashFromScroll = false; }, 100);
+                history.replaceState(null, '', `#${newHash}`);
             }
         }
     }, options);
@@ -587,12 +627,10 @@ function setupScrollSpy() {
 
 async function initFromHash() {
     const hash = window.location.hash.slice(1);
-    const skipScroll = updatingHashFromScroll; // Si el hash cambió por scroll spy, no hacer scroll
     
     if (!hash) {
         await showPage('primeros');
         isInitialLoad = false;
-        updatingHashFromScroll = false;
         return;
     }
     const parts = hash.split('.');
@@ -601,42 +639,9 @@ async function initFromHash() {
     
     await showPage(pageIds.includes(page) ? page : 'primeros', anchor);
     isInitialLoad = false;
-    updatingHashFromScroll = false;
     
     if (anchor) {
-        // Función para intentar scroll con reintentos
-        const attemptScroll = (retryCount = 0) => {
-            const el = document.getElementById(anchor);
-            if (!el) {
-                if (retryCount < 10) {
-                    setTimeout(() => attemptScroll(retryCount + 1), 100);
-                    return;
-                }
-                console.warn(`Elemento con id "${anchor}" no encontrado después de ${retryCount} intentos`);
-                return;
-            }
-            
-            // Esperar a que el layout se estabilice
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    const stickyNav = document.querySelector('.sticky-nav');
-                    const stickyHeight = stickyNav ? stickyNav.offsetHeight : 0;
-                    const offset = stickyHeight + 20; // margen adicional
-                    const elementPosition = el.getBoundingClientRect().top + window.scrollY;
-                    const offsetPosition = Math.max(0, elementPosition - offset);
-                    
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                });
-            });
-        };
-        
-        // Comenzar intento
-        if (!skipScroll) {
-            attemptScroll();
-        }
+        scrollToAnchor(anchor);
     }
 }
 
