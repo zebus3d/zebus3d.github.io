@@ -32,24 +32,24 @@
   time.timeZone = "UTC";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
+  i18n.defaultLocale = "es_ES.UTF-8";
 
-  i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "en_GB.UTF-8/UTF-8" "es_ES.UTF-8/UTF-8" ];
+  i18n.supportedLocales = [ "es_ES.UTF-8/UTF-8" "en_US.UTF-8/UTF-8" ];
 
   i18n.extraLocaleSettings = {
-    LANG = "en_US.UTF-8";
-    LC_ADDRESS = "en_US.UTF-8";
-    LC_CTYPE = "en_US.UTF-8";
-    LC_COLLATE = "en_US.UTF-8";
-    LC_IDENTIFICATION = "en_US.UTF-8";
-    LC_MEASUREMENT = "en_US.UTF-8";
-    LC_MESSAGES = "en_US.UTF-8";
-    LC_MONETARY = "en_US.UTF-8";
-    LC_NAME = "en_US.UTF-8";
-    LC_NUMERIC = "en_US.UTF-8";
-    LC_PAPER = "en_US.UTF-8";
-    LC_TELEPHONE = "en_US.UTF-8";
-    LC_TIME = "en_US.UTF-8";
+    LANG = "es_ES.UTF-8";
+    LC_ADDRESS = "es_ES.UTF-8";
+    LC_CTYPE = "es_ES.UTF-8";
+    LC_COLLATE = "es_ES.UTF-8";
+    LC_IDENTIFICATION = "es_ES.UTF-8";
+    LC_MEASUREMENT = "es_ES.UTF-8";
+    LC_MESSAGES = "es_ES.UTF-8";
+    LC_MONETARY = "es_ES.UTF-8";
+    LC_NAME = "es_ES.UTF-8";
+    LC_NUMERIC = "es_ES.UTF-8";
+    LC_PAPER = "es_ES.UTF-8";
+    LC_TELEPHONE = "es_ES.UTF-8";
+    LC_TIME = "es_ES.UTF-8";
   };
 
   # Enable the X11 windowing system.
@@ -100,9 +100,9 @@
   # ---- Fin Virtualización ---- #
 
   # Define a user account. Don't forget to set a password with 'passwd'.
-  users.users.usuario = {
+  users.users.your-user-name = {
     isNormalUser = true;
-    description = "usuario";
+    description = "your-user-name";
     shell = pkgs.zsh;
     extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
     packages = with pkgs; [
