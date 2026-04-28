@@ -12,7 +12,7 @@
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
-  boot.loader.systemd-boot.configurationLimit = 3; # solo 3 generaciones en systemd-boot
+  boot.loader.systemd-boot.configurationLimit = 4; # solo 4 generaciones en systemd-boot
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Use latest kernel.
