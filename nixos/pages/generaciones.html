@@ -25,7 +25,7 @@
 </div>
 
 <div class="card">
-    <div class="card-title">Borrar generaciones específicas<span class="tooltip">Borra generaciones por número. Útil para limpiar generaciones antiguas.<span class="tip_example">sudo nixos-rebuild delete-generations 1 2 3 4 5</span></span></div>
+    <div class="card-title">Borrar generaciones específicas<span class="tooltip">Borra generaciones por número. Útil para limpiar generaciones antiguas.<span class="tip_example">sudo nix-env -p /nix/var/nix/profiles/system --delete-generations 73 74 75</span></span></div>
     <div class="card-desc">Eliminar generaciones antiguas manualmente.</div>
     <div class="code-block">
         <div class="code-header">
@@ -33,8 +33,22 @@
             <span>bash</span>
             <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
         </div>
-        <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">delete-generations</span> <span class="arg">1</span> <span class="arg">2</span> <span class="arg">3</span></code></pre>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-env</span> <span class="flag">-p</span> <span class="path">/nix/var/nix/profiles/system</span> <span class="flag">--delete-generations</span> <span class="arg">1</span> <span class="arg">2</span> <span class="arg">3</span></code></pre>
     </div>
+</div>
+
+<div class="card recommended">
+    <div class="card-title">Conservar las últimas N generaciones<span class="tooltip">Borra todo excepto las últimas N. Ideal para mantener solo 3-4 como en systemd-boot.<span class="tip_example">sudo nix-env -p /nix/var/nix/profiles/system --delete-generations +4  → conserva las 4 más recientes</span></span></div>
+    <div class="card-desc">Mantén solo las que necesitas.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">nix-env</span> <span class="flag">-p</span> <span class="path">/nix/var/nix/profiles/system</span> <span class="flag">--delete-generations</span> <span class="arg">+4</span></code></pre>
+    </div>
+    <div class="card-desc" style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">El <code>+4</code> significa "conserva las últimas 4 generaciones, borra el resto".</div>
 </div>
 
 <div class="card">
@@ -81,8 +95,9 @@
 <table class="risk-table">
     <thead><tr><th>Situación</th><th>Comando</th><th>Riesgo</th></tr></thead>
     <tbody>
-        <tr><td>Ver todas</td><td><span class="inline-code">nix-env --list-generations</span></td><td><span class="risk-badge safe">SEGURO</span></td></tr>
-        <tr><td>Volver atrás</td><td><span class="inline-code">nixos-rebuild switch --rollback</span></td><td><span class="risk-badge safe">SEGURO</span></td></tr>
-        <tr><td>Borrar específicas</td><td><span class="inline-code">nixos-rebuild delete-generations 1 2</span></td><td><span class="risk-badge moderate">MODERADO</span></td></tr>
+        <tr><td>Ver todas</td><td><span class="inline-code">sudo nix-env -p /nix/var/nix/profiles/system --list-generations</span></td><td><span class="risk-badge safe">SEGURO</span></td></tr>
+        <tr><td>Volver atrás</td><td><span class="inline-code">sudo nixos-rebuild switch --rollback</span></td><td><span class="risk-badge safe">SEGURO</span></td></tr>
+        <tr><td>Borrar específicas</td><td><span class="inline-code">sudo nix-env -p /nix/var/nix/profiles/system --delete-generations 1 2</span></td><td><span class="risk-badge moderate">MODERADO</span></td></tr>
+        <tr><td>Conservar últimas N</td><td><span class="inline-code">sudo nix-env -p /nix/var/nix/profiles/system --delete-generations +N</span></td><td><span class="risk-badge moderate">MODERADO</span></td></tr>
     </tbody>
 </table>

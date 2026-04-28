@@ -37,7 +37,7 @@
 <h3 id="con-flakes">Con Flakes</h3>
 
 <div class="card">
-    <div class="card-title">Actualizar dependencias<span class="tooltip">Actualiza todas las dependencias según flake.nix. Equivalente a actualizar repositorios en Arch (pacman -Sy).</span></div>
+    <div class="card-title">Actualizar TODOS los inputs<span class="tooltip">Actualiza todas las dependencias según flake.nix. Equivalente a actualizar repositorios en Arch (pacman -Sy).</span></div>
     <div class="card-desc">Actualiza las versiones de nixpkgs en flake.lock.</div>
     <div class="code-block">
         <div class="code-header">
@@ -45,26 +45,67 @@
             <span>bash</span>
             <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
         </div>
-        <pre><code><span class="cmd">cd</span> <span class="path">/etc/nixos</span> <span class="cmd">&&</span> <span class="cmd">sudo</span> <span class="cmd">nix</span> <span class="flag">--extra-experimental-features</span> <span class="arg">'nix-command flakes'</span> <span class="cmd">flake</span> <span class="arg">update</span></code></pre>
+        <pre><code><span class="cmd">cd</span> <span class="path">/etc/nixos</span> <span class="cmd">&&</span> <span class="cmd">sudo</span> <span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">update</span></code></pre>
     </div>
 </div>
 
 <div class="card">
-    <div class="card-title">Reconstruir con Flake<span class="tooltip">Aplica la configuración del flake. El formato es <code>.#nombre-de-config</code>.</span></div>
-    <div class="card-desc">Aplicar cambios del flake.</div>
+    <div class="card-title">Actualizar solo un input específico<span class="tooltip">Actualiza solo nixpkgs-unstable sin tocar nixpkgs estable. Más seguro.</span></div>
+    <div class="card-desc">Para actualizar solo los paquetes unstable.</div>
     <div class="code-block">
         <div class="code-header">
             <span class="dots"><span class="dot">● ● ●</span></span>
             <span>bash</span>
             <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
         </div>
-        <pre><code><span class="cmd">cd</span> <span class="path">/etc/nixos</span> <span class="cmd">&&</span> <span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">.#mi-hostname</span></code></pre>
+        <pre><code><span class="cmd">cd</span> <span class="path">/etc/nixos</span> <span class="cmd">&&</span> <span class="cmd">sudo</span> <span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">lock</span> <span class="flag">--update-input</span> <span class="arg">nixpkgs-unstable</span></code></pre>
     </div>
-    <div class="card-desc" style="color: #64748b; font-size: 0.82rem; margin-top: 8px;">El formato es <code>.#nombre-de-config</code> cuando se usa <code>cd /etc/nixos</code> primero. El nombre debe coincidir con el definido en <code>flake.nix</code> (ej: <code>nixosConfigurations.mi-hostname</code>).</div>
+    <div class="card-desc" style="color: #64748b; font-size: 0.82rem; margin-top: 8px;">Puedes actualizar varios a la vez: <code>--update-input nixpkgs --update-input nixpkgs-unstable</code></div>
+</div>
+
+<div class="card">
+    <div class="card-title">Ver versión actual de los inputs<span class="tooltip">Muestra las versiones exactas que están en flake.lock sin actualizarlas.</span></div>
+    <div class="card-desc">Consulta las versiones lockeadas.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">metadata</span> <span class="path">/etc/nixos</span></code></pre>
+    </div>
+    <div class="card-desc" style="color: #64748b; font-size: 0.82rem; margin-top: 8px;">Muestra cada input con su fecha (ej: 2026-04-15) y commit hash. No requiere sudo.</div>
+</div>
+
+<div class="card">
+    <div class="card-title">Reconstruir con Flake (Opción A — con cd)<span class="tooltip">Aplica la configuración del flake entrando primero al directorio.</span></div>
+    <div class="card-desc">Aplicar cambios desde /etc/nixos.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="cmd">cd</span> <span class="path">/etc/nixos</span> <span class="cmd">&&</span> <span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span></code></pre>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-title">Reconstruir con Flake (Opción B — ruta absoluta)<span class="tooltip">Usa <code>--flake /etc/nixos</code> desde cualquier directorio. No necesitas saber el hostname.</span></div>
+    <div class="card-desc">Aplicar cambios sin cd.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">/etc/nixos</span></code></pre>
+    </div>
+    <div class="card-desc" style="color: #64748b; font-size: 0.82rem; margin-top: 8px;">Funciona desde cualquier directorio. Solo necesitas la ruta donde está tu <code>flake.nix</code>.</div>
 </div>
 
 <div class="info-box">
-    <p><strong>Recordatorio:</strong> Usa <code>cd /etc/nixos</code> primero para evitar errores de "could not find a flake.nix file". El nombre después de <code>#</code> debe coincidir con <code>nixosConfigurations.mi-hostname</code> en tu <code>flake.nix</code>.</p>
+    <p><strong>Recordatorio:</strong> <code>nix flake update</code> debe ejecutarse desde <code>/etc/nixos</code> (haz cd primero). Si lo ejecutas desde otro lado dará: <code>error: could not find a flake.nix file</code>. En cambio, <code>nixos-rebuild switch --flake /etc/nixos</code> sí acepta ruta absoluta.</p>
 </div>
 
 <div class="info-box">
