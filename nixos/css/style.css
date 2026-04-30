@@ -354,6 +354,14 @@ pre, .gc-code {
     border: 6px solid transparent; border-top-color: rgba(15, 15, 30, 0.95);
 }
 .warning-box .warn-tip:hover .warn-tooltip { display: block; animation: tip-fade 0.2s ease; }
+.warning-box p > code,
+.warning-box li > code {
+    background: rgba(251, 191, 36, 0.15);
+    border: 1px solid rgba(251, 191, 36, 0.25);
+    padding: 2px 8px; border-radius: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem; color: #fde68a;
+}
 
 .critical-box {
     background: rgba(239, 68, 68, 0.08);

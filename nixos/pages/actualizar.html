@@ -108,6 +108,26 @@
     <p><strong>Recordatorio:</strong> <code>nix flake update</code> debe ejecutarse desde <code>/etc/nixos</code> (haz cd primero). Si lo ejecutas desde otro lado dará: <code>error: could not find a flake.nix file</code>. En cambio, <code>nixos-rebuild switch --flake /etc/nixos</code> sí acepta ruta absoluta.</p>
 </div>
 
+<div class="warning-box">
+    <p><strong>⚠️ Diferencia clave:</strong> <code>nix flake update</code> vs <code>nixos-rebuild switch</code></p>
+    <p><strong><code>nix flake update</code></strong> solo actualiza el <code>flake.lock</code> (las versiones de nixpkgs, unstable, etc.). <strong>No reconstruye el sistema</strong>. Los cambios no se aplican hasta que hagas rebuild.</p>
+    <p><strong><code>nixos-rebuild switch --flake .</code></strong> reconstruye y aplica la configuración usando las versiones que están en el <code>flake.lock</code> <strong>en ese momento</strong>. Si no ejecutaste <code>nix flake update</code> antes, usará las versiones viejas.</p>
+    <p><strong>Flujo correcto para actualizar todo:</strong></p>
+    <div class="code-block" style="margin: 10px 0;">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0-2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="cmd">cd</span> <span class="path">/etc/nixos</span> <span class="cmd">&&</span> <span class="cmd">sudo</span> <span class="cmd">nix</span> <span class="cmd">flake</span> <span class="arg">update</span> <span class="cmd">&&</span> <span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span> <span class="flag">--flake</span> <span class="path">.</span></code></pre>
+    </div>
+    <p>El <code>&&</code> encadena los comandos: si falla el update, no se ejecuta el rebuild. Así evitas aplicar cambios con un lock corrupto.</p>
+</div>
+
+<div class="info-box">
+    <p><strong>🔍 Explicación para novatos:</strong> El <code>flake.lock</code> es como una <strong>lista de la compra</strong> donde apuntas "nixpkgs versión X", "unstable versión Y". <code>nix flake update</code> es <strong>actualizar la lista</strong> con las últimas versiones disponibles. <code>nixos-rebuild switch</code> es <strong>ir a comprar</strong> usando lo que pone en la lista. Si no actualizas la lista primero, comprarás siempre lo mismo (las versiones viejas). Por eso hacen falta los dos pasos: primero decides <em>qué</em> quieres comprar (update), luego vas y lo compras (switch).</p>
+</div>
+
 <div class="info-box">
     <p><strong>¿Reiniciar después de actualizar el kernel?</strong> Sí, el kernel se carga durante el arranque. Después de <code>nixos-rebuild switch</code>, reinicia para usar la nueva versión.</p>
     <p><strong>Verificar kernels:</strong></p>
