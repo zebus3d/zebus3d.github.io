@@ -278,4 +278,27 @@
   };
   # ---- Fin Partición Home ---- #
 
+  # ---- NAS por SMB/CIFS ---- #
+  # Habilita soporte SMB en el kernel
+  boot.supportedFilesystems = [ "cifs" ];
+
+  # Montaje del NAS. Cambia IP, nombre del share y ruta de credenciales.
+  fileSystems."/mnt/qnap" = {
+    device = "//192.168.1.100/nas-compartido";
+    fsType = "cifs";
+    options = let
+      creds = "/etc/nixos/.smb-creds";
+    in [
+      "credentials=${creds}"
+      "vers=3.0"           # SMB 3 (moderno)
+      "uid=1000"
+      "gid=100"
+      "iocharset=utf8"
+      "noperm"
+      "_netdev"
+      "x-systemd.automount"  # montaje bajo demanda
+      "noauto"
+    ];
+  };
+  # ---- Fin NAS ---- #
 }

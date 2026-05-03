@@ -1,0 +1,240 @@
+<h2><span class="icon">🔗</span> Montar NAS por SMB/CIFS</h2>
+
+<div class="intro-box">
+    <p><strong>Montar un NAS (o cualquier carpeta compartida en red)</strong> con protocolo SMB (Samba) en NixOS se hace de forma <strong>declarativa</strong>, es decir, escribes la configuración en tu <span class="inline-code">configuration.nix</span> y NixOS se encarga de todo. Nada de editar <span class="inline-code">/etc/fstab</span> manualmente.</p>
+    <p>Esta guía asume que tienes un NAS en tu red local (por ejemplo un QNAP, Synology, o un Raspberry Pi con Samba) y quieres montar una carpeta compartida en tu sistema NixOS.</p>
+</div>
+
+<h3 id="que-necesitas">Qué necesitas saber antes de empezar</h3>
+
+<div class="intro-box">
+    <p>Para montar un NAS necesitas estos 4 datos. Consíguelos antes de empezar:</p>
+    <ul>
+        <li><strong>IP del NAS</strong> — Ej: <span class="inline-code">192.168.1.100</span>. La averiguas desde el router o desde el panel de tu NAS.</li>
+        <li><strong>Nombre del recurso compartido</strong> — Es el nombre que le pusiste a la carpeta en el NAS. Ej: <span class="inline-code">nfs</span>, <span class="inline-code">Multimedia</span>, <span class="inline-code">Public</span>.</li>
+        <li><strong>Punto de montaje local</strong> — La carpeta local donde quieres ver los archivos del NAS. Ej: <span class="inline-code">/mnt/qnap</span>.</li>
+        <li><strong>Usuario y contraseña</strong> del NAS (los que usas para conectarte desde Windows o desde tu móvil).</li>
+    </ul>
+</div>
+
+<h3 id="configurar-configuration-nix">Paso 1: Añadir la configuración en configuration.nix</h3>
+
+<div class="intro-box">
+    <p>Edita tu <span class="inline-code">/etc/nixos/configuration.nix</span> con <span class="inline-code">sudo</span> (o con <span class="inline-code">pkexec</span> si usas KDE). Añade estas líneas en cualquier parte del archivo, pero tiene su lógica:</p>
+    <ul>
+        <li><span class="inline-code">boot.supportedFilesystems = [ "cifs" ];</span> — Habilita el soporte de SMB/CIFS en el kernel de NixOS.</li>
+        <li><span class="inline-code">fileSystems."/mnt/qnap" = { ... };</span> — Declara el punto de montaje del NAS.</li>
+    </ul>
+</div>
+
+<h4 id="explicacion-opciones">Explicación de cada opción</h4>
+
+<div class="card">
+    <div class="card-title">Configuración completa del montaje SMB</div>
+    <div class="card-desc">Copia esto en tu <span class="inline-code">configuration.nix</span> y cambia los valores según tu NAS.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>nix</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="comment"># Habilita soporte SMB/CIFS en el kernel</span>
+<span class="kw">boot.supportedFilesystems</span> <span class="punct">=</span> <span class="punct">[</span> <span class="str">"cifs"</span> <span class="punct">];</span>
+
+<span class="comment"># Montaje del NAS</span>
+<span class="kw">fileSystems</span><span class="str">"/mnt/qnap"</span> <span class="punct">=</span> <span class="punct">{</span>
+    <span class="kw">device</span> <span class="punct">=</span> <span class="str">"//192.168.1.100/nfs"</span><span class="punct">;</span>  <span class="comment"># ← CAMBIA: IP y nombre del share</span>
+    <span class="kw">fsType</span> <span class="punct">=</span> <span class="str">"cifs"</span><span class="punct">;</span>
+    <span class="kw">options</span> <span class="punct">=</span> <span class="kw">let</span>
+        <span class="kw">creds</span> <span class="punct">=</span> <span class="str">"/etc/nixos/.smb-creds"</span><span class="punct">;</span>  <span class="comment"># Ruta del archivo de credenciales (persistente)</span>
+    <span class="kw">in</span> <span class="punct">[</span>
+        <span class="str">"credentials=${creds}"</span>   <span class="comment"># Usa el archivo para autenticarse</span>
+        <span class="str">"vers=3.0"</span>             <span class="comment"># Versión del protocolo SMB (3 es la moderna)</span>
+        <span class="str">"uid=1000"</span>             <span class="comment"># Tu UID (normalmente 1000)</span>
+        <span class="str">"gid=100"</span>              <span class="comment"># Tu GID (normalmente 100)</span>
+        <span class="str">"iocharset=utf8"</span>      <span class="comment"># Codificación de caracteres</span>
+        <span class="str">"noperm"</span>               <span class="comment"># Ignora permisos del NAS (más flexible)</span>
+        <span class="str">"_netdev"</span>              <span class="comment"># Es un dispositivo de red</span>
+        <span class="str">"x-systemd.automount"</span>  <span class="comment"># Monta solo cuando accedes a la carpeta</span>
+        <span class="str">"noauto"</span>               <span class="comment"># No montar al arranque (lo hace automount)</span>
+    <span class="punct">];</span>
+<span class="punct">};</span></code></pre>
+    </div>
+    <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Cambia <span class="inline-code">//192.168.1.100/nfs</span> por la IP y nombre de tu recurso compartido. También ajusta <span class="inline-code">uid</span> y <span class="inline-code">gid</span> si tu usuario no es el 1000 (averígualo con <span class="inline-code">id</span>).</p>
+</div>
+
+<h4 id="montaje-automatico">Montaje automático vs. bajo demanda</h4>
+
+<div class="card">
+    <div class="card-title">Montaje al arrancar (automático)</div>
+    <div class="card-desc">Reemplaza las opciones de montaje por estas:</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>nix</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="str">"credentials=${creds}"</span>
+<span class="str">"vers=3.0"</span>
+<span class="str">"uid=1000"</span>
+<span class="str">"gid=100"</span>
+<span class="str">"iocharset=utf8"</span>
+<span class="str">"noperm"</span>
+<span class="str">"_netdev"</span>
+<span class="str">"auto"</span>      <span class="comment"># ← Monta automáticamente al iniciar sesión</span></code></pre>
+    </div>
+    <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Si el NAS no está encendido al arrancar, el sistema puede tardar varios segundos en intentar montarlo y fallar. El montaje bajo demanda (<span class="inline-code">x-systemd.automount</span>) evita este problema.</p>
+</div>
+
+<h3 id="crear-credenciales">Paso 2: Crear el archivo de credenciales</h3>
+
+<div class="intro-box">
+    <p>Las contraseñas <strong>nunca</strong> se escriben en el <span class="inline-code">configuration.nix</span> porque ese archivo termina en el <strong>store de Nix</strong> (accesible globalmente en <span class="inline-code">/nix/store/...</span>). En su lugar, se guardan en un archivo externo con permisos restringidos.</p>
+    <p>Para que las credenciales sean <strong>persistentes</strong> (no se pierdan al reiniciar), las guardamos en <span class="inline-code">/etc/nixos/.smb-creds</span>. El nombre empieza con punto para que esté oculto, y aunque está en la misma carpeta que <span class="inline-code">configuration.nix</span>, el store de Nix <strong>no lo incluye</strong> porque no está referenciado en ninguna expresión Nix.</p>
+</div>
+
+<div class="card">
+    <div class="card-title">Crear el archivo .smb-creds</div>
+    <div class="card-desc">Ábrelo con nvim (o tu editor favorito) con sudo:</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">nvim</span> <span class="path">/etc/nixos/.smb-creds</span></code></pre>
+    </div>
+    <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Escribe las credenciales, guarda (<span class="inline-code">:wq</span>) y listo. Así no queda rastro en el historial del shell.</p>
+</div>
+
+<div class="card">
+    <div class="card-title">Contenido del archivo .smb-creds</div>
+    <div class="card-desc">Dentro del archivo, escribe esto con tus datos:</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="kw">username</span><span class="punct">=</span><span class="arg">tu_usuario_del_nas</span>
+<span class="kw">password</span><span class="punct">=</span><span class="arg">tu_contraseña</span>
+<span class="kw">domain</span><span class="punct">=</span><span class="arg">WORKGROUP</span></code></pre>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-title">Proteger el archivo</div>
+    <div class="card-desc">Solo root puede leerlo y NixOS lo ignora por estar oculto:</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">chmod</span> <span class="arg">600</span> <span class="path">/etc/nixos/.smb-creds</span></code></pre>
+    </div>
+    <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">El archivo empieza con punto (<span class="inline-code">.smb-creds</span>) para que <span class="inline-code">nixos-rebuild</span> no intente procesarlo. Puedes comprobarlo con <span class="inline-code">ls -la /etc/nixos/</span>.</p>
+</div>
+
+<h3 id="aplicar-cambios">Paso 3: Aplicar los cambios</h3>
+
+<div class="intro-box">
+    <p>Una vez que tienes el <span class="inline-code">configuration.nix</span> editado y el archivo de credenciales creado, toca aplicar la configuración. Si usas flakes (como es el caso aquí), el comando es el mismo:</p>
+</div>
+
+<div class="card">
+    <div class="card-title">Reconstruir el sistema</div>
+    <div class="card-desc">Aplica la nueva configuración de NixOS:</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="cmd">cd</span> <span class="path">/etc/nixos</span> <span class="cmd">&&</span> <span class="cmd">sudo</span> <span class="cmd">nixos-rebuild</span> <span class="arg">switch</span></code></pre>
+    </div>
+    <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">El <span class="inline-code">cd /etc/nixos</span> asegura que Nix encuentre el <span class="inline-code">flake.nix</span>. Si tu flake está en otra ruta, adáptalo.</p>
+</div>
+
+<h3 id="probar-montaje">Paso 4: Probar el montaje</h3>
+
+<div class="intro-box">
+    <p>Con la configuración de <span class="inline-code">x-systemd.automount</span>, el NAS se monta automáticamente cuando intentas acceder a la carpeta. No necesitas montarlo manualmente.</p>
+</div>
+
+<div class="card">
+    <div class="card-title">Acceder al NAS</div>
+    <div class="card-desc">Simplemente entra en la carpeta:</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="cmd">ls</span> <span class="path">/mnt/qnap</span></code></pre>
+    </div>
+    <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Deberías ver los archivos de tu NAS. La primera vez tardará un segundo en montarse.</p>
+</div>
+
+<div class="card">
+    <div class="card-title">Verificar el estado del montaje</div>
+    <div class="card-desc">Comprueba que está montado correctamente:</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="cmd">mount</span> <span class="punct">|</span> <span class="cmd">grep</span> <span class="arg">cifs</span></code></pre>
+    </div>
+    <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Si ves una línea con <span class="inline-code">//192.168.1.100/nfs</span> y <span class="inline-code">/mnt/qnap</span>, está montado correctamente.</p>
+</div>
+
+<h3 id="solucion-problemas">Solución de problemas</h3>
+
+<div class="card critical">
+    <div class="card-title">❌ "mount error(2): No such file or directory"</div>
+    <div class="card-desc">La IP o el nombre del recurso compartido no existen. Verifica:</div>
+    <ul>
+        <li>Que la IP del NAS sea correcta (<span class="inline-code">ping 192.168.1.100</span>)</li>
+        <li>Que el nombre del share sea exacto (mayúsculas/minúsculas)</li>
+        <li>Que el NAS esté encendido y accesible en la red</li>
+    </ul>
+</div>
+
+<div class="card critical">
+    <div class="card-title">❌ "mount error(13): Permission denied"</div>
+    <div class="card-desc">Las credenciales son incorrectas. Verifica:</div>
+    <ul>
+        <li>Usuario y contraseña en <span class="inline-code">/etc/nixos/.smb-creds</span></li>
+        <li>Permisos del archivo (<span class="inline-code">chmod 600</span>)</li>
+        <li>Prueba a conectar desde otro dispositivo para confirmar que las credenciales funcionan</li>
+    </ul>
+</div>
+
+<div class="card critical">
+    <div class="card-title">❌ "mount error(112): Host is down"</div>
+    <div class="card-desc">El NAS no responde. Verifica:</div>
+    <ul>
+        <li>Conexión de red (cable, WiFi)</li>
+        <li>Que el NAS esté encendido</li>
+        <li>Cortafuegos en el NAS (puerto 445 para SMB)</li>
+    </ul>
+</div>
+
+<h3 id="notas">Notas importantes</h3>
+
+<div class="info-box">
+    <p><strong>¿Por qué no se usa /etc/fstab en NixOS?</strong></p>
+    <p>En NixOS todo se configura de forma declarativa. Si editas <span class="inline-code">/etc/fstab</span> manualmente, tus cambios se perderán la próxima vez que ejecutes <span class="inline-code">nixos-rebuild switch</span>. La forma correcta es usar <span class="inline-code">fileSystems</span> en <span class="inline-code">configuration.nix</span>.</p>
+</div>
+
+<div class="info-box">
+    <p><strong>¿SMB3 es seguro?</strong></p>
+    <p>SMB 3.0 es la versión moderna del protocolo e incluye cifrado de extremo a extremo. En redes locales domésticas es más que suficiente. Si tu NAS es muy antiguo, puede que solo soporte SMB 1.0 (inseguro). En ese caso cambia <span class="inline-code">"vers=3.0"</span> por <span class="inline-code">"vers=1.0"</span>.</p>
+</div>
+
+<div class="info-box">
+    <p><strong>Alternativa más avanzada: agenix / sops-nix</strong></p>
+    <p>Si quieres gestionar las credenciales de forma totalmente declarativa (sin tener archivos sueltos), puedes usar <span class="inline-code">agenix</span> o <span class="inline-code">sops-nix</span>. Cifran los secrets y los descifran durante la construcción. Es más complejo pero más elegante.</p>
+</div>

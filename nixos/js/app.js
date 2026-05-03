@@ -1,6 +1,6 @@
-const pageIds = ['primeros', 'gc', 'generaciones', 'bootloader', 'flakes', 'hibrida', 'actualizar', 'paquetes', 'automatizacion', 'extras', 'hardware'];
-const pageIcons = { primeros: '🚀', gc: '🧹', generaciones: '🗑️', bootloader: '🔧', flakes: '❄️', hibrida: '🔀', actualizar: '🔄', paquetes: '📦', automatizacion: '⚙️', extras: '🧩', hardware: '🖥️' };
-const pageLabels = { primeros: 'Primeros Pasos', gc: 'GC', generaciones: 'Generaciones', bootloader: 'Bootloader', flakes: 'Flakes', hibrida: 'Config Híbrida', actualizar: 'Actualizar', paquetes: 'Paquetes', automatizacion: 'Automatizar', extras: 'Extras', hardware: 'Hardware' };
+const pageIds = ['primeros', 'gc', 'generaciones', 'bootloader', 'flakes', 'hibrida', 'actualizar', 'paquetes', 'automatizacion', 'extras', 'hardware', 'montaje-smb'];
+const pageIcons = { primeros: '🚀', gc: '🧹', generaciones: '🗑️', bootloader: '🔧', flakes: '❄️', hibrida: '🔀', actualizar: '🔄', paquetes: '📦', automatizacion: '⚙️', extras: '🧩', hardware: '🖥️', 'montaje-smb': '🔗' };
+const pageLabels = { primeros: 'Primeros Pasos', gc: 'GC', generaciones: 'Generaciones', bootloader: 'Bootloader', flakes: 'Flakes', hibrida: 'Config Híbrida', actualizar: 'Actualizar', paquetes: 'Paquetes', automatizacion: 'Automatizar', extras: 'Extras', hardware: 'Hardware', 'montaje-smb': 'NAS / SMB' };
 
 let currentPage = 'primeros';
 let pageCache = {};
