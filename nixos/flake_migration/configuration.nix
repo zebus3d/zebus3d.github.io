@@ -104,7 +104,7 @@
     isNormalUser = true;
     description = "your-user-name";
     shell = pkgs.zsh;
-    extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
+    extraGroups = [ "networkmanager" "wheel" "libvirtd" "video" "render" ];
     packages = with pkgs; [
       kdePackages.kate
       kdePackages.filelight

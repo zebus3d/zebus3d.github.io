@@ -68,6 +68,22 @@
     <p><strong>Reiniciar:</strong> Después de actualizar el kernel, reinicia para usar la nueva versión. Verifica con <code>uname -r</code>.</p>
 </div>
 
+<h3 id="grupos-video-render">Grupos video y render</h3>
+
+<div class="info-box">
+    <p><strong>Brave/YouTube requiere estar en los grupos <code>video</code> y <code>render</code>.</strong> Si tienes problemas con reproducción de video, acelaración gráfica o Brave no funciona bien, añade estos grupos a tu usuario:</p>
+    <div class="code-block" style="margin: 10px 0;">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+        </div>
+        <pre><code><span class="kw">users.users.tu-usuario.extraGroups</span> <span class="punct">=</span> <span class="punct">[</span>
+    <span class="str">"networkmanager"</span> <span class="str">"wheel"</span> <span class="str">"libvirtd"</span> <span class="str">"video"</span> <span class="str">"render"</span>
+<span class="punct">];</span></code></pre>
+    </div>
+    <p>Después de añadirlos, ejecuta <code>sudo nixos-rebuild switch</code> y cierra sesión/vuelve a entrar.</p>
+</div>
+
 <h3 id="nix-ld-apps-externas">nix-ld — Apps externas</h3>
 
 <div class="intro-box">
