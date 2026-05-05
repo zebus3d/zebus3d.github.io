@@ -23,7 +23,7 @@
         <pre><code><span class="comment"># En /etc/nixos/configuration.nix:</span>
 <span class="kw">boot.blacklistedKernelModules</span> <span class="punct">=</span> <span class="punct">[</span> <span class="str">"algif_aead"</span> <span class="punct">];</span></code></pre>
     </div>
-    <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Luego reconstruir: <span class="inline-code">sudo nixos-rebuild switch --flake /etc/nixos</span></p>
+    <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Luego reconstruir: <span class="inline-code">cd /etc/nixos && sudo nixos-rebuild switch</span></p>
 </div>
 
 <div class="card">
