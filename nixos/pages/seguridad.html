@@ -1,0 +1,61 @@
+<h2><span class="icon">🛡️</span> Seguridad</h2>
+
+<div class="intro-box">
+    <p><strong>Vulnerabilidades del kernel</strong> y cómo mitigarlas en NixOS. Mantener el sistema blindado es tan importante como mantenerlo actualizado.</p>
+</div>
+
+<h3 id="cve-2026-31431">CVE-2026-31431 — "Copy Fail"</h3>
+
+<div class="intro-box">
+    <p><strong>¿Qué es?</strong> Vulnerabilidad de escalada de privilegios (CVSS 7.8) en el kernel Linux entre versiones <strong>4.14 y 6.19.12</strong>. Permite a un usuario local escalar a root explotando el módulo <span class="inline-code">algif_aead</span> (interfaz de criptografía por userspace vía <span class="inline-code">AF_ALG</span>).</p>
+    <p>Más información: <a href="https://copy.fail" target="_blank" rel="noopener">copy.fail</a> · <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-31431" target="_blank" rel="noopener">NVD</a></p>
+</div>
+
+<div class="card">
+    <div class="card-title">Mitigación<span class="tooltip">Bloquea el módulo vulnerable para que no se cargue nunca.</span></div>
+    <div class="card-desc">Blacklist del módulo en la configuración del sistema.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>nix</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="comment"># En /etc/nixos/configuration.nix:</span>
+<span class="kw">boot.blacklistedKernelModules</span> <span class="punct">=</span> <span class="punct">[</span> <span class="str">"algif_aead"</span> <span class="punct">];</span></code></pre>
+    </div>
+    <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">Luego reconstruir: <span class="inline-code">sudo nixos-rebuild switch --flake /etc/nixos</span></p>
+</div>
+
+<div class="card">
+    <div class="card-title">Verificar que está activo<span class="tooltip">Comprueba que el módulo no está cargado y que el blacklist funciona.</span></div>
+    <div class="card-desc">Comandos de verificación.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="comment"># Verificar que el módulo NO está cargado:</span>
+lsmod | grep algif
+
+<span class="comment"># Verificar el blacklist en la configuración:</span>
+grep algif_aead /etc/nixos/configuration.nix
+
+<span class="comment"># Verificar que modprobe lo tiene blacklisted:</span>
+cat /etc/modprobe.d/nixos.conf | grep algif_aead</code></pre>
+    </div>
+</div>
+
+<div class="info-box">
+    <p><strong>¿Por qué funciona?</strong> <code>boot.blacklistedKernelModules</code> en NixOS genera un archivo en <span class="inline-code">/etc/modprobe.d/nixos.conf</span> con la directiva <span class="inline-code">blacklist algif_aead</span>. Esto impide que el módulo se cargue automáticamente durante el arranque o por demanda vía alias. El módulo solo podría cargarse manualmente con <span class="inline-code">modprobe algif_aead</span> (sin <span class="inline-code">-b</span>), lo cual requiere privilegios de root — y si un atacante ya tiene root, el daño está hecho.</p>
+</div>
+
+<div class="warning-box">
+    <p><strong>¿Cuándo quitar esta mitigación?</strong> Cuando el kernel se actualice a una versión superior a 6.19.12, puedes eliminar esta línea. Verifica siempre con <span class="inline-code">uname -r</span> que el kernel ya no sea vulnerable.</p>
+</div>
+
+<h3 id="otros-recursos">Otros recursos</h3>
+
+<div class="intro-box">
+    <p>Además del blacklist de módulos, mantén el sistema actualizado y revisa advisories de seguridad del kernel regularmente. En NixOS, actualizar el canal (<span class="inline-code">nixos-rebuild switch --upgrade</span>) suele ser suficiente para la mayoría de vulnerabilidades del kernel, pero algunas (como Copy Fail) requieren mitigación manual hasta que llegue el parche.</p>
+</div>

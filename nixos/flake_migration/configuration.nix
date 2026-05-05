@@ -15,6 +15,9 @@
   boot.loader.systemd-boot.configurationLimit = 4; # solo 4 generaciones en systemd-boot
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Blacklist módulos inseguros del kernel
+  boot.blacklistedKernelModules = [ "algif_aead" ]; # CVE-2026-31431 (Copy Fail) — kernels 4.14 a 6.19.12
+
   # Use latest kernel.
   # boot.kernelPackages = pkgs.linuxPackages_latest;
 
