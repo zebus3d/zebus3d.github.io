@@ -1,0 +1,169 @@
+<h2><span class="icon">📻</span> Radio en Tauon Music Box</h2>
+
+<div class="intro-box">
+    <p>Configuración de emisoras de radio españolas en <strong>Tauon Music Box</strong> (instalado vía NixOS). Tauon guarda las emisoras en <span class="inline-code">state.p</span> (pickle) dentro de <span class="inline-code">~/.local/share/TauonMusicBox/</span>.</p>
+</div>
+
+<h3 id="estructura">Estructura del estado</h3>
+
+<div class="card">
+    <div class="card-title">state.p — formato interno<span class="tooltip">Tauon serializa su estado con pickle. Las emisoras están en save[142] (prefs.radio_urls) y save[165] (radioplaylist_jar).</span></div>
+    <div class="card-desc">Lista de objetos RadioStation.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>python</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="comment"># Dataclass de Tauon (tauon/t_modules/t_extra.py):</span>
+<span class="decorator">@dataclass</span>
+<span class="keyword">class</span> <span class="class-name">RadioStation</span>:
+    title: <span class="built-in">str</span>
+    stream_url: <span class="built-in">str</span>
+    country: <span class="built-in">str</span> = <span class="string">""</span>
+    website_url: <span class="built-in">str</span> = <span class="string">""</span>
+    icon: <span class="built-in">str</span> = <span class="string">""</span>
+    stream_url_fallback: <span class="built-in">str</span> = <span class="string">""</span>
+
+<span class="decorator">@dataclass</span>
+<span class="keyword">class</span> <span class="class-name">RadioPlaylist</span>:
+    name: <span class="built-in">str</span>
+    uid: <span class="built-in">int</span>
+    scroll: <span class="built-in">int</span> = <span class="number">0</span>
+    stations: <span class="built-in">list</span>[RadioStation] = <span class="built-in">field</span>(default_factory=<span class="built-in">list</span>)</code></pre>
+    </div>
+</div>
+
+<h3 id="scrip">Script para modificar state.p</h3>
+
+<div class="intro-box">
+    <p>Para añadir/modificar emisoras hay que editar el pickle manteniendo la ruta de módulo correcta. <strong>Importante:</strong> <span class="inline-code">RadioStation.__module__</span> debe ser <span class="inline-code">'tauon.t_modules.t_extra'</span> o Tauon no podrá deserializarlo.</p>
+</div>
+
+<div class="card recommended">
+    <div class="card-title">Script completo<span class="tooltip">Ejecutar con Tauon cerrado. Modifica state.p y state.p.backup.</span></div>
+    <div class="card-desc">Añade emisoras con URLs e iconos verificados.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>python</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="keyword">import</span> pickle, os, sys, types
+<span class="keyword">from</span> dataclasses <span class="keyword">import</span> dataclass
+
+<span class="comment"># Montar módulo dummy para que pickle resuelva la clase</span>
+tauon_mod = types.ModuleType(<span class="string">'tauon'</span>)
+sys.modules[<span class="string">'tauon'</span>] = tauon_mod
+t_mod = types.ModuleType(<span class="string">'tauon.t_modules'</span>)
+sys.modules[<span class="string">'tauon.t_modules'</span>] = t_mod
+tauon_mod.t_modules = t_mod
+t_extra = types.ModuleType(<span class="string">'tauon.t_modules.t_extra'</span>)
+sys.modules[<span class="string">'tauon.t_modules.t_extra'</span>] = t_extra
+t_mod.t_extra = t_extra
+
+<span class="decorator">@dataclass</span>
+<span class="keyword">class</span> <span class="class-name">RadioStation</span>:
+    title: <span class="built-in">str</span>
+    stream_url: <span class="built-in">str</span>
+    country: <span class="built-in">str</span> = <span class="string">""</span>
+    website_url: <span class="built-in">str</span> = <span class="string">""</span>
+    icon: <span class="built-in">str</span> = <span class="string">""</span>
+    stream_url_fallback: <span class="built-in">str</span> = <span class="string">""</span>
+
+<span class="comment"># <span class="warning">¡CRÍTICO!</span> Sin esto pickle guarda __main__.RadioStation y Tauon no puede cargarlo</span>
+RadioStation.__module__ = <span class="string">'tauon.t_modules.t_extra'</span>
+t_extra.RadioStation = RadioStation
+
+state_path = os.path.expanduser(<span class="string">"~/.local/share/TauonMusicBox/state.p"</span>)
+
+<span class="keyword">with</span> <span class="built-in">open</span>(state_path, <span class="string">"rb"</span>) <span class="keyword">as</span> f:
+    save = pickle.load(f)
+
+stations = [
+    RadioStation(
+        title=<span class="string">"Los40"</span>,
+        stream_url=<span class="string">"https://playerservices.streamtheworld.com/api/livestream-redirect/Los40.mp3"</span>,
+        country=<span class="string">"España"</span>, website_url=<span class="string">"https://los40.com"</span>,
+        icon=<span class="string">"https://los40es00.epimg.net/iconos/v3.x/v1.0/cabeceras/logo_40.png"</span>),
+    RadioStation(
+        title=<span class="string">"Cadena Dial"</span>,
+        stream_url=<span class="string">"http://playerservices.streamtheworld.com/api/livestream-redirect/CADENADIAL.mp3"</span>,
+        country=<span class="string">"España"</span>, website_url=<span class="string">"https://cadenadial.com"</span>,
+        icon=<span class="string">"https://www.cadenadial.com/wp-content/uploads/2024/03/cropped-512x512_favicon_dial-180x180.png"</span>),
+    RadioStation(
+        title=<span class="string">"Cadena SER"</span>,
+        stream_url=<span class="string">"https://playerservices.streamtheworld.com/api/livestream-redirect/CADENASER.mp3"</span>,
+        country=<span class="string">"España"</span>, website_url=<span class="string">"https://cadenaser.com"</span>,
+        icon=<span class="string">"https://recursosweb.prisaradio.com/fotos/original/010002732216.png"</span>),
+    RadioStation(
+        title=<span class="string">"Radio 3 (RNE)"</span>,
+        stream_url=<span class="string">"https://rtvelivestream.rtve.es/rtvesec/rne/rne_r3_main.m3u8"</span>,
+        country=<span class="string">"España"</span>, website_url=<span class="string">"https://rtve.es/radio/radio3"</span>,
+        icon=<span class="string">"https://css2.rtve.es/css/rtve.2015.radio/cadenas/radio3/i/logo.png"</span>),
+    RadioStation(
+        title=<span class="string">"Europa FM"</span>,
+        stream_url=<span class="string">"https://stream.zeno.fm/se76qau1hc9uv"</span>,
+        country=<span class="string">"España"</span>, website_url=<span class="string">"https://europafm.com"</span>,
+        icon=<span class="string">"https://statics.atresmedia.com/europafm/assets/web/icons/favicon/apple-touch-icon.png"</span>),
+    RadioStation(
+        title=<span class="string">"Onda Cero"</span>,
+        stream_url=<span class="string">"https://atres-live.ondacero.es/live/ondacero/bitrate_1.m3u8"</span>,
+        country=<span class="string">"España"</span>, website_url=<span class="string">"https://ondacero.es"</span>,
+        icon=<span class="string">"https://static.ondacero.es/img/logo-ondacero.png"</span>),
+    RadioStation(
+        title=<span class="string">"Kiss FM"</span>,
+        stream_url=<span class="string">"https://kissfm.kissfmradio.cires21.com/kissfm.mp3"</span>,
+        country=<span class="string">"España"</span>, website_url=<span class="string">"https://kissfm.es"</span>,
+        icon=<span class="string">"https://www.kissfm.es/wp-content/uploads/2024/10/Logo-KISS-FM_Negativo-Color.png"</span>),
+]
+
+<span class="comment"># save[142] = prefs.radio_urls | save[165] = radioplaylist_jar</span>
+save[142] = <span class="built-in">list</span>(stations)
+save[165][<span class="number">0</span>][<span class="string">'stations'</span>] = <span class="built-in">list</span>(stations)
+
+<span class="keyword">with</span> <span class="built-in">open</span>(state_path, <span class="string">"wb"</span>) <span class="keyword">as</span> f:
+    pickle.dump(save, f, protocol=pickle.HIGHEST_PROTOCOL)
+<span class="keyword">with</span> <span class="built-in">open</span>(state_path + <span class="string">".backup"</span>, <span class="string">"wb"</span>) <span class="keyword">as</span> f:
+    pickle.dump(save, f, protocol=pickle.HIGHEST_PROTOCOL)</code></pre>
+    </div>
+</div>
+
+<h3 id="emisoras">Emisoras configuradas</h3>
+
+<div class="card">
+    <div class="card-title">Lista actual (7 emisoras)<span class="tooltip">Todas verificadas con HTTP 200 desde fuera de España excepto Europa FM que usa relay en Zeno FM.</span></div>
+    <div class="card-desc">Las más populares de España.</div>
+    <table style="width:100%; border-collapse: collapse; font-size: 0.85rem;">
+        <thead>
+            <tr style="border-bottom: 1px solid #333;">
+                <th style="padding: 8px; text-align: left;">Emisora</th>
+                <th style="padding: 8px; text-align: left;">Grupo</th>
+                <th style="padding: 8px; text-align: left;">Formato</th>
+                <th style="padding: 8px; text-align: left;">URL</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td style="padding: 6px 8px;">Los40</td><td style="padding: 6px 8px;">PRISA</td><td style="padding: 6px 8px;">MP3</td><td style="padding: 6px 8px; font-size: 0.75rem; word-break: break-all;">playerservices.streamtheworld.com/api/livestream-redirect/Los40.mp3</td></tr>
+            <tr><td style="padding: 6px 8px;">Cadena Dial</td><td style="padding: 6px 8px;">PRISA</td><td style="padding: 6px 8px;">MP3</td><td style="padding: 6px 8px; font-size: 0.75rem; word-break: break-all;">playerservices.streamtheworld.com/api/livestream-redirect/CADENADIAL.mp3</td></tr>
+            <tr><td style="padding: 6px 8px;">Cadena SER</td><td style="padding: 6px 8px;">PRISA</td><td style="padding: 6px 8px;">MP3</td><td style="padding: 6px 8px; font-size: 0.75rem; word-break: break-all;">playerservices.streamtheworld.com/api/livestream-redirect/CADENASER.mp3</td></tr>
+            <tr><td style="padding: 6px 8px;">Radio 3 (RNE)</td><td style="padding: 6px 8px;">RTVE</td><td style="padding: 6px 8px;">HLS</td><td style="padding: 6px 8px; font-size: 0.75rem; word-break: break-all;">rtvelivestream.rtve.es/rtvesec/rne/rne_r3_main.m3u8</td></tr>
+            <tr><td style="padding: 6px 8px;">Europa FM</td><td style="padding: 6px 8px;">Atresmedia</td><td style="padding: 6px 8px;">AAC</td><td style="padding: 6px 8px; font-size: 0.75rem; word-break: break-all;">stream.zeno.fm/se76qau1hc9uv</td></tr>
+            <tr><td style="padding: 6px 8px;">Onda Cero</td><td style="padding: 6px 8px;">Atresmedia</td><td style="padding: 6px 8px;">HLS</td><td style="padding: 6px 8px; font-size: 0.75rem; word-break: break-all;">atres-live.ondacero.es/live/ondacero/bitrate_1.m3u8</td></tr>
+            <tr><td style="padding: 6px 8px;">Kiss FM</td><td style="padding: 6px 8px;">Kiss Media</td><td style="padding: 6px 8px;">MP3</td><td style="padding: 6px 8px; font-size: 0.75rem; word-break: break-all;">kissfm.kissfmradio.cires21.com/kissfm.mp3</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<h3 id="notas">Notas importantes</h3>
+
+<div class="warning-box">
+    <p><strong>pickle y rutas de módulo:</strong> Al crear un <span class="inline-code">RadioStation</span> desde un script externo, hay que asignar <span class="inline-code">RadioStation.__module__ = 'tauon.t_modules.t_extra'</span> antes de picklear. Si no, pickle guarda la clase como <span class="inline-code">__main__.RadioStation</span> y Tauon lanza una excepción al cargar el state.p, perdiendo todos los cambios.</div>
+
+<div class="info-box">
+    <p><strong>state.p se sobrescribe:</strong> Tauon guarda el estado al cerrar y periódicamente. Si los cambios no se cargaron correctamente (por el error del módulo), Tauon sobrescribe state.p con el estado vacío. Siempre hacer backup antes de modificar.</p>
+</div>
+
+<div class="info-box">
+    <p><strong>Geo-bloqueo:</strong> El stream oficial de Europa FM (<span class="inline-code">atres-live.europafm.com</span>) devuelve HTTP 451 fuera de España. Se usó un relay alternativo en Zeno FM. Onda Cero en cambio funciona sin geo-bloqueo.</p>
+</div>

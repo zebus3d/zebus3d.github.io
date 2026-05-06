@@ -1,6 +1,6 @@
-const pageIds = ['primeros', 'gc', 'generaciones', 'bootloader', 'flakes', 'hibrida', 'actualizar', 'paquetes', 'automatizacion', 'extras', 'hardware', 'montaje-smb', 'seguridad'];
-const pageIcons = { primeros: '🚀', gc: '🧹', generaciones: '🗑️', bootloader: '🔧', flakes: '❄️', hibrida: '🔀', actualizar: '🔄', paquetes: '📦', automatizacion: '⚙️', extras: '🧩', hardware: '🖥️', 'montaje-smb': '🔗', seguridad: '🛡️' };
-const pageLabels = { primeros: 'Primeros Pasos', gc: 'GC', generaciones: 'Generaciones', bootloader: 'Bootloader', flakes: 'Flakes', hibrida: 'Config Híbrida', actualizar: 'Actualizar', paquetes: 'Paquetes', automatizacion: 'Automatizar', extras: 'Extras', hardware: 'Hardware', 'montaje-smb': 'NAS / SMB', seguridad: 'Seguridad' };
+const pageIds = ['primeros', 'gc', 'generaciones', 'bootloader', 'flakes', 'hibrida', 'actualizar', 'paquetes', 'automatizacion', 'extras', 'hardware', 'montaje-smb', 'seguridad', 'radio'];
+const pageIcons = { primeros: '🚀', gc: '🧹', generaciones: '🗑️', bootloader: '🔧', flakes: '❄️', hibrida: '🔀', actualizar: '🔄', paquetes: '📦', automatizacion: '⚙️', extras: '🧩', hardware: '🖥️', 'montaje-smb': '🔗', seguridad: '🛡️', radio: '📻' };
+const pageLabels = { primeros: 'Primeros Pasos', gc: 'GC', generaciones: 'Generaciones', bootloader: 'Bootloader', flakes: 'Flakes', hibrida: 'Config Híbrida', actualizar: 'Actualizar', paquetes: 'Paquetes', automatizacion: 'Automatizar', extras: 'Extras', hardware: 'Hardware', 'montaje-smb': 'NAS / SMB', seguridad: 'Seguridad', radio: 'Radio' };
 
 let currentPage = 'primeros';
 let pageCache = {};
