@@ -1,13 +1,17 @@
 <h2><span class="icon">📻</span> Radio en Tauon Music Box</h2>
 
 <div class="intro-box">
-    <p>Configuración de emisoras de radio españolas en <strong>Tauon Music Box</strong> (instalado vía NixOS). Tauon guarda las emisoras en <span class="inline-code">state.p</span> (pickle) dentro de <span class="inline-code">~/.local/share/TauonMusicBox/</span>.</p>
+    <p>Configuración de emisoras de radio españolas en <strong>Tauon Music Box</strong> (instalado vía NixOS). Tauon guarda las emisoras en un archivo llamado <span class="inline-code">state.p</span> dentro de <span class="inline-code">~/.local/share/TauonMusicBox/</span>.</p>
+</div>
+
+<div class="info-box">
+    <p><strong>¿Qué es pickle?</strong> Pickle es una herramienta de Python para guardar datos en un archivo y recuperarlos después. Imagina que tienes una lista de emisoras escritas en un papel: pickle es como hacer una foto de ese papel para poder ver la misma lista más tarde. El archivo <span class="inline-code">state.p</span> es esa "foto" que contiene todas las emisoras que has añadido en Tauon. Si editas este archivo con un script de Python (como el de más abajo), puedes añadir o quitar emisoras sin tener que abrir Tauon.</p>
 </div>
 
 <h3 id="estructura">Estructura del estado</h3>
 
 <div class="card">
-    <div class="card-title">state.p — formato interno<span class="tooltip">Tauon serializa su estado con pickle. Las emisoras están en save[142] (prefs.radio_urls) y save[165] (radioplaylist_jar).</span></div>
+    <div class="card-title">state.p — formato interno<span class="tooltip">Tauon guarda su estado con pickle. Las emisoras están en los cajones save[142] (lista de URLs de radio) y save[165] (lista de reproducción).</span></div>
     <div class="card-desc">Lista de objetos RadioStation.</div>
     <div class="code-block">
         <div class="code-header">
@@ -37,7 +41,24 @@
 <h3 id="scrip">Script para modificar state.p</h3>
 
 <div class="intro-box">
-    <p>Para añadir/modificar emisoras hay que editar el pickle manteniendo la ruta de módulo correcta. <strong>Importante:</strong> <span class="inline-code">RadioStation.__module__</span> debe ser <span class="inline-code">'tauon.t_modules.t_extra'</span> o Tauon no podrá deserializarlo.</p>
+    <p>Para añadir o modificar emisoras hay que editar el archivo <span class="inline-code">state.p</span> con un script de Python. El script abre el archivo, añade las emisoras y lo guarda.</p>
+</div>
+
+<div class="info-box">
+    <p><strong>Cómo funciona el script (explicado paso a paso):</strong></p>
+    <ol style="margin: 8px 0 0 0; padding-left: 20px;">
+        <li><strong>Montar módulos dummy</strong> (líneas 59-67): Como el script se ejecuta por separado (no dentro de Tauon), hay que "engañar" a Python para que piense que está dentro de Tauon. Esto se hace creando módulos falsos con <span class="inline-code">types.ModuleType</span>.</li>
+        <li><strong>Definir la clase RadioStation</strong> (líneas 69-76): Se copia la definición original de Tauon para que Python sepa qué forma tienen las emisoras (título, URL, país, etc.).</li>
+        <li><strong>Asignar la ruta de módulo correcta</strong> (líneas 78-80): Es como poner una etiqueta de dirección a la clase para que cuando Tauon lea el archivo, sepa que esta clase pertenece a Tauon y no a otro sitio.</li>
+        <li><strong>Abrir el archivo state.p</strong> (línea 84): Se abre en modo lectura binaria (<span class="inline-code">"rb"</span>) porque pickle guarda los datos en un formato que solo entiende Python, no texto legible.</li>
+        <li><strong>Cargar el contenido</strong> (línea 85): <span class="inline-code">pickle.load(f)</span> lee el archivo y reconstruye los datos en una variable llamada <span class="inline-code">save</span>. Esta variable es una lista gigante donde cada número (142, 165) es un "cajón" que guarda información diferente.</li>
+        <li><strong>Añadir las emisoras</strong> (líneas 87-127): Se crean las emisoras y se meten en los cajones <span class="inline-code">save[142]</span> (lista principal) y <span class="inline-code">save[165]</span> (lista de reproducción).</li>
+        <li><strong>Guardar el archivo</strong> (líneas 129-132): Se escribe de vuelta el archivo en modo escritura binaria (<span class="inline-code">"wb"</span>). También se guarda una copia de seguridad (<span class="inline-code">state.p.backup</span>) para poder recuperarlo si algo sale mal.</li>
+    </ol>
+</div>
+
+<div class="warning-box">
+    <p><strong>¡IMPORTANTE!</strong> Tauon debe estar cerrado antes de ejecutar este script. Si no, Tauon sobrescribirá el archivo al cerrarse y perderás los cambios.</p>
 </div>
 
 <div class="card recommended">
@@ -158,7 +179,7 @@ save[165][<span class="number">0</span>][<span class="string">'stations'</span>]
 <h3 id="notas">Notas importantes</h3>
 
 <div class="warning-box">
-    <p><strong>pickle y rutas de módulo:</strong> Al crear un <span class="inline-code">RadioStation</span> desde un script externo, hay que asignar <span class="inline-code">RadioStation.__module__ = 'tauon.t_modules.t_extra'</span> antes de picklear. Si no, pickle guarda la clase como <span class="inline-code">__main__.RadioStation</span> y Tauon lanza una excepción al cargar el state.p, perdiendo todos los cambios.</div>
+    <p><strong>La etiqueta de módulo es crítica:</strong> Al crear una <span class="inline-code">RadioStation</span> desde un script externo, hay que asignarle la etiqueta <span class="inline-code">RadioStation.__module__ = 'tauon.t_modules.t_extra'</span> antes de guardar. Si te olvidas, Python guarda la clase como si fuera de tu script y Tauon no la reconoce cuando intenta cargar <span class="inline-code">state.p</span>, perdiendo todas las emisoras que hayas añadido.</div>
 
 <div class="info-box">
     <p><strong>state.p se sobrescribe:</strong> Tauon guarda el estado al cerrar y periódicamente. Si los cambios no se cargaron correctamente (por el error del módulo), Tauon sobrescribe state.p con el estado vacío. Siempre hacer backup antes de modificar.</p>
