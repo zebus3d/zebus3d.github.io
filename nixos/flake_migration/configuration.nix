@@ -245,6 +245,8 @@
     kdePackages.kcmutils
     qt6.qttranslations
     python3
+    vulkan-loader
+    vulkan-tools
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

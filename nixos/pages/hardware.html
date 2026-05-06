@@ -189,3 +189,66 @@
         <p>En Plasma también: <strong>Settings > Keyboard > Numlock on startup = On</strong></p>
     </div>
 </div>
+
+<h3 id="aceleracion-gpu-brave">Aceleración GPU en Brave/Chromium</h3>
+
+<div class="intro-box">
+    <p><strong>Brave usa el proceso GPU</strong> para acelerar rendering, video, WebGL y WebGPU. En NixOS, este proceso puede fallar (crashes) y entonces Brave deshabilita toda la aceleración hardware hasta que se reinicie el contador de crashes.</p>
+</div>
+
+<div class="warning-box">
+    <p><strong>Síntoma:</strong> En <span class="inline-code">brave://gpu</span> ves todo en "Software only" y "GPU process crash count: 3+" → la aceleración se bloqueó automáticamente.</p>
+</div>
+
+<div class="card recommended">
+    <div class="card-title">Resetear contador de crashes GPU<span class="tooltip">Elimina el Local State de Brave para reiniciar el contador de crashes del GPU process.</span></div>
+    <div class="card-desc">Si la aceleración se deshabilitó sola.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="comment"># Cierra Brave primero, luego:</span>
+<span class="cmd">rm</span> ~/.config/BraveSoftware/Brave-Browser/Local\ State
+<span class="comment"># Al abrir Brave de nuevo, el contador de crashes se reinicia a 0</span>
+<span class="comment"># y la aceleración GPU vuelve a funcionar</span></code></pre>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-title">Diagnóstico rápido<span class="tooltip">Revisa el estado de la aceleración GPU desde la terminal.</span></div>
+    <div class="card-desc">Ver estado GPU.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="comment"># Ver GPUs disponibles y drivers Vulkan:</span>
+<span class="cmd">vulkaninfo</span> <span class="flag">--summary</span>
+
+<span class="comment"># Ver proceso GPU de Brave y sus flags:</span>
+<span class="cmd">pgrep</span> <span class="flag">-f</span> <span class="str">"gpu-process"</span> <span class="flag">-a</span> <span class="punct">|</span> <span class="cmd">grep</span> <span class="arg">brave</span>
+
+<span class="comment"># Ver estado GPU en Brave (abre en el navegador):</span>
+<span class="comment"># brave://gpu</span></code></pre>
+    </div>
+</div>
+
+<div class="info-box">
+    <p><strong>Vulkan en Brave:</strong> Si quieres que Brave use Vulkan en vez de OpenGL, necesitas <span class="inline-code">vulkan-loader</span> instalado globalmente en <span class="inline-code">environment.systemPackages</span>. Sin él, ANGLE (la capa de gráficos de Chromium) no encuentra el runtime de Vulkan y cae a OpenGL, que igualmente da aceleración completa.</p>
+    <div class="code-block" style="margin: 10px 0;">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>nix</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="kw">environment.systemPackages</span> <span class="punct">=</span> <span class="kw">with</span> <span class="kw">pkgs</span><span class="punct">;</span> <span class="punct">[</span>
+    <span class="arg">vulkan-loader</span>
+    <span class="arg">vulkan-tools</span>
+<span class="punct">];</span></code></pre>
+    </div>
+    <p><strong>Causa común de error "Vulkan not supported por driver":</strong> El paquete Nix de Brave no incluye <span class="inline-code">vulkan-loader</span> en su wrapper. Para probar si es el sandbox del GPU process, lanza Brave con: <code>brave --disable-gpu-sandbox --use-gl=angle --use-angle=vulkan</code></p>
+    <p><strong>Nota:</strong> OpenGL via ANGLE ya acelera Canvas, WebGL, WebGPU, video, compositing — no necesitas Vulkan para uso diario.</p>
+</div>
