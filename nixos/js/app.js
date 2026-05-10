@@ -370,8 +370,9 @@ window.addEventListener('scroll', () => {
 });
 
 function buildSearchIndex() {
+    const indexedPages = new Set(searchIndex.map(e => e.pageId));
     pageIds.forEach(id => {
-        if (!pageCache[id]) return;
+        if (indexedPages.has(id) || !pageCache[id]) return;
         const div = document.createElement('div');
         div.innerHTML = pageCache[id];
         const blocks = div.querySelectorAll('h2, h3, .card-title, .card-desc, .gc-title, .gc-desc, .gc-label, .intro-box p, .info-box p, .warning-box p, .critical-box p, code, pre');
@@ -385,8 +386,7 @@ function buildSearchIndex() {
 }
 
 function ensureIndexBuilt() {
-    if (searchIndex.length > 0) return;
-    if (Object.keys(pageCache).length < pageIds.length) return;
+    if (Object.keys(pageCache).length === 0) return;
     buildSearchIndex();
 }
 
