@@ -55,21 +55,23 @@
 <h3 id="instalar-imperativo">Instalar (imperativo — rápido)</h3>
 
 <div class="card">
-    <div class="card-title">Instalar para el usuario actual<span class="tooltip">Instala el paquete solo para el usuario actual. No requiere sudo, no persiste tras reboot.</span></div>
-    <div class="card-desc">Instala temporalmente.</div>
+    <div class="card-title">Instalar para el usuario actual<span class="tooltip">Instala el paquete solo para el usuario actual usando nix-env. El atributo depende del nombre de tu canal.</span></div>
+    <div class="card-desc">Instala al momento (persiste entre reinicios, pero no está en tu configuration.nix).</div>
     <div class="code-block">
         <div class="code-header">
             <span class="dots"><span class="dot">● ● ●</span></span>
             <span>bash</span>
             <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
         </div>
-        <pre><code><span class="cmd">nix-env</span> <span class="flag">-iA</span> <span class="arg">nixpkgs.firefox</span></code></pre>
+        <pre><code><span class="comment"># La sintaxis es: nix-env -iA &lt;nombre-del-canal&gt;.&lt;paquete&gt;</span>
+<span class="cmd">nix-env</span> <span class="flag">-iA</span> <span class="arg">nixos.firefox</span></code></pre>
     </div>
+    <p style="color: #94a3b8; font-size: 0.82rem; margin-top: 8px;">El nombre del canal varía según cómo lo añadiste. Ejecuta <code>nix-channel --list</code> para ver el tuyo. Si tu canal se llama <code>nixos</code>, usas <code>nixos.firefox</code>. Si se llama <code>nixpkgs</code>, usas <code>nixpkgs.firefox</code>. Para desinstalar: <code>nix-env --uninstall firefox</code>.</p>
 </div>
 
 <div class="card">
     <div class="card-title">Entorno temporal (nix-shell)<span class="tooltip">Crea un entorno con paquetes sin instalarlos permanentemente. Cierra la shell y desaparecen.</span></div>
-    <div class="card-desc">Ambiente temporal.</div>
+    <div class="card-desc">Ambiente temporal (no persiste al salir).</div>
     <div class="code-block">
         <div class="code-header">
             <span class="dots"><span class="dot">● ● ●</span></span>

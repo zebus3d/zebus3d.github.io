@@ -152,6 +152,35 @@
     </div>
 </div>
 
+<h3 id="impresoras">Impresoras (Brother / IPP)</h3>
+
+<div class="intro-box">
+    <p><strong>Configurar impresora por red (IPP)</strong> en NixOS requiere habilitar Avahi (descubrimiento mDNS) y CUPS. Especialmente útil para impresoras Brother conectadas por Wi-Fi.</p>
+</div>
+
+<div class="card">
+    <div class="card-title">Servicios necesarios<span class="tooltip">Añade Avahi para descubrimiento de impresoras y CUPS para impresión por IPP.</span></div>
+    <div class="card-desc">Impresión por red.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>nix</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="comment"># Descubrimiento de impresoras por mDNS</span>
+<span class="kw">services.avahi.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+<span class="kw">services.avahi.nssmdns4</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+<span class="kw">services.avahi.openFirewall</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span>
+
+<span class="comment"># CUPS (servidor de impresión)</span>
+<span class="kw">services.printing.enable</span> <span class="punct">=</span> <span class="kw">true</span><span class="punct">;</span></code></pre>
+    </div>
+</div>
+
+<div class="info-box">
+    <p><strong>Nota:</strong> En versiones recientes de NixOS, <code>nssmdns4</code> puede haber sido renombrado a <code>nssmdns</code>. Si ves errores en los logs de Avahi, prueba con <code>services.avahi.nssmdns = true;</code> en su lugar.</p>
+</div>
+
 <h3 id="kde-plasma">KDE Plasma</h3>
 
 <div class="card">
@@ -188,6 +217,13 @@
     <div class="info-box" style="margin-top: 10px;">
         <p>En Plasma también: <strong>Settings > Keyboard > Numlock on startup = On</strong></p>
     </div>
+</div>
+
+<div class="warning-box">
+    <div class="critical-title">⚠️ Bug reportado — Barra flotante de Plasma 6.3.5</div>
+    <p><strong>ISOs de NixOS (principios mayo 2026) con KDE Plasma 6.3.5</strong> pueden impedir eliminar o mover elementos (separadores, paginadores) de la barra de tareas.</p>
+    <p><strong>Solución:</strong> Desactivar la <strong>barra flotante</strong> en Configuración de Plasma > Barra de tareas > "Floating" (desmarcar). Esto suele ocurrir especialmente con drivers NVIDIA.</p>
+    <p>Versiones posteriores (Plasma 6.5+, NixOS 25.11) no tienen este bug.</p>
 </div>
 
 <h3 id="aceleracion-gpu-brave">Aceleración GPU en Brave/Chromium</h3>
