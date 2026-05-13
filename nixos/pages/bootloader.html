@@ -68,6 +68,10 @@
 
 <h3 id="windows-11-en-systemd-boot">Añadir Windows 11 a systemd-boot</h3>
 
+<div class="info-box">
+    <p><strong>¿Qué es una ESP?</strong> ESP son las siglas de <em>EFI System Partition</em>. Es una partición formateada en FAT32 donde el firmware UEFI busca los archivos del bootloader (archivos <code>.efi</code>). En este ordenador hay <strong>dos ESPs separadas</strong>: <code>nvme0n1p1</code> (la de Windows) y <code>nvme0n1p5</code> (la de NixOS, montada en <code>/boot</code>). Tenerlas separadas significa que systemd-boot no ve a Windows automáticamente — hay que copiarle sus archivos EFI manualmente.</p>
+</div>
+
 <div class="warning-box">
     <p><strong>⚠️ Particiones</strong> — Este procedimiento asume que Windows tiene su propia ESP (<code>nvme0n1p1</code>) separada de la de NixOS (<code>nvme0n1p5</code>). Ajusta los números de partición según tu disco.</p>
 </div>
