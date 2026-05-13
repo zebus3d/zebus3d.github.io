@@ -65,3 +65,51 @@
 <div class="info-box">
     <p>Las entradas <code>reported/absent</code> en <code>bootctl list</code> son variables EFI inofensivas que se borran al reiniciar. <span class="inline-code">nixos-rebuild boot</span> reconstruye el menú desde cero con solo las generaciones válidas.</p>
 </div>
+
+<h3 id="windows-11-en-systemd-boot">Añadir Windows 11 a systemd-boot</h3>
+
+<div class="warning-box">
+    <p><strong>⚠️ Particiones</strong> — Este procedimiento asume que Windows tiene su propia ESP (<code>nvme0n1p1</code>) separada de la de NixOS (<code>nvme0n1p5</code>). Ajusta los números de partición según tu disco.</p>
+</div>
+
+<div class="intro-box">
+    <p><strong>Método: copiar los EFI de Windows a <code>/boot/</code></strong> — systemd-boot detecta automáticamente entradas Windows si los archivos EFI están en <code>/boot/EFI/Microsoft/</code>. <strong>No es necesario</strong> usar <code>boot.loader.systemd-boot.extraEntries</code> (eso causaría una entrada duplicada).</p>
+</div>
+
+<div class="card">
+    <div class="card-title">Copiar EFI de Windows a /boot/<span class="tooltip">Monta la ESP de Windows, copia los archivos EFI y desmonta. systemd-boot auto-detecta Windows automáticamente.<span class="tip_example">Hacer tras instalar/actualizar Windows</span></span></div>
+    <div class="card-desc">Habilitar entrada de Windows en systemd-boot.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">mount</span> <span class="arg">/dev/nvme0n1p1</span> <span class="arg">/mnt</span>
+<span class="cmd">sudo</span> <span class="cmd">cp</span> <span class="arg">-r</span> <span class="arg">/mnt/EFI/Microsoft</span> <span class="arg">/boot/EFI/</span>
+<span class="cmd">sudo</span> <span class="cmd">cp</span> <span class="arg">-r</span> <span class="arg">/mnt/EFI/Boot</span> <span class="arg">/boot/EFI/</span>
+<span class="cmd">sudo</span> <span class="cmd">umount</span> <span class="arg">/mnt</span></code></pre>
+    </div>
+</div>
+
+<div class="critical-box">
+    <div class="critical-title">⚠️ Trampas comunes</div>
+    <ul>
+        <li><strong>NO uses <code>extraEntries</code></strong> en <code>configuration.nix</code> para Windows — al copiar los EFI, systemd-boot auto-detecta y genera una entrada. Si además pones <code>extraEntries</code>, aparecen <strong>dos entradas de Windows</strong> en el menú.</li>
+        <li>Un <code>nixos-rebuild</code> puede <strong>sobrescribir <code>/boot/</code></strong> y borrar los EFI copiados. Si tras un rebuild Windows desaparece del menú, re-ejecuta los comandos de copia.</li>
+        <li>Si en el pasado creaste un archivo manual <code>/boot/loader/entries/windows.conf</code>, ese archivo <strong>no se borra solo</strong> con <code>nixos-rebuild</code> porque fue creado fuera de NixOS. Si alguna vez aparece Windows duplicado, revísalo y bórralo manualmente.</li>
+    </ul>
+</div>
+
+<div class="card">
+    <div class="card-title">Verificar entradas<span class="tooltip">Confirma que Windows aparece una sola vez en el menú de systemd-boot.</span></div>
+    <div class="card-desc">Comprobar que Windows se ve correctamente.</div>
+    <div class="code-block">
+        <div class="code-header">
+            <span class="dots"><span class="dot">● ● ●</span></span>
+            <span>bash</span>
+            <button class="copy-btn" title="Copiar al portapapeles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+        </div>
+        <pre><code><span class="cmd">sudo</span> <span class="cmd">bootctl</span> <span class="arg">list</span></code></pre>
+    </div>
+</div>
